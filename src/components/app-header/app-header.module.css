@@ -2,18 +2,13 @@
   position: relative;
   display: flex;
   justify-content: space-between;
-  cursor: pointer;
-  max-width: 1920px;
-  margin-left: auto;
-  margin-right: auto;
-  gap: 8px;
   align-items: center;
 }
 
 .logo {
   position: absolute;
   width: 100%;
-
   display: flex;
   justify-content: center;
+  z-index: -1;
 }
