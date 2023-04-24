@@ -6,11 +6,12 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./app-header.module.css";
 import NavLink from "../nav-link/nav-link";
+import { clsx } from "clsx";
 
 function AppHeader() {
   return (
     <header>
-      <nav className={`pt-4 pb-4 mb-10 ${styles.navigate}`}>
+      <nav className={clsx("pt-4 pb-4 mb-10", styles.navigate)}>
         <div>
           <NavLink
             Icon=<BurgerIcon />
@@ -23,9 +24,9 @@ function AppHeader() {
             classList="text_color_inactive pl-5"
           />
         </div>
-        <div className={styles.logo}>
+        <a href="#" className={styles.logo}>
           <Logo />
-        </div>
+        </a>
         <NavLink
           Icon=<ProfileIcon type="secondary" />
           caption="Личный кабинет"

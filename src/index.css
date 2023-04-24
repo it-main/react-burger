@@ -6,15 +6,29 @@
 }
 
 @font-face {
-  font-family: 'OpenSansCondensed';
+  font-family: 'Jet Brains Mono';
   font-style: normal;
   font-weight: 400;
   src: url("./fonts/JetBrainsMono-Regular.woff2") format("woff2");
 }
 
+@font-face {
+  font-family: 'Iceland';
+  font-style: normal;
+  font-weight: 400;
+  src: url("./fonts/iceland-regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: 'Iceland';
+  font-style: normal;
+  font-weight: 400;
+  src: url("./fonts/iceland-regular.woff") format("woff");
+}
+
 body {
   margin: 0;
-  font-family: "Jet Brains Mono";
+  font-family: "Jet Brains Mono", sans-serif, serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

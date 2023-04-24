@@ -6,10 +6,6 @@
 
 .content {
   display: flex;
-  /*justify-content: center;*/
-  /*max-width: 1240px;*/
-  align-items: stretch;
-
   margin: auto;
   gap: 40px;
 }
