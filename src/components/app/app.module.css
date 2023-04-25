@@ -8,4 +8,5 @@
   display: flex;
   margin: auto;
   gap: 40px;
+  max-height: 912px;
 }

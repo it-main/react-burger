@@ -2,16 +2,21 @@ import styles from "./ingredient.module.css";
 import clsx from "clsx";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 function Ingredient(props) {
-  const { image, text, price, extraClass } = props;
-
+  const { ingredientData, extraClass } = props;
   return (
     <li className={clsx(styles.ingredient, extraClass)}>
-      <img className={clsx(styles.image)} src={image} alt={text} />
+      <img
+        className={clsx(styles.image)}
+        src={ingredientData.image}
+        alt={ingredientData.name}
+      />
       <span className={clsx(styles.price, "text text_type_digits-default")}>
-        {price}
+        {ingredientData.price}
         <CurrencyIcon type="primary" />
       </span>
-      <span className={clsx("text_type_main-default")}>{text}</span>
+      <span className={clsx(styles.name, "text text_type_main-default")}>
+        {ingredientData.name}
+      </span>
     </li>
   );
 }

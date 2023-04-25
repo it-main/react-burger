@@ -3,8 +3,13 @@
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  /*width: 272px;*/
-  min-height: 208px;
+  width: 272px;
+  height: 208px;
+  /*border: red 1px dotted;*/
+}
+
+.name {
+  text-align: center;
 }
 
 .image {

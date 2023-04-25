@@ -1,9 +1,25 @@
 .tabs {
   display: flex;
 }
-.ingredientsList {
+
+.ingredientsGroup {
   margin: 0;
   list-style: none;
   display: flex;
   gap: 24px;
+  flex-wrap: wrap;
+}
+
+.burgerIngredients {
+  width: 600px;
+}
+
+.ingredientsTypesList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ingredientTypeItem {
+  display: block;
 }
