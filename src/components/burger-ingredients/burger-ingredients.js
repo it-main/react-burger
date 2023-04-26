@@ -31,7 +31,7 @@ function Ingredients({ ingredientsTypes }) {
         <h2 className={"text_type_main-medium text mb-6"}>
           {ingredientTypes.typeRus}
         </h2>
-        <ul className={styles.ingredientsGroup + " pl-4 pr-4"}>
+        <ul className={styles.ingredientsList + " pl-4 pr-4"}>
           {data.map((ingredientData) => {
             return (
               ingredientData.type === ingredientTypes.type && (
