@@ -9,7 +9,7 @@ function App() {
       <AppHeader />
       <main className={styles.content}>
         <BurgerIngredients />
-        <BurgerConstructor />
+        {/*  <BurgerConstructor />*/}
       </main>
     </div>
   );

@@ -1,17 +1,17 @@
-import {
-  BurgerIcon,
-  Logo,
-  ListIcon,
-  ProfileIcon,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import { Logo } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./app-header.module.css";
 import NavLink from "../nav-link/nav-link";
 import { clsx } from "clsx";
+import {
+  BurgerIcon,
+  ListIcon,
+  ProfileIcon,
+} from "@ya.praktikum/react-developer-burger-ui-components";
 
 function AppHeader() {
   return (
-    <header>
-      <nav className={clsx("pt-4 pb-4 mb-10", styles.navigate)}>
+    <header className={"mb-10"}>
+      <nav className={clsx("pt-4 pb-4", styles.navigate)}>
         <div>
           <NavLink
             Icon=<BurgerIcon />

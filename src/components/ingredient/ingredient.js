@@ -1,10 +1,9 @@
 import styles from "./ingredient.module.css";
 import clsx from "clsx";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-function Ingredient(props) {
-  const { ingredientData, extraClass } = props;
+function Ingredient({ ingredientData }) {
   return (
-    <li className={clsx(styles.ingredient, extraClass)}>
+    <li className={clsx(styles.ingredient)}>
       <img
         className={clsx(styles.image)}
         src={ingredientData.image}

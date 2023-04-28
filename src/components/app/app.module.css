@@ -6,7 +6,7 @@
 
 .content {
   display: flex;
-  margin: auto;
+  margin: 0 auto 40px auto;
   gap: 40px;
-  max-height: 912px;
+  max-height: calc(100vh - 138px - 40px);
 }
