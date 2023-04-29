@@ -1,9 +1,9 @@
-import styles from "./ingredient.module.css";
+import styles from "./burger-ingredient.module.css";
 import clsx from "clsx";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-function Ingredient({ ingredientData }) {
+function BurgerIngredient({ ingredientData }) {
   return (
-    <li className={clsx(styles.ingredient)}>
+    <article className={clsx(styles.ingredient)}>
       <img
         className={clsx(styles.image)}
         src={ingredientData.image}
@@ -16,8 +16,8 @@ function Ingredient({ ingredientData }) {
       <span className={clsx(styles.name, "text text_type_main-default")}>
         {ingredientData.name}
       </span>
-    </li>
+    </article>
   );
 }
 
-export default Ingredient;
+export default BurgerIngredient;

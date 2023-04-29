@@ -24,7 +24,7 @@ function AppHeader() {
             classList="text_color_inactive pl-5"
           />
         </div>
-        <a href="#" className={styles.logo}>
+        <a href="" className={styles.logo}>
           <Logo />
         </a>
         <NavLink

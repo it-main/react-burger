@@ -1,23 +1,29 @@
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
 import { useState } from "react";
-import Ingredient from "../ingredient/ingredient";
+import BurgerIngredient from "../burger-ingredient/burger-ingredient";
 import data from "../../utils/data";
 import { clsx } from "clsx";
 
 function Tabs({ ingredientsTypes }) {
-  const [current, setCurrentTab] = useState(0);
+  const [current, setCurrentTab] = useState("bun");
+  const onClickHandler = (currentTab) => {
+    setCurrentTab(currentTab);
+    const elementHeader = document.getElementById(`link-${currentTab}`);
+    elementHeader.scrollIntoView({ behavior: "smooth" });
+  };
   return (
     <div className={styles.tabs}>
       {ingredientsTypes.map((ingredientType, index) => {
+        const { type, typeRus } = ingredientType;
         return (
           <Tab
-            value={index}
-            active={current === index}
-            onClick={setCurrentTab}
+            value={type}
+            active={current === type}
+            onClick={onClickHandler}
             key={index}
           >
-            {ingredientType.typeRus}
+            {typeRus}
           </Tab>
         );
       })}
@@ -25,29 +31,41 @@ function Tabs({ ingredientsTypes }) {
   );
 }
 
-function Ingredients({ ingredientsTypes }) {
-  return ingredientsTypes.map((ingredientTypes, index) => {
-    //TODO тут сделать фильтр
-    return (
-      <li key={index}>
-        <h2 className={"text_type_main-medium text mb-6 mt-10"}>
-          {ingredientTypes.typeRus}
-        </h2>
-        <ul className={styles.ingredientsList + " pl-4 pr-1"}>
-          {data.map((ingredientData) => {
-            return (
-              ingredientData.type === ingredientTypes.type && (
-                <Ingredient
-                  ingredientData={ingredientData}
-                  key={ingredientData._id}
-                />
-              )
-            );
-          })}
-        </ul>
-      </li>
-    );
-  });
+function IngredientsList({ ingredients }) {
+  return (
+    <ul className={clsx(styles.ingredientsList, "pl-4 pr-1")}>
+      {ingredients.map((ingredientData) => {
+        return (
+          <BurgerIngredient
+            ingredientData={ingredientData}
+            key={ingredientData._id}
+          />
+        );
+      })}
+    </ul>
+  );
+}
+
+function IngredientsTypesList({ ingredientsTypes }) {
+  return (
+    <ul className={clsx(styles.ingredientsTypesList, "custom-scroll")}>
+      {ingredientsTypes.map((ingredientTypes, index) => {
+        const { type, typeRus } = ingredientTypes;
+        const ingredients = data.filter((elem) => elem.type === type);
+        return (
+          <li key={index}>
+            <h2
+              id={`link-${type}`}
+              className={"text_type_main-medium text mb-6 mt-10"}
+            >
+              {typeRus}
+            </h2>
+            <IngredientsList ingredients={ingredients} />
+          </li>
+        );
+      })}
+    </ul>
+  );
 }
 
 function BurgerIngredients() {
@@ -60,10 +78,9 @@ function BurgerIngredients() {
     <section className={styles.burgerIngredients}>
       <h1 className={`mb-5 text text_type_main-large`}>Соберите бургер</h1>
       <Tabs ingredientsTypes={ingredientsTypes} />
-      <ul className={clsx(styles.ingredientsTypesList, "custom-scroll")}>
-        <Ingredients ingredientsTypes={ingredientsTypes} />
-      </ul>
+      <IngredientsTypesList ingredientsTypes={ingredientsTypes} />
     </section>
   );
 }
+
 export default BurgerIngredients;
