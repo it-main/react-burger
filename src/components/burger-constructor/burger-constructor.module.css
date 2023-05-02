@@ -1,0 +1,43 @@
+.burgerConstructor {
+  width: calc(50% - 20px);
+}
+
+.burgerElements {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  /*overflow: auto;*/
+  /*TODO*/
+  /*height: 70%;*/
+}
+
+.burgerFilling {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  overflow: auto;
+  /*TODO*/
+  height: 70%;
+  order: 1;
+}
+
+.burgerElement {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: end;
+}
+
+.bunTop {
+   order: 0;
+ }
+
+.bunBottom {
+  order: 2;
+}
