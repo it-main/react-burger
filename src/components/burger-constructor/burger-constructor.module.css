@@ -1,5 +1,6 @@
 .burgerConstructor {
   width: calc(50% - 20px);
+  padding-bottom: 52px;
 }
 
 .burgerElements {
@@ -8,12 +9,17 @@
   gap: 16px;
   list-style-type: none;
   padding: 0;
-  margin: 0;
-  /*TODO*/
-  /*height: 70%;*/
+  margin-top: 0;
+  height: calc(100% - 60px - 52px);
 }
 
 .burgerFilling {
+  max-height: calc(100% - 80px - 16px - 80px - 16px - 40px - 64px);
+  /*height: 1px;*/
+  /*max-height: 400px;*/
+}
+
+.burgerFillingList {
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -22,11 +28,11 @@
   margin: 0;
   overflow: auto;
   /*TODO*/
-  max-height: 464px;
+  max-height: 100%;
   order: 1;
 }
 
-.burgerElement {
+.burgerFillingElement {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -39,4 +45,17 @@
 
 .bunBottom {
   order: 2;
+}
+
+.info {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: 40px;
+}
+
+.sum {
+  display: flex;
+  align-items: center;
+  gap: 9px;
 }

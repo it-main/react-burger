@@ -6,8 +6,9 @@
 
 .content {
   display: flex;
-  margin: 0 auto 40px auto;
+  margin: 0 auto;
+  padding-bottom: 40px;
   gap: 40px;
-  max-height: calc(100vh - 138px - 40px);
+  height: calc(100vh - 138px - 40px);
 }
 
