@@ -16,6 +16,60 @@ const BurgerConstructor = () => {
   const elementsFilling = elements.filter((elem) => elem.type !== "bun");
   // const [elementBun, setElementBun] = useState(null);
   return (
+    <section className={clsx(styles.burgerElements, "pt-15 pl-4 pr-4")}>
+      {elementBun &&
+        ["Top", "Bottom"].map((element) => (
+          <div className={clsx(styles[`bun${element}`], "ml-8")}>
+            <ConstructorElement
+              type={element.toLowerCase()}
+              isLocked={true}
+              text={elementBun.name}
+              price={elementBun.price}
+              thumbnail={elementBun.image}
+              key={elementBun._id}
+            />
+          </div>
+        ))}
+      {/*<ul className={clsx(styles.burgerElements)}>*/}
+      {/*  <li className={styles.burgerFilling}>*/}
+      <ul className={clsx(styles.burgerFillingList, "custom-scroll")}>
+        {elementsFilling.map((element) => {
+          const { name, price, image } = element;
+          const uuid = crypto.randomUUID();
+          return (
+            <li className={clsx(styles.burgerFillingElement)}>
+              <DragIcon type={"primary"} />
+              <ConstructorElement
+                text={name}
+                price={price}
+                thumbnail={image}
+                key={uuid}
+              />
+            </li>
+          );
+        })}
+        {/*</ul>*/}
+        {/*</li>*/}
+      </ul>
+      <div className={clsx(styles.info)}>
+        <span className={clsx("text text_type_digits-medium", styles.sum)}>
+          <p className={"text"}>{sum}</p>
+          <CurrencyIcon />
+        </span>
+        <Button htmlType="button" type="primary" size="large">
+          Оформить заказ
+        </Button>
+      </div>
+    </section>
+  );
+};
+const BurgerConstructor1 = () => {
+  const [elements, setElements] = useState([data[0], data[7]]);
+  const [sum, setSum] = useState(0);
+  const elementBun = elements.find((elem) => elem.type === "bun");
+  const elementsFilling = elements.filter((elem) => elem.type !== "bun");
+  // const [elementBun, setElementBun] = useState(null);
+  return (
     <section className={clsx(styles.burgerConstructor, "pt-15 pl-4 pr-4")}>
       <ul className={clsx(styles.burgerElements)}>
         {elementBun &&
