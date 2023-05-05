@@ -10,47 +10,59 @@ import styles from "./burger-constructor.module.css";
 import { clsx } from "clsx";
 
 const BurgerConstructor = () => {
-  const [elements, setElements] = useState([data[0], data[7]]);
+  const [elements, setElements] = useState([
+    data[0],
+    data[7],
+    data[7],
+    data[7],
+    data[7],
+    data[7],
+    data[7],
+    data[7],
+    data[2],
+    data[4],
+  ]);
   const [sum, setSum] = useState(0);
   const elementBun = elements.find((elem) => elem.type === "bun");
   const elementsFilling = elements.filter((elem) => elem.type !== "bun");
   // const [elementBun, setElementBun] = useState(null);
   return (
-    <section className={clsx(styles.burgerElements, "pt-15 pl-4 pr-4")}>
-      {elementBun &&
-        ["Top", "Bottom"].map((element) => (
-          <div className={clsx(styles[`bun${element}`], "ml-8")}>
-            <ConstructorElement
-              type={element.toLowerCase()}
-              isLocked={true}
-              text={elementBun.name}
-              price={elementBun.price}
-              thumbnail={elementBun.image}
-              key={elementBun._id}
-            />
-          </div>
-        ))}
-      {/*<ul className={clsx(styles.burgerElements)}>*/}
-      {/*  <li className={styles.burgerFilling}>*/}
-      <ul className={clsx(styles.burgerFillingList, "custom-scroll")}>
-        {elementsFilling.map((element) => {
-          const { name, price, image } = element;
-          const uuid = crypto.randomUUID();
-          return (
-            <li className={clsx(styles.burgerFillingElement)}>
-              <DragIcon type={"primary"} />
+    // <section className={clsx(styles.burgerConstructor, "pt-15 pl-4 pr-4")}>
+    <section className={clsx(styles.burgerConstructor, "pt-15")}>
+      <div className={clsx(styles.burgerElements)}>
+        {elementBun &&
+          ["Top", "Bottom"].map((element) => (
+            <div className={clsx(styles[`bun${element}`], styles.bun)}>
               <ConstructorElement
-                text={name}
-                price={price}
-                thumbnail={image}
-                key={uuid}
+                type={element.toLowerCase()}
+                isLocked={true}
+                text={elementBun.name}
+                price={elementBun.price}
+                thumbnail={elementBun.image}
+                key={elementBun._id}
               />
-            </li>
-          );
-        })}
-        {/*</ul>*/}
-        {/*</li>*/}
-      </ul>
+            </div>
+          ))}
+
+        <ul className={clsx(styles.burgerFillingList, "custom-scroll")}>
+          {elementsFilling.map((element) => {
+            const { name, price, image } = element;
+            const uuid = crypto.randomUUID();
+            return (
+              <li className={clsx(styles.burgerFillingElement, "ml-4")}>
+                <DragIcon type={"primary"} />
+                <ConstructorElement
+                  text={name}
+                  price={price}
+                  thumbnail={image}
+                  key={uuid}
+                />
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+
       <div className={clsx(styles.info)}>
         <span className={clsx("text text_type_digits-medium", styles.sum)}>
           <p className={"text"}>{sum}</p>
@@ -105,7 +117,7 @@ const BurgerConstructor1 = () => {
           </ul>
         </li>
       </ul>
-      <div className={clsx(styles.info)}>
+      <div className={clsx("mr-4", styles.info)}>
         <span className={clsx("text text_type_digits-medium", styles.sum)}>
           <p className={"text"}>{sum}</p>
           <CurrencyIcon />
