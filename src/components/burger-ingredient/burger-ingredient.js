@@ -1,13 +1,19 @@
 import styles from "./burger-ingredient.module.css";
 import clsx from "clsx";
+import { useState } from "react";
 import {
   Counter,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-function BurgerIngredient({ ingredientData, count }) {
+function BurgerIngredient({ ingredientData }) {
+  const [count, setCount] = useState(0);
   return (
     <article className={clsx(styles.ingredient)}>
-      <Counter count={count} size="default" extraClass="m-1" />
+      <Counter
+        count={count}
+        size="default"
+        extraClass={clsx("m-1", count === 0 ? styles.counterNone : "")}
+      />
       <img
         className={clsx(styles.image)}
         src={ingredientData.image}

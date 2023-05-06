@@ -23,4 +23,6 @@
   gap: 9px;
 }
 
-
+.counterNone {
+  visibility: hidden;
+}

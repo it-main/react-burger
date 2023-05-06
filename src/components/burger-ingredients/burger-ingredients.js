@@ -1,8 +1,8 @@
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BurgerIngredient from "../burger-ingredient/burger-ingredient";
-import data from "../../utils/data";
+
 import { clsx } from "clsx";
 
 function Tabs({ ingredientsTypes }) {
@@ -46,7 +46,7 @@ function IngredientsList({ ingredients }) {
   );
 }
 
-function IngredientsTypesList({ ingredientsTypes }) {
+function IngredientsTypesList({ ingredientsTypes, data }) {
   return (
     <ul className={clsx(styles.ingredientsTypesList, "custom-scroll")}>
       {ingredientsTypes.map((ingredientTypes, index) => {
@@ -74,11 +74,27 @@ function BurgerIngredients() {
     { type: "sauce", typeRus: "Соусы" },
     { type: "main", typeRus: "Начинки" },
   ];
+
+  const [data, setData] = useState([]);
+
+  const handleSetData = (dataIngredients) => {
+    setData(dataIngredients);
+  };
+
+  useEffect(() => {
+    fetch("https://norma.nomoreparties.space/api/ingredients")
+      .then((response) => response.json())
+      .then((json) => handleSetData(json.data))
+      .catch((error) =>
+        console.log(`Ошибка получения данных с сервера ${error}`)
+      );
+  }, []);
+
   return (
     <section className={styles.burgerIngredients}>
       <h1 className={`mb-5 text text_type_main-large`}>Соберите бургер</h1>
       <Tabs ingredientsTypes={ingredientsTypes} />
-      <IngredientsTypesList ingredientsTypes={ingredientsTypes} />
+      <IngredientsTypesList ingredientsTypes={ingredientsTypes} data={data} />
     </section>
   );
 }
