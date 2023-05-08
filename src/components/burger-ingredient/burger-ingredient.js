@@ -12,7 +12,7 @@ function BurgerIngredient({ ingredientData }) {
       <Counter
         count={count}
         size="default"
-        extraClass={clsx("m-1", count === 0 ? styles.counterNone : "")}
+        extraClass={clsx("m-1", count === 0 ? styles.counter : "")}
       />
       <img
         className={clsx(styles.image)}
