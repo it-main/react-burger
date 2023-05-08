@@ -5,11 +5,11 @@ import {
   CurrencyIcon,
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import data from "../../utils/data";
+
 import styles from "./burger-constructor.module.css";
 import { clsx } from "clsx";
 
-const BurgerConstructor = () => {
+const BurgerConstructor = ({ data }) => {
   const [elements, setElements] = useState([
     data[0],
     data[1],

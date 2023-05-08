@@ -1,6 +1,6 @@
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import BurgerIngredient from "../burger-ingredient/burger-ingredient";
 
 import { clsx } from "clsx";
@@ -68,27 +68,12 @@ function IngredientsTypesList({ ingredientsTypes, data }) {
   );
 }
 
-function BurgerIngredients() {
+function BurgerIngredients({ status, data }) {
   const ingredientsTypes = [
     { type: "bun", typeRus: "Булки" },
     { type: "sauce", typeRus: "Соусы" },
     { type: "main", typeRus: "Начинки" },
   ];
-
-  const [data, setData] = useState([]);
-
-  const handleSetData = (dataIngredients) => {
-    setData(dataIngredients);
-  };
-
-  useEffect(() => {
-    fetch("https://norma.nomoreparties.space/api/ingredients")
-      .then((response) => response.json())
-      .then((json) => handleSetData(json.data))
-      .catch((error) =>
-        console.log(`Ошибка получения данных с сервера ${error}`)
-      );
-  }, []);
 
   return (
     <section className={styles.burgerIngredients}>
