@@ -3,11 +3,19 @@ import AppHeader from "../app-header/app-header";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import { useEffect, useState } from "react";
+import ModalOverlay from "../modal-overlay/modal-overlay";
 
 function App() {
+  const URL = "https://norma.nomoreparties.space/api/ingredients";
+
   const [data, setData] = useState([]);
   const [statusData, setStatusData] = useState(undefined);
-  const URL = "https://norma.nomoreparties.space/api/ingredients";
+
+  const [activeModal, setActiveModal] = useState(false);
+
+  const handleSetActiveModal = (active) => {
+    setActiveModal(active);
+  };
 
   useEffect(() => {
     fetch(URL)
@@ -32,8 +40,17 @@ function App() {
           <p className={"text_type_main-medium"}>Загрузка данных...</p>
         ) : statusData ? (
           <>
-            <BurgerIngredients data={data} />
+            <BurgerIngredients
+              data={data}
+              handleSetActiveModal={handleSetActiveModal}
+            />
             <BurgerConstructor data={data} />
+            <ModalOverlay
+              activeModal={activeModal}
+              setActiveModal={setActiveModal}
+            >
+              <div>INFO</div>
+            </ModalOverlay>
           </>
         ) : (
           <p>

@@ -31,13 +31,15 @@ function Tabs({ ingredientsTypes }) {
   );
 }
 
-function IngredientsList({ ingredients }) {
+function IngredientsList(props) {
+  const { ingredients, handleSetActiveModal } = props;
   return (
     <ul className={clsx(styles.ingredientsList, "pl-4 pr-1")}>
       {ingredients.map((ingredientData) => {
         return (
           <BurgerIngredient
             ingredientData={ingredientData}
+            handleSetActiveModal={handleSetActiveModal}
             key={ingredientData._id}
           />
         );
@@ -46,7 +48,8 @@ function IngredientsList({ ingredients }) {
   );
 }
 
-function IngredientsTypesList({ ingredientsTypes, data }) {
+function IngredientsTypesList(props) {
+  const { ingredientsTypes, data } = props;
   return (
     <ul className={clsx(styles.ingredientsTypesList, "custom-scroll")}>
       {ingredientsTypes.map((ingredientTypes, index) => {
@@ -60,7 +63,7 @@ function IngredientsTypesList({ ingredientsTypes, data }) {
             >
               {typeRus}
             </h2>
-            <IngredientsList ingredients={ingredients} />
+            <IngredientsList ingredients={ingredients} {...props} />
           </li>
         );
       })}
@@ -68,18 +71,21 @@ function IngredientsTypesList({ ingredientsTypes, data }) {
   );
 }
 
-function BurgerIngredients({ status, data }) {
+function BurgerIngredients({ data, handleSetActiveModal }) {
   const ingredientsTypes = [
     { type: "bun", typeRus: "Булки" },
     { type: "sauce", typeRus: "Соусы" },
     { type: "main", typeRus: "Начинки" },
   ];
-
   return (
     <section className={styles.burgerIngredients}>
       <h1 className={`mb-5 text text_type_main-large`}>Соберите бургер</h1>
       <Tabs ingredientsTypes={ingredientsTypes} />
-      <IngredientsTypesList ingredientsTypes={ingredientsTypes} data={data} />
+      <IngredientsTypesList
+        ingredientsTypes={ingredientsTypes}
+        data={data}
+        handleSetActiveModal={handleSetActiveModal}
+      />
     </section>
   );
 }

@@ -35,7 +35,8 @@ const BurgerConstructor = ({ data }) => {
   }, [elements]);
 
   const handlePlaceOrder = (event) => {
-    setElements([...elements, data[5]]);
+    //Вызвать изменение стейта toOpen -> в дом модальное окно
+    //При рендере конструктора нужно передать через пропсы ручку
   };
 
   const elementBun = elements.find((elem) => elem.type === "bun");
