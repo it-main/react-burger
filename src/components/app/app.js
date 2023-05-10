@@ -11,10 +11,11 @@ function App() {
   const [data, setData] = useState([]);
   const [statusData, setStatusData] = useState(undefined);
 
-  const [activeModal, setActiveModal] = useState(false);
+  const [modalData, setModalData] = useState({ active: true });
 
-  const handleSetActiveModal = (active) => {
-    setActiveModal(active);
+  const handleSetModalData = (newModalData) => {
+    setModalData(newModalData);
+    // console.log(newModalData);
   };
 
   useEffect(() => {
@@ -42,15 +43,15 @@ function App() {
           <>
             <BurgerIngredients
               data={data}
-              handleSetActiveModal={handleSetActiveModal}
+              handleSetActiveModal={handleSetModalData}
             />
-            <BurgerConstructor data={data} />
-            <ModalOverlay
-              activeModal={activeModal}
-              setActiveModal={setActiveModal}
-            >
-              <div>INFO</div>
-            </ModalOverlay>
+            <BurgerConstructor
+              data={data}
+              handleSetModalData={handleSetModalData}
+            />
+            {/*<ModalOverlay {...modalData} setModalData={setModalData}>*/}
+            {/*  <div>d</div>*/}
+            {/*</ModalOverlay>*/}
           </>
         ) : (
           <p>

@@ -8,8 +8,10 @@ import {
 
 import styles from "./burger-constructor.module.css";
 import { clsx } from "clsx";
+import OrderDetails from "../order-details/order-details";
+import ModalOverlay from "../modal-overlay/modal-overlay";
 
-const BurgerConstructor = ({ data }) => {
+const BurgerConstructor = ({ data, handleSetModalData }) => {
   const [elements, setElements] = useState([
     data[0],
     data[1],
@@ -35,6 +37,7 @@ const BurgerConstructor = ({ data }) => {
   }, [elements]);
 
   const handlePlaceOrder = (event) => {
+    handleSetModalData({ active: true, children: <OrderDetails /> });
     //Вызвать изменение стейта toOpen -> в дом модальное окно
     //При рендере конструктора нужно передать через пропсы ручку
   };
@@ -99,6 +102,9 @@ const BurgerConstructor = ({ data }) => {
           Оформить заказ
         </Button>
       </div>
+      <ModalOverlay active={true}>
+        <OrderDetails></OrderDetails>
+      </ModalOverlay>
     </section>
   );
 };

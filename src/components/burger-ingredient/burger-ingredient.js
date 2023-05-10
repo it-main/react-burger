@@ -10,7 +10,7 @@ function BurgerIngredient({ ingredientData, handleSetActiveModal }) {
   return (
     <article
       className={clsx(styles.ingredient)}
-      onClick={() => handleSetActiveModal(true)}
+      onClick={() => handleSetActiveModal({ ...ingredientData })}
     >
       {count > 0 && <Counter count={count} size="default" extraClass="m-1" />}
       <img
