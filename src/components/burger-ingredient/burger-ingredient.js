@@ -5,13 +5,10 @@ import {
   Counter,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-function BurgerIngredient({ ingredientData, handleSetActiveModal }) {
+function BurgerIngredient({ ingredientData }) {
   const [count, setCount] = useState(0);
   return (
-    <article
-      className={clsx(styles.ingredient)}
-      onClick={() => handleSetActiveModal({ ...ingredientData })}
-    >
+    <article className={styles.ingredient}>
       {count > 0 && <Counter count={count} size="default" extraClass="m-1" />}
       <img
         className={clsx(styles.image)}

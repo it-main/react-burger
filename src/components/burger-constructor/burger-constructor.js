@@ -9,9 +9,9 @@ import {
 import styles from "./burger-constructor.module.css";
 import { clsx } from "clsx";
 import OrderDetails from "../order-details/order-details";
-import ModalOverlay from "../modal-overlay/modal-overlay";
+import Modal from "../modal/modal";
 
-const BurgerConstructor = ({ data, handleSetModalData }) => {
+function BurgerConstructor({ data }) {
   const [elements, setElements] = useState([
     data[0],
     data[1],
@@ -23,6 +23,7 @@ const BurgerConstructor = ({ data, handleSetModalData }) => {
   ]);
 
   const [sum, setSum] = useState(0);
+  const [activeOrderDetails, setActiveOrderDetails] = useState(false);
 
   const handleSetSum = (newSum) => {
     setSum(newSum);
@@ -36,10 +37,8 @@ const BurgerConstructor = ({ data, handleSetModalData }) => {
     handleSetSum(newSum);
   }, [elements]);
 
-  const handlePlaceOrder = (event) => {
-    handleSetModalData({ active: true, children: <OrderDetails /> });
-    //Вызвать изменение стейта toOpen -> в дом модальное окно
-    //При рендере конструктора нужно передать через пропсы ручку
+  const handlePlaceOrder = () => {
+    setActiveOrderDetails(true);
   };
 
   const elementBun = elements.find((elem) => elem.type === "bun");
@@ -102,11 +101,11 @@ const BurgerConstructor = ({ data, handleSetModalData }) => {
           Оформить заказ
         </Button>
       </div>
-      <ModalOverlay active={true}>
-        <OrderDetails></OrderDetails>
-      </ModalOverlay>
+      <Modal active={activeOrderDetails}>
+        <OrderDetails />
+      </Modal>
     </section>
   );
-};
+}
 
 export default BurgerConstructor;

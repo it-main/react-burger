@@ -32,14 +32,13 @@ function Tabs({ ingredientsTypes }) {
 }
 
 function IngredientsList(props) {
-  const { ingredients, handleSetActiveModal } = props;
+  const { ingredients } = props;
   return (
     <ul className={clsx(styles.ingredientsList, "pl-4 pr-1")}>
       {ingredients.map((ingredientData) => {
         return (
           <BurgerIngredient
             ingredientData={ingredientData}
-            handleSetActiveModal={handleSetActiveModal}
             key={ingredientData._id}
           />
         );
@@ -63,7 +62,7 @@ function IngredientsTypesList(props) {
             >
               {typeRus}
             </h2>
-            <IngredientsList ingredients={ingredients} {...props} />
+            <IngredientsList ingredients={ingredients} />
           </li>
         );
       })}
@@ -81,11 +80,7 @@ function BurgerIngredients({ data, handleSetActiveModal }) {
     <section className={styles.burgerIngredients}>
       <h1 className={`mb-5 text text_type_main-large`}>Соберите бургер</h1>
       <Tabs ingredientsTypes={ingredientsTypes} />
-      <IngredientsTypesList
-        ingredientsTypes={ingredientsTypes}
-        data={data}
-        handleSetActiveModal={handleSetActiveModal}
-      />
+      <IngredientsTypesList ingredientsTypes={ingredientsTypes} data={data} />
     </section>
   );
 }
