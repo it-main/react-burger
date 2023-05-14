@@ -8,20 +8,13 @@ import {
 
 import styles from "./burger-constructor.module.css";
 import { clsx } from "clsx";
+import PropTypes from "prop-types";
 import OrderDetails from "../order-details/order-details";
 import Modal from "../modal/modal";
+import {ingredientPropType} from "../../utils/prop-types";
 
-function BurgerConstructor({ data }) {
-  const [elements, setElements] = useState([
-    data[0],
-    data[1],
-    data[2],
-    data[3],
-    data[4],
-    data[5],
-    data[6],
-  ]);
-
+function BurgerConstructor(props) {
+  const { selectedIngredients } = props;
   const [sum, setSum] = useState(0);
   const [activeOrderDetails, setActiveOrderDetails] = useState(false);
 
@@ -31,20 +24,21 @@ function BurgerConstructor({ data }) {
 
   useEffect(() => {
     let newSum = 0;
-    elements.forEach((elem) => {
+    selectedIngredients.forEach((elem) => {
       newSum += elem.price;
     });
     handleSetSum(newSum);
-  }, [elements]);
+  }, [selectedIngredients]);
 
   const handlePlaceOrder = () => {
     setActiveOrderDetails(true);
   };
 
-  const elementBun = elements.find((elem) => elem.type === "bun");
-  const elementsFilling = elements.filter((elem) => elem.type !== "bun");
+  const elementBun = selectedIngredients.find((elem) => elem.type === "bun");
+  const elementsFilling = selectedIngredients.filter((elem) => elem.type !== "bun");
 
   return (
+    <>
     <section className={clsx(styles.burgerConstructor, "pt-15")}>
       <div className={clsx(styles.burgerElements)}>
         {elementBun &&
@@ -90,7 +84,7 @@ function BurgerConstructor({ data }) {
       <div className={clsx(styles.info)}>
         <span className={clsx("text text_type_digits-medium", styles.sum)}>
           <p className={"text"}>{sum}</p>
-          <CurrencyIcon />
+          <CurrencyIcon type="primary"/>
         </span>
         <Button
           htmlType="button"
@@ -101,11 +95,14 @@ function BurgerConstructor({ data }) {
           Оформить заказ
         </Button>
       </div>
-      <Modal active={activeOrderDetails}>
-        <OrderDetails />
-      </Modal>
     </section>
+    {activeOrderDetails && (<Modal setActive={setActiveOrderDetails}> <OrderDetails /> </Modal>)}
+  </>
   );
+}
+
+BurgerConstructor.propTypes = {
+  selectedIngredients: PropTypes.arrayOf(ingredientPropType)
 }
 
 export default BurgerConstructor;

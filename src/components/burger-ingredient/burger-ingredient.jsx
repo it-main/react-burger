@@ -1,14 +1,16 @@
 import styles from "./burger-ingredient.module.css";
 import clsx from "clsx";
-import { useState } from "react";
 import {
   Counter,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-function BurgerIngredient({ ingredientData }) {
-  const [count, setCount] = useState(0);
+import PropTypes from "prop-types";
+import {ingredientPropType} from "../../utils/prop-types";
+
+function BurgerIngredient(props) {
+  const { ingredientData, setDataIngredientDetails, count } = props;
   return (
-    <article className={styles.ingredient}>
+    <article className={styles.ingredient} onClick={() => setDataIngredientDetails({data: ingredientData, active: true})}>
       {count > 0 && <Counter count={count} size="default" extraClass="m-1" />}
       <img
         className={clsx(styles.image)}
@@ -25,5 +27,11 @@ function BurgerIngredient({ ingredientData }) {
     </article>
   );
 }
+
+BurgerIngredient.propTypes = {
+  ingredientData: ingredientPropType.isRequired,
+  setDataIngredientDetails: PropTypes.func,
+  count: PropTypes.number,
+};
 
 export default BurgerIngredient;

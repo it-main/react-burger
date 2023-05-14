@@ -3,20 +3,12 @@ import AppHeader from "../app-header/app-header";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import { useEffect, useState } from "react";
-import ModalOverlay from "../modal-overlay/modal-overlay";
 
 function App() {
   const URL = "https://norma.nomoreparties.space/api/ingredients";
-
-  const [data, setData] = useState([]);
+  const [availableIngredients, setAvailableIngredients] = useState([]);
+  const [selectedIngredients, setSelectedIngredients] = useState([]);
   const [statusData, setStatusData] = useState(undefined);
-
-  const [modalData, setModalData] = useState({ active: true });
-
-  const handleSetModalData = (newModalData) => {
-    setModalData(newModalData);
-    // console.log(newModalData);
-  };
 
   useEffect(() => {
     fetch(URL)
@@ -24,7 +16,7 @@ function App() {
       .then((json) => {
         if (json.success) {
           setStatusData(json.success);
-          setData(json.data);
+          setAvailableIngredients(json.data);
         } else setStatusData(false);
       })
       .catch((error) => {
@@ -32,6 +24,12 @@ function App() {
         console.log(`Ошибка при загрузке данных с сервера ${error}`);
       });
   }, []);
+
+  useEffect(()=> {
+    if (availableIngredients.length) {
+      setSelectedIngredients([availableIngredients[0],availableIngredients[1],availableIngredients[3],availableIngredients[10],availableIngredients[9],availableIngredients[2],availableIngredients[2],availableIngredients[5],availableIngredients[2]])
+    }
+    },[availableIngredients])
 
   return (
     <div className={`${styles.page}`}>
@@ -42,16 +40,12 @@ function App() {
         ) : statusData ? (
           <>
             <BurgerIngredients
-              data={data}
-              handleSetActiveModal={handleSetModalData}
+              availableIngredients={availableIngredients}
+              selectedIngredients={selectedIngredients}
             />
             <BurgerConstructor
-              data={data}
-              handleSetModalData={handleSetModalData}
+              selectedIngredients={selectedIngredients}
             />
-            {/*<ModalOverlay {...modalData} setModalData={setModalData}>*/}
-            {/*  <div>d</div>*/}
-            {/*</ModalOverlay>*/}
           </>
         ) : (
           <p>

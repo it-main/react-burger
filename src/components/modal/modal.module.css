@@ -1,0 +1,17 @@
+.modal {
+  background: #1C1C21;
+  border: 1px solid rgb(76 76 255 / 0.2);
+  border-radius: 40px;
+  box-sizing: border-box;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 64px;
+}
+
+.closeIcon {
+  cursor: pointer;
+}

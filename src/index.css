@@ -9,21 +9,14 @@
   font-family: 'Jet Brains Mono';
   font-style: normal;
   font-weight: 400;
-  src: url("./fonts/JetBrainsMono-Regular.woff2") format("woff2");
+  src: url("./fonts/JetBrainsMono-Regular.woff2") format("woff2"), url("./fonts/JetBrainsMono-Regular.woff") format("woff");
 }
 
 @font-face {
   font-family: 'Iceland';
   font-style: normal;
   font-weight: 400;
-  src: url("./fonts/iceland-regular.woff2") format("woff2");
-}
-
-@font-face {
-  font-family: 'Iceland';
-  font-style: normal;
-  font-weight: 400;
-  src: url("./fonts/iceland-regular.woff") format("woff");
+  src: url("./fonts/iceland-regular.woff2") format("woff2"), url("./fonts/iceland-regular.woff") format("woff");
 }
 
 body {

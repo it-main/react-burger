@@ -1,5 +1,16 @@
-.orderAccepted {
-  width: 720px;
-  height: 720px;
-  border: aqua 1px dotted;
+.orderDetails {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 520px;
+}
+
+.orderNumber {
+  text-shadow: 0 0 16px rgba(51, 51, 255, 0.25), 0 0 8px rgba(51, 51, 255, 0.25), 0 4px 32px rgba(51, 51, 255, 0.5);
+}
+
+.done {
+  width: 120px;
+  box-sizing: border-box;
+  padding: 13px 8px 6px 8px;
 }

@@ -1,11 +1,19 @@
 import styles from "./modal-overlay.module.css";
-import { createPortal } from "react-dom";
-import { useState } from "react";
+import PropTypes from "prop-types";
 
-function ModalOverlay({ children }) {
-  return createPortal(
-    <div className={styles.modalOverlay}>{children}</div>,
-    document.querySelector("#portal")
-  );
+function ModalOverlay({ children, setActive }) {
+  return (
+    <div
+      className={styles.modalOverlay}
+      onClick={() => setActive(false)}
+      >
+      {children}
+    </div>
+  )
 }
+
+ModalOverlay.propTypes = {
+  setActive: PropTypes.func
+};
+
 export default ModalOverlay;
