@@ -12,7 +12,13 @@ function App() {
 
   useEffect(() => {
     fetch(URL)
-      .then((response) => response.json())
+      .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        return Promise.reject(`Ошибка ${response.status}`);
+      }
+      })
       .then((json) => {
         if (json.success) {
           setStatusData(json.success);
@@ -27,7 +33,16 @@ function App() {
 
   useEffect(()=> {
     if (availableIngredients.length) {
-      setSelectedIngredients([availableIngredients[0],availableIngredients[1],availableIngredients[3],availableIngredients[10],availableIngredients[9],availableIngredients[2],availableIngredients[2],availableIngredients[5],availableIngredients[2]])
+      setSelectedIngredients([
+        availableIngredients[0],
+        availableIngredients[3],
+        availableIngredients[1],
+        availableIngredients[10],
+        availableIngredients[9],
+        availableIngredients[2],
+        availableIngredients[4],
+        availableIngredients[3],
+        availableIngredients[6]])
     }
     },[availableIngredients])
 

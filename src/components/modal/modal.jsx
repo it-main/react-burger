@@ -5,26 +5,27 @@ import { clsx } from "clsx";
 import {useEffect} from "react";
 import {createPortal} from "react-dom";
 import PropTypes from "prop-types";
+
 function Modal(props) {
-  const { setActive, header, children } = props;
+  const { closeModal, header, children } = props;
 
   useEffect(() => {
     const handleKeydown = ({ key }) => {
-    key==='Escape' && setActive(false);
+    key==='Escape' && closeModal();
   }
-    document.addEventListener('keydown', handleKeydown)
+    document.addEventListener('keydown', handleKeydown);
     return () => {
-      document.removeEventListener('keydown', handleKeydown)
+      document.removeEventListener('keydown', handleKeydown);
     }
-  })
+  }, []);
 
   return createPortal(
-    <ModalOverlay setActive={setActive}>
+    <ModalOverlay closeModal={closeModal}>
         <div className={styles.modal} onClick={event => event.stopPropagation()}>
           <header className={clsx(styles.header, "pt-10 pl-10 pr-10")}>
             <h1 className={"text text_type_main-large"}>{header}</h1>
             <div className={styles.closeIcon} >
-              <CloseIcon type="primary" onClick={() => setActive(false)}/>
+              <CloseIcon type="primary" onClick={() => closeModal()}/>
             </div>
           </header>
           {children}
@@ -36,7 +37,7 @@ function Modal(props) {
 
 Modal.propTypes = {
   header: PropTypes.string,
-  setActive: PropTypes.func
+  closeModal: PropTypes.func.isRequired,
 };
 
 export default Modal;

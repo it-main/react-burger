@@ -8,9 +8,9 @@ import PropTypes from "prop-types";
 import {ingredientPropType} from "../../utils/prop-types";
 
 function BurgerIngredient(props) {
-  const { ingredientData, setDataIngredientDetails, count } = props;
+  const { ingredientData, openModalIngredient, count } = props;
   return (
-    <article className={styles.ingredient} onClick={() => setDataIngredientDetails({data: ingredientData, active: true})}>
+    <article className={styles.ingredient} onClick={() => openModalIngredient(ingredientData)}>
       {count > 0 && <Counter count={count} size="default" extraClass="m-1" />}
       <img
         className={clsx(styles.image)}
@@ -30,7 +30,7 @@ function BurgerIngredient(props) {
 
 BurgerIngredient.propTypes = {
   ingredientData: ingredientPropType.isRequired,
-  setDataIngredientDetails: PropTypes.func,
+  openModalIngredient: PropTypes.func,
   count: PropTypes.number,
 };
 

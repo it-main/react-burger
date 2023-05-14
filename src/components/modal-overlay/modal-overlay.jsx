@@ -1,11 +1,11 @@
 import styles from "./modal-overlay.module.css";
 import PropTypes from "prop-types";
 
-function ModalOverlay({ children, setActive }) {
+function ModalOverlay({ children, closeModal }) {
   return (
     <div
       className={styles.modalOverlay}
-      onClick={() => setActive(false)}
+      onClick={() => closeModal()}
       >
       {children}
     </div>
@@ -13,7 +13,7 @@ function ModalOverlay({ children, setActive }) {
 }
 
 ModalOverlay.propTypes = {
-  setActive: PropTypes.func
+  closeModal: PropTypes.func.isRequired,
 };
 
 export default ModalOverlay;

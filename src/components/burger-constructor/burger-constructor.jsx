@@ -5,19 +5,18 @@ import {
   CurrencyIcon,
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-
 import styles from "./burger-constructor.module.css";
 import { clsx } from "clsx";
 import PropTypes from "prop-types";
 import OrderDetails from "../order-details/order-details";
 import Modal from "../modal/modal";
 import {ingredientPropType} from "../../utils/prop-types";
+import {useModal} from "../../hooks/useModal";
 
 function BurgerConstructor(props) {
   const { selectedIngredients } = props;
   const [sum, setSum] = useState(0);
-  const [activeOrderDetails, setActiveOrderDetails] = useState(false);
-
+  const { isModalOpen, openModal, closeModal } = useModal();
   const handleSetSum = (newSum) => {
     setSum(newSum);
   };
@@ -31,7 +30,7 @@ function BurgerConstructor(props) {
   }, [selectedIngredients]);
 
   const handlePlaceOrder = () => {
-    setActiveOrderDetails(true);
+    openModal();
   };
 
   const elementBun = selectedIngredients.find((elem) => elem.type === "bun");
@@ -42,32 +41,33 @@ function BurgerConstructor(props) {
     <section className={clsx(styles.burgerConstructor, "pt-15")}>
       <div className={clsx(styles.burgerElements)}>
         {elementBun &&
-          ["Top", "Bottom"].map((element) => {
-            const uuid = crypto.randomUUID();
+          ["Top", "Bottom"].map((element, index) => {
+            const {name, price, image, _id} = elementBun;
             return (
               <div
                 className={clsx(styles[`bun${element}`], styles.bun)}
-                key={uuid}
+                //т.к. булки 2шт, _id использовать не получилось
+                key={_id+index.toString()}
               >
                 <ConstructorElement
                   type={element.toLowerCase()}
                   isLocked={true}
-                  text={elementBun.name}
-                  price={elementBun.price}
-                  thumbnail={elementBun.image}
+                  text={name + ` ${element==="Top" ? "(верх)" : "(низ)"}`}
+                  price={price}
+                  thumbnail={image}
                 />
               </div>
             );
           })}
 
         <ul className={clsx(styles.burgerFillingList, "custom-scroll")}>
-          {elementsFilling.map((element) => {
-            const { name, price, image } = element;
-            const uuid = crypto.randomUUID();
+          {elementsFilling.map((element, index) => {
+            const { name, price, image, _id } = element;
             return (
               <li
                 className={clsx(styles.burgerFillingElement, "ml-4")}
-                key={uuid}
+                //элементы могут повторяться, _id использовать не получилось
+                key={_id+index.toString()}
               >
                 <DragIcon type={"primary"} />
                 <ConstructorElement
@@ -96,7 +96,7 @@ function BurgerConstructor(props) {
         </Button>
       </div>
     </section>
-    {activeOrderDetails && (<Modal setActive={setActiveOrderDetails}> <OrderDetails /> </Modal>)}
+    {isModalOpen && (<Modal closeModal={closeModal}> <OrderDetails /> </Modal>)}
   </>
   );
 }

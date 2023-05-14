@@ -7,6 +7,8 @@ import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import PropTypes from "prop-types";
 import {ingredientPropType} from "../../utils/prop-types";
+import {useModal} from "../../hooks/useModal";
+
 
 function Tabs({ ingredientsTypes }) {
   const [current, setCurrentTab] = useState("bun");
@@ -83,9 +85,12 @@ function BurgerIngredients(props) {
     { type: "sauce", typeRus: "Соусы" },
     { type: "main", typeRus: "Начинки" },
   ];
-  const [dataIngredientDetails, setDataIngredientDetails] = useState({active: false});
-  const setActiveIngredientDetails = (active) => {
-    setDataIngredientDetails(active ? {...dataIngredientDetails, active} : {active: false})
+
+  const { isModalOpen, openModal, closeModal } = useModal();
+  const [ingredient, setIngredient] = useState(undefined);
+  const openModalIngredient = (ingredientDetails) => {
+    setIngredient(ingredientDetails);
+    openModal();
   }
 
   return (
@@ -93,11 +98,11 @@ function BurgerIngredients(props) {
     <section className={styles.burgerIngredients}>
       <h1 className={`mb-5 text text_type_main-large`}>Соберите бургер</h1>
       <Tabs ingredientsTypes={ingredientsTypes} />
-      <IngredientsTypesList ingredientsTypes={ingredientsTypes} setDataIngredientDetails={setDataIngredientDetails} {...props}/>
+      <IngredientsTypesList ingredientsTypes={ingredientsTypes} openModalIngredient={openModalIngredient} {...props}/>
     </section>
-    {dataIngredientDetails.active &&
-      (<Modal header={"Детали ингредиента"} setActive={setActiveIngredientDetails}>
-        <IngredientDetails {...dataIngredientDetails}/>
+    {isModalOpen &&
+      (<Modal header={"Детали ингредиента"} closeModal={closeModal}>
+        <IngredientDetails ingredient={ingredient}/>
       </Modal>)
     }
     </>
@@ -107,6 +112,21 @@ function BurgerIngredients(props) {
 BurgerIngredients.propTypes = {
   availableIngredients: PropTypes.arrayOf(ingredientPropType),
   selectedIngredients: PropTypes.arrayOf(ingredientPropType),
-}
+};
+
+IngredientsTypesList.propTypes = {
+  ingredientsTypes: PropTypes.arrayOf(PropTypes.shape({type: PropTypes.string, typeRus: PropTypes.string})),
+  availableIngredients: PropTypes.arrayOf(ingredientPropType),
+};
+
+IngredientsList.propTypes = {
+  ingredients: PropTypes.arrayOf(ingredientPropType),
+  selectedIngredients: PropTypes.arrayOf(ingredientPropType),
+};
+
+Tabs.propTypes = {
+  ingredientsTypes: PropTypes.arrayOf(PropTypes.shape({type: PropTypes.string, typeRus: PropTypes.string})),
+};
+
 
 export default BurgerIngredients;

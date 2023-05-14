@@ -1,5 +1,7 @@
 import styles from "./ingredient-details.module.css"
 import {clsx} from "clsx";
+import {ingredientPropType} from "../../utils/prop-types";
+import PropTypes from "prop-types";
 
 function NutritionalValue({title, value}) {
   return (
@@ -10,8 +12,8 @@ function NutritionalValue({title, value}) {
   )
 }
 
-function IngredientDetails({data}) {
-  const {name, image, calories, proteins, fat, carbohydrates} = data;
+function IngredientDetails({ingredient}) {
+  const {name, image, calories, proteins, fat, carbohydrates} = ingredient;
 
   return (
     <div className={clsx(styles.ingredientDetails, "pl-25 pr-25 pb-15")}>
@@ -26,5 +28,15 @@ function IngredientDetails({data}) {
     </div>
   )
 }
+
+IngredientDetails.propTypes = {
+  ingredient: ingredientPropType
+}
+
+NutritionalValue.propTypes = {
+  title: PropTypes.string.isRequired,
+  value: PropTypes.number.isRequired,
+}
+
 
 export default IngredientDetails;
