@@ -1,0 +1,61 @@
+.burgerConstructor {
+  width: calc(50% - 20px);
+  padding-bottom: 52px;
+  height: calc(100% - 112px);
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.burgerElements {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  min-height: 176px;
+}
+
+.burgerFillingList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  overflow: auto;
+  order: 1;
+}
+
+.burgerFillingElement {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bun {
+  margin-left: 48px;
+}
+
+.bunTop {
+  order: 0;
+}
+
+.bunBottom {
+  order: 2;
+}
+
+.info {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: 40px;
+  margin-right: 16px;
+}
+
+.sum {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
