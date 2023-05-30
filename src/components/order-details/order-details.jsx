@@ -1,15 +1,16 @@
 import styles from "./order-details.module.css";
 import { clsx } from "clsx";
 import done from "../../images/done.svg";
-import { useState } from "react";
+import {useContext} from "react";
+import {OrderIdContext} from "../../services/burgerConstructorContext";
 function OrderDetails() {
-  const [orderNumber, setOrderNumber] = useState("034536");
+  const orderId = useContext(OrderIdContext);
   return (
     <div className={clsx(styles.orderDetails, "pt-4 pr-25 pb-30 pl-25")}>
       <h2
         className={clsx("text text_type_digits-large mb-8", styles.orderNumber)}
       >
-        {orderNumber}
+        {orderId.id}
       </h2>
       <span className={clsx("text text_type_main-medium mb-15")}>
         Идентификатор заказа

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect, useContext, useReducer} from "react";
 import {
   Button,
   ConstructorElement,
@@ -12,29 +12,45 @@ import OrderDetails from "../order-details/order-details";
 import Modal from "../modal/modal";
 import {ingredientPropType} from "../../utils/prop-types";
 import {useModal} from "../../hooks/useModal";
+import {SelectedIngredientsContext} from "../../services/appContext";
+import {OrderIdContext} from "../../services/burgerConstructorContext";
+import {checkResponse, sendRequest} from "../../utils/api";
 
-function BurgerConstructor(props) {
-  const { selectedIngredients } = props;
-  const [sum, setSum] = useState(0);
+function BurgerConstructor() {
+
   const { isModalOpen, openModal, closeModal } = useModal();
-  const handleSetSum = (newSum) => {
-    setSum(newSum);
-  };
-
-  useEffect(() => {
-    let newSum = 0;
-    selectedIngredients.forEach((elem) => {
-      newSum += elem.price;
-    });
-    handleSetSum(newSum);
-  }, [selectedIngredients]);
+  const [selectedIngredients,setSelectedIngredients] = useContext(SelectedIngredientsContext).selectedIngredientsState;
+  const sumIngredients = useContext(SelectedIngredientsContext).sumIngredients;
+  const [orderId, setOrderId] = useState({});
 
   const handlePlaceOrder = () => {
-    openModal();
+    const requestInit = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ingredients: [...selectedIngredients.bun, ...selectedIngredients.fillings].map(elem => elem._id)}),
+    }
+
+    sendRequest('orders', requestInit)
+      .then(checkResponse)
+      .then(json => {
+        if (json.success) {
+          setOrderId({id:json.order.number});
+          openModal();
+        } else {
+          console.log("Произошла ошибка, попробуйте еще раз");
+        }
+      })
+      .catch(error => {
+        console.log(`Ошибка при загрузке данных с сервера ${error}`);
+      });
+
+    //setSelectedIngredients({type: 'addIngredient', ingredient: selectedIngredients.fillings[3]})
   };
 
-  const elementBun = selectedIngredients.find((elem) => elem.type === "bun");
-  const elementsFilling = selectedIngredients.filter((elem) => elem.type !== "bun");
+  const elementBun = selectedIngredients.bun[0];
+  const elementsFillings = selectedIngredients.fillings;
 
   return (
     <>
@@ -46,7 +62,6 @@ function BurgerConstructor(props) {
             return (
               <div
                 className={clsx(styles[`bun${element}`], styles.bun)}
-                //т.к. булки 2шт, _id использовать не получилось
                 key={_id+index.toString()}
               >
                 <ConstructorElement
@@ -61,12 +76,11 @@ function BurgerConstructor(props) {
           })}
 
         <ul className={clsx(styles.burgerFillingList, "custom-scroll")}>
-          {elementsFilling.map((element, index) => {
+          {elementsFillings.map((element, index) => {
             const { name, price, image, _id } = element;
             return (
               <li
                 className={clsx(styles.burgerFillingElement, "ml-4")}
-                //элементы могут повторяться, _id использовать не получилось
                 key={_id+index.toString()}
               >
                 <DragIcon type={"primary"} />
@@ -83,7 +97,7 @@ function BurgerConstructor(props) {
 
       <div className={clsx(styles.info)}>
         <span className={clsx("text text_type_digits-medium", styles.sum)}>
-          <p className={"text"}>{sum}</p>
+          <p className={"text"}>{sumIngredients.price}</p>
           <CurrencyIcon type="primary"/>
         </span>
         <Button
@@ -96,13 +110,18 @@ function BurgerConstructor(props) {
         </Button>
       </div>
     </section>
-    {isModalOpen && (<Modal closeModal={closeModal}> <OrderDetails /> </Modal>)}
+    {isModalOpen && (
+      <Modal closeModal={closeModal}>
+        <OrderIdContext.Provider value={orderId}>
+          <OrderDetails />
+        </OrderIdContext.Provider>
+      </Modal>)}
   </>
   );
 }
 
-BurgerConstructor.propTypes = {
-  selectedIngredients: PropTypes.arrayOf(ingredientPropType)
-}
+// BurgerConstructor.propTypes = {
+//   selectedIngredients: PropTypes.arrayOf(ingredientPropType)
+// }
 
 export default BurgerConstructor;
