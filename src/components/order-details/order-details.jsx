@@ -3,6 +3,7 @@ import { clsx } from "clsx";
 import done from "../../images/done.svg";
 import {useContext} from "react";
 import {OrderIdContext} from "../../services/burgerConstructorContext";
+
 function OrderDetails() {
   const orderId = useContext(OrderIdContext);
   return (
@@ -33,5 +34,4 @@ function OrderDetails() {
     </div>
   );
 }
-
 export default OrderDetails;

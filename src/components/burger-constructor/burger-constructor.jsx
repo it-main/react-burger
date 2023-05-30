@@ -7,10 +7,8 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-constructor.module.css";
 import { clsx } from "clsx";
-import PropTypes from "prop-types";
 import OrderDetails from "../order-details/order-details";
 import Modal from "../modal/modal";
-import {ingredientPropType} from "../../utils/prop-types";
 import {useModal} from "../../hooks/useModal";
 import {SelectedIngredientsContext} from "../../services/appContext";
 import {OrderIdContext} from "../../services/burgerConstructorContext";
@@ -19,7 +17,7 @@ import {checkResponse, sendRequest} from "../../utils/api";
 function BurgerConstructor() {
 
   const { isModalOpen, openModal, closeModal } = useModal();
-  const [selectedIngredients,setSelectedIngredients] = useContext(SelectedIngredientsContext).selectedIngredientsState;
+  const [selectedIngredients] = useContext(SelectedIngredientsContext).selectedIngredientsState;
   const sumIngredients = useContext(SelectedIngredientsContext).sumIngredients;
   const [orderId, setOrderId] = useState({});
 
@@ -45,8 +43,6 @@ function BurgerConstructor() {
       .catch(error => {
         console.log(`Ошибка при загрузке данных с сервера ${error}`);
       });
-
-    //setSelectedIngredients({type: 'addIngredient', ingredient: selectedIngredients.fillings[3]})
   };
 
   const elementBun = selectedIngredients.bun[0];
@@ -119,9 +115,5 @@ function BurgerConstructor() {
   </>
   );
 }
-
-// BurgerConstructor.propTypes = {
-//   selectedIngredients: PropTypes.arrayOf(ingredientPropType)
-// }
 
 export default BurgerConstructor;

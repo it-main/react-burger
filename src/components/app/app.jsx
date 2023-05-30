@@ -10,10 +10,8 @@ function App() {
 
   const [availableIngredients, setAvailableIngredients] = useState([]);
   const [statusData, setStatusData] = useState(undefined);
-
   const selectedIngredientsState= useReducer(reducerSelectedIngredients, {bun: [], fillings: []}, undefined);
   const [selectedIngredients, setSelectedIngredients] = selectedIngredientsState;
-
   const [sumIngredients, dispatchSumIngredients] = useReducer(reducerBurgerSum, {price: 0}, undefined);
 
   function reducerBurgerSum (state, action) {
