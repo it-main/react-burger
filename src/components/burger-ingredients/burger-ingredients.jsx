@@ -37,8 +37,8 @@ function Tabs({ ingredientsTypes }) {
   );
 }
 
-function IngredientsList({ ingredients }) {
-
+function IngredientsList(props) {
+  const { ingredients } = props;
   const [ selectedIngredients ] = useContext(SelectedIngredientsContext).selectedIngredientsState;
 
   return (
@@ -49,6 +49,7 @@ function IngredientsList({ ingredients }) {
           <BurgerIngredient
             ingredientData={ingredientData}
             count={count}
+            openModalIngredient={props.openModalIngredient}
             key={ingredientData._id}
           />
         );
