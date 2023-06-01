@@ -2,7 +2,7 @@ import styles from "./order-details.module.css";
 import { clsx } from "clsx";
 import done from "../../images/done.svg";
 import {useContext} from "react";
-import {OrderIdContext} from "../../services/burgerConstructorContext";
+import {OrderIdContext} from "../../services/burger-constructor-context";
 
 function OrderDetails() {
   const orderId = useContext(OrderIdContext);

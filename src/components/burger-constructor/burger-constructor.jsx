@@ -10,8 +10,8 @@ import { clsx } from "clsx";
 import OrderDetails from "../order-details/order-details";
 import Modal from "../modal/modal";
 import {useModal} from "../../hooks/useModal";
-import {SelectedIngredientsContext} from "../../services/appContext";
-import {OrderIdContext} from "../../services/burgerConstructorContext";
+import {SelectedIngredientsContext} from "../../services/selected-ingredients-context";
+import {OrderIdContext} from "../../services/burger-constructor-context";
 import {checkResponse, sendRequest} from "../../utils/api";
 
 function BurgerConstructor() {

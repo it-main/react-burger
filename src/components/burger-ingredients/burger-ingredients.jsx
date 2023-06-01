@@ -8,8 +8,7 @@ import IngredientDetails from "../ingredient-details/ingredient-details";
 import PropTypes from "prop-types";
 import {ingredientPropType} from "../../utils/prop-types";
 import {useModal} from "../../hooks/useModal";
-import {SelectedIngredientsContext} from "../../services/appContext";
-
+import {SelectedIngredientsContext} from "../../services/selected-ingredients-context";
 
 function Tabs({ ingredientsTypes }) {
   const [current, setCurrentTab] = useState("bun");
@@ -73,7 +72,6 @@ function IngredientsTypesList(props) {
             >
               {typeRus}
             </h2>
-
             <IngredientsList ingredients={ingredients} {...props} />
           </li>
         );
@@ -114,21 +112,21 @@ function BurgerIngredients(props) {
 }
 
 BurgerIngredients.propTypes = {
-  availableIngredients: PropTypes.arrayOf(ingredientPropType)
+  availableIngredients: PropTypes.arrayOf(ingredientPropType).isRequired
 };
 
 IngredientsTypesList.propTypes = {
-  ingredientsTypes: PropTypes.arrayOf(PropTypes.shape({type: PropTypes.string, typeRus: PropTypes.string})),
-  availableIngredients: PropTypes.arrayOf(ingredientPropType),
-  openModalIngredient: PropTypes.func,
+  ingredientsTypes: PropTypes.arrayOf(PropTypes.shape({type: PropTypes.string, typeRus: PropTypes.string})).isRequired,
+  availableIngredients: PropTypes.arrayOf(ingredientPropType).isRequired,
+  openModalIngredient: PropTypes.func.isRequired,
 };
 
 IngredientsList.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientPropType)
+  ingredients: PropTypes.arrayOf(ingredientPropType).isRequired
 };
 
 Tabs.propTypes = {
-  ingredientsTypes: PropTypes.arrayOf(PropTypes.shape({type: PropTypes.string, typeRus: PropTypes.string})),
+  ingredientsTypes: PropTypes.arrayOf(PropTypes.shape({type: PropTypes.string, typeRus: PropTypes.string})).isRequired,
 };
 
 

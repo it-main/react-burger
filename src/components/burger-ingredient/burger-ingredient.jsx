@@ -30,8 +30,8 @@ function BurgerIngredient(props) {
 
 BurgerIngredient.propTypes = {
   ingredientData: ingredientPropType.isRequired,
-  openModalIngredient: PropTypes.func,
-  count: PropTypes.number,
+  openModalIngredient: PropTypes.func.isRequired,
+  count: PropTypes.number.isRequired,
 };
 
 export default BurgerIngredient;

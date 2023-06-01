@@ -3,37 +3,38 @@ import AppHeader from "../app-header/app-header";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import {useEffect, useReducer, useState} from "react";
-import {SelectedIngredientsContext} from "../../services/appContext";
+import {SelectedIngredientsContext} from "../../services/selected-ingredients-context";
 import {sendRequest, checkResponse} from "../../utils/api";
 
 function App() {
 
   const [availableIngredients, setAvailableIngredients] = useState([]);
   const [statusData, setStatusData] = useState(undefined);
-  const selectedIngredientsState= useReducer(reducerSelectedIngredients, {bun: [], fillings: []}, undefined);
+  const selectedIngredientsState = useReducer(reducerSelectedIngredients, {bun: [], fillings: []}, undefined);
   const [selectedIngredients, setSelectedIngredients] = selectedIngredientsState;
   const [sumIngredients, dispatchSumIngredients] = useReducer(reducerBurgerSum, {price: 0}, undefined);
 
-  function reducerBurgerSum (state, action) {
-    switch (action.type) {
-      case 'price':
-        const price = selectedIngredients.bun.reduce((sum, element) => sum + element.price * 2, 0) +
-          selectedIngredients.fillings.reduce((sum, element) => sum + element.price, 0);
-        return {price: price}
-      default: return state;
+  function reducerBurgerSum(state, action) {
+    if (action.type === 'price') {
+      const price = selectedIngredients.bun.reduce((sum, element) => sum + element.price * 2, 0) +
+        selectedIngredients.fillings.reduce((sum, element) => sum + element.price, 0);
+      return {price: price}
     }
+    return state;
   }
+
   function reducerSelectedIngredients(state, action) {
     switch (action.type) {
       case "addIngredient":
         return action.ingredient.type === 'bun'
           ? {bun: [action.ingredient], fillings: [...state.fillings]}
           : {...state, fillings: [...state.fillings, action.ingredient]};
-      default: return state;
+      default:
+        return state;
     }
   }
 
- const handleSetData = dataIngredients => {
+  const handleSetData = dataIngredients => {
     setStatusData(dataIngredients.status);
     if (dataIngredients.status) {
       setAvailableIngredients(dataIngredients.data);
@@ -54,39 +55,42 @@ function App() {
 
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     if (!selectedIngredients.bun.length && !selectedIngredients.fillings.length) {
-    availableIngredients.forEach(element => {
-      setSelectedIngredients({type: "addIngredient", ingredient: element});
-     })}
+      availableIngredients.forEach(element => {
+        setSelectedIngredients({type: "addIngredient", ingredient: element});
+      })
+    }
   }, [availableIngredients])
 
   useEffect(() => {
     dispatchSumIngredients({type: "price"})
   }, [selectedIngredients])
 
+  function DownloadStatus() {
+    switch (statusData) {
+      case undefined:
+        return (<p className={"text_type_main-medium"}>Загрузка данных...</p>);
+      case false:
+        return (<p>Произошла ошибка при загрузке данных с сервера, попробуйте обновить страницу</p>);
+      default:
+        return undefined;
+    }
+  }
+
   return (
     <div className={`${styles.page}`}>
-      <AppHeader />
+      <AppHeader/>
+      <DownloadStatus/>
       <main className={styles.content}>
-        {statusData === undefined ? (
-          <p className={"text_type_main-medium"}>Загрузка данных...</p>
-        ) : statusData ? (
-          <SelectedIngredientsContext.Provider value={{selectedIngredientsState, sumIngredients}}>
-            <BurgerIngredients
-              availableIngredients={availableIngredients}
-            />
-            <BurgerConstructor />
-           </SelectedIngredientsContext.Provider>
-        ) : (
-          <p>
-            Произошла ошибка при загрузке данных с сервера, попробуйте обновить
-            страницу
-          </p>
-        )}
+        <SelectedIngredientsContext.Provider value={{selectedIngredientsState, sumIngredients}}>
+          <BurgerIngredients
+            availableIngredients={availableIngredients}
+          />
+          <BurgerConstructor/>
+        </SelectedIngredientsContext.Provider>
       </main>
     </div>
   );
 }
-
 export default App;
