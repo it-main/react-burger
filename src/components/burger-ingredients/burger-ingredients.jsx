@@ -1,6 +1,6 @@
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
-import React, { useState } from "react";
+import React, {useContext, useState} from "react";
 import BurgerIngredient from "../burger-ingredient/burger-ingredient";
 import { clsx } from "clsx";
 import Modal from "../modal/modal";
@@ -8,7 +8,7 @@ import IngredientDetails from "../ingredient-details/ingredient-details";
 import PropTypes from "prop-types";
 import {ingredientPropType} from "../../utils/prop-types";
 import {useModal} from "../../hooks/useModal";
-
+import {SelectedIngredientsContext} from "../../services/selected-ingredients-context";
 
 function Tabs({ ingredientsTypes }) {
   const [current, setCurrentTab] = useState("bun");
@@ -37,16 +37,18 @@ function Tabs({ ingredientsTypes }) {
 }
 
 function IngredientsList(props) {
-  const { ingredients, selectedIngredients } = props;
+  const { ingredients } = props;
+  const [ selectedIngredients ] = useContext(SelectedIngredientsContext).selectedIngredientsState;
+
   return (
     <ul className={clsx(styles.ingredientsList, "pl-4 pr-1")}>
       {ingredients.map((ingredientData) => {
-        const count =  selectedIngredients.filter(elem => elem._id === ingredientData._id).length;
+        const count =  [...selectedIngredients.fillings, ...selectedIngredients.bun].filter(elem => elem._id === ingredientData._id).length;
         return (
           <BurgerIngredient
             ingredientData={ingredientData}
-            {...props}
             count={count}
+            openModalIngredient={props.openModalIngredient}
             key={ingredientData._id}
           />
         );
@@ -110,22 +112,21 @@ function BurgerIngredients(props) {
 }
 
 BurgerIngredients.propTypes = {
-  availableIngredients: PropTypes.arrayOf(ingredientPropType),
-  selectedIngredients: PropTypes.arrayOf(ingredientPropType),
+  availableIngredients: PropTypes.arrayOf(ingredientPropType).isRequired
 };
 
 IngredientsTypesList.propTypes = {
-  ingredientsTypes: PropTypes.arrayOf(PropTypes.shape({type: PropTypes.string, typeRus: PropTypes.string})),
-  availableIngredients: PropTypes.arrayOf(ingredientPropType),
+  ingredientsTypes: PropTypes.arrayOf(PropTypes.shape({type: PropTypes.string, typeRus: PropTypes.string})).isRequired,
+  availableIngredients: PropTypes.arrayOf(ingredientPropType).isRequired,
+  openModalIngredient: PropTypes.func.isRequired,
 };
 
 IngredientsList.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientPropType),
-  selectedIngredients: PropTypes.arrayOf(ingredientPropType),
+  ingredients: PropTypes.arrayOf(ingredientPropType).isRequired
 };
 
 Tabs.propTypes = {
-  ingredientsTypes: PropTypes.arrayOf(PropTypes.shape({type: PropTypes.string, typeRus: PropTypes.string})),
+  ingredientsTypes: PropTypes.arrayOf(PropTypes.shape({type: PropTypes.string, typeRus: PropTypes.string})).isRequired,
 };
 
 

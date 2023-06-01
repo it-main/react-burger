@@ -30,7 +30,7 @@ function IngredientDetails({ingredient}) {
 }
 
 IngredientDetails.propTypes = {
-  ingredient: ingredientPropType
+  ingredient: ingredientPropType.isRequired
 }
 
 NutritionalValue.propTypes = {
