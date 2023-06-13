@@ -9,6 +9,7 @@ import PropTypes from "prop-types";
 import {ingredientPropType} from "../../utils/prop-types";
 import {useModal} from "../../hooks/useModal";
 import {SelectedIngredientsContext} from "../../services/selected-ingredients-context";
+import {useSelector} from "react-redux";
 
 function Tabs({ ingredientsTypes }) {
   const [current, setCurrentTab] = useState("bun");
@@ -38,12 +39,13 @@ function Tabs({ ingredientsTypes }) {
 
 function IngredientsList(props) {
   const { ingredients } = props;
-  const [ selectedIngredients ] = useContext(SelectedIngredientsContext).selectedIngredientsState;
+  //const [ selectedIngredients ] = useContext(SelectedIngredientsContext).selectedIngredientsState;
+  const selectedIngredients = useSelector(state => state.ingredients.selectedIngredients);
 
   return (
     <ul className={clsx(styles.ingredientsList, "pl-4 pr-1")}>
       {ingredients.map((ingredientData) => {
-        const count =  [...selectedIngredients.fillings, ...selectedIngredients.bun].filter(elem => elem._id === ingredientData._id).length;
+        const count = 0// [...selectedIngredients.fillings, ...selectedIngredients.bun].filter(elem => elem._id === ingredientData._id).length;
         return (
           <BurgerIngredient
             ingredientData={ingredientData}
@@ -58,7 +60,8 @@ function IngredientsList(props) {
 }
 
 function IngredientsTypesList(props) {
-  const { ingredientsTypes, availableIngredients } = props;
+  const { ingredientsTypes } = props;
+  const availableIngredients = useSelector(state => state.ingredients.availableIngredients);
   return (
     <ul className={clsx(styles.ingredientsTypesList, "custom-scroll")}>
       {ingredientsTypes.map((ingredientTypes, index) => {
@@ -72,7 +75,7 @@ function IngredientsTypesList(props) {
             >
               {typeRus}
             </h2>
-            <IngredientsList ingredients={ingredients} {...props} />
+             <IngredientsList ingredients={ingredients} {...props} />
           </li>
         );
       })}
@@ -100,33 +103,33 @@ function BurgerIngredients(props) {
     <section className={styles.burgerIngredients}>
       <h1 className={`mb-5 text text_type_main-large`}>Соберите бургер</h1>
       <Tabs ingredientsTypes={ingredientsTypes} />
-      <IngredientsTypesList ingredientsTypes={ingredientsTypes} openModalIngredient={openModalIngredient} {...props}/>
+      <IngredientsTypesList ingredientsTypes={ingredientsTypes} openModalIngredient={openModalIngredient}/>
     </section>
-    {isModalOpen &&
-      (<Modal header={"Детали ингредиента"} closeModal={closeModal}>
-        <IngredientDetails ingredient={ingredient}/>
-      </Modal>)
-    }
+    {/*{isModalOpen &&*/}
+    {/*  (<Modal header={"Детали ингредиента"} closeModal={closeModal}>*/}
+    {/*    <IngredientDetails ingredient={ingredient}/>*/}
+    {/*  </Modal>)*/}
+    {/*}*/}
     </>
   );
 }
 
 BurgerIngredients.propTypes = {
-  availableIngredients: PropTypes.arrayOf(ingredientPropType).isRequired
+//  availableIngredients: PropTypes.arrayOf(ingredientPropType).isRequired
 };
 
 IngredientsTypesList.propTypes = {
-  ingredientsTypes: PropTypes.arrayOf(PropTypes.shape({type: PropTypes.string, typeRus: PropTypes.string})).isRequired,
-  availableIngredients: PropTypes.arrayOf(ingredientPropType).isRequired,
-  openModalIngredient: PropTypes.func.isRequired,
+//  ingredientsTypes: PropTypes.arrayOf(PropTypes.shape({type: PropTypes.string, typeRus: PropTypes.string})).isRequired,
+//  availableIngredients: PropTypes.arrayOf(ingredientPropType).isRequired,
+//  openModalIngredient: PropTypes.func.isRequired,
 };
 
 IngredientsList.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientPropType).isRequired
+//  ingredients: PropTypes.arrayOf(ingredientPropType).isRequired
 };
 
 Tabs.propTypes = {
-  ingredientsTypes: PropTypes.arrayOf(PropTypes.shape({type: PropTypes.string, typeRus: PropTypes.string})).isRequired,
+//  ingredientsTypes: PropTypes.arrayOf(PropTypes.shape({type: PropTypes.string, typeRus: PropTypes.string})).isRequired,
 };
 
 

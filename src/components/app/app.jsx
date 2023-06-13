@@ -4,15 +4,19 @@ import BurgerConstructor from "../burger-constructor/burger-constructor";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import {useEffect, useReducer, useState} from "react";
 import {SelectedIngredientsContext} from "../../services/selected-ingredients-context";
-import {sendRequest, checkResponse} from "../../utils/api";
+import {getIngredients} from "../../services/actions/ingredients";
+import {useDispatch, useSelector} from "react-redux";
 
 function App() {
 
-  const [availableIngredients, setAvailableIngredients] = useState([]);
-  const [statusData, setStatusData] = useState(undefined);
+  //const [availableIngredients, setAvailableIngredients] = useState([]);
+  //const [statusData, setStatusData] = useState(undefined);
   const selectedIngredientsState = useReducer(reducerSelectedIngredients, {bun: [], fillings: []}, undefined);
-  const [selectedIngredients, setSelectedIngredients] = selectedIngredientsState;
-  const [sumIngredients, dispatchSumIngredients] = useReducer(reducerBurgerSum, {price: 0}, undefined);
+  //const [selectedIngredients, setSelectedIngredients] = selectedIngredientsState;
+  const [sumIngredients, dispatchSumIngredients, selectedIngredients] = useReducer(reducerBurgerSum, {price: 0}, undefined);
+
+  const dispatch = useDispatch();
+  const {availableIngredients, statusAvailableIngredients} = useSelector(state => state.ingredients);
 
   function reducerBurgerSum(state, action) {
     if (action.type === 'price') {
@@ -34,31 +38,35 @@ function App() {
     }
   }
 
-  const handleSetData = dataIngredients => {
-    setStatusData(dataIngredients.status);
-    if (dataIngredients.status) {
-      setAvailableIngredients(dataIngredients.data);
-    }
-  }
+  // const handleSetData = dataIngredients => {
+  //   setStatusData(dataIngredients.status);
+  //   if (dataIngredients.status) {
+  //     setAvailableIngredients(dataIngredients.data);
+  //   }
+  // }
 
   useEffect(() => {
-    sendRequest('ingredients')
-      .then(checkResponse)
-      .then(json => {
-        const dataIngredients = json.success ? {status: json.success, data: json.data} : {status: false};
-        handleSetData(dataIngredients);
-      })
-      .catch(error => {
-        console.log(`Ошибка при загрузке данных с сервера ${error}`);
-        handleSetData({status: false})
-      });
+    // sendRequest('ingredients')
+    //     //   .then(checkResponse)
+    //     //   .then(json => {
+    //     //     const dataIngredients = json.success ? {status: json.success, data: json.data} : {status: false};
+    //     //     handleSetData(dataIngredients);
+    //     //   })
+    //     //   .catch(error => {
+    //     //     console.log(`Ошибка при загрузке данных с сервера ${error}`);
+    //     //     handleSetData({status: false})
+    //     //   });
+    dispatch(getIngredients());
 
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (!selectedIngredients.bun.length && !selectedIngredients.fillings.length) {
       availableIngredients.forEach(element => {
-        setSelectedIngredients({type: "addIngredient", ingredient: element});
+        //setSelectedIngredients({type: "addIngredient", ingredient: element});
+        dispatch({
+          selectedIngredients
+        })
       })
     }
   }, [availableIngredients])
@@ -68,7 +76,7 @@ function App() {
   }, [selectedIngredients])
 
   function DownloadStatus() {
-    switch (statusData) {
+    switch (statusAvailableIngredients) {
       case undefined:
         return (<p className={"text_type_main-medium"}>Загрузка данных...</p>);
       case false:
@@ -83,12 +91,10 @@ function App() {
       <AppHeader/>
       <DownloadStatus/>
       <main className={styles.content}>
-        <SelectedIngredientsContext.Provider value={{selectedIngredientsState, sumIngredients}}>
-          <BurgerIngredients
-            availableIngredients={availableIngredients}
-          />
-          <BurgerConstructor/>
-        </SelectedIngredientsContext.Provider>
+    {/*    <SelectedIngredientsContext.Provider value={{selectedIngredientsState, sumIngredients}}>*/}
+          <BurgerIngredients />
+    {/*      <BurgerConstructor/>*/}
+    {/*    </SelectedIngredientsContext.Provider>*/}
       </main>
     </div>
   );
