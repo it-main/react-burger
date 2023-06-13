@@ -1,13 +1,19 @@
 import {
-  ADD_INGREDIENT_DETAILS, DELETE_INGREDIENT_DETAILS,
+  ADD_INGREDIENT_DETAILS,
+  DELETE_INGREDIENT_DETAILS,
   GET_INGREDIENTS_REQUEST,
   GET_INGREDIENTS_CONSTRUCTOR,
-  GET_ORDER_NUMBER, GET_INGREDIENTS_SUCCESS, GET_INGREDIENTS_FAILED
+  GET_ORDER_NUMBER,
+  GET_INGREDIENTS_SUCCESS,
+  GET_INGREDIENTS_FAILED, ADD_SELECTED_INGREDIENT
 } from "../actions/ingredients";
 
 const initialState = {
   availableIngredients: [],
-  selectedIngredients: [],
+  selectedIngredients: {
+    bun: [],
+    fillings: [],
+  },
   ingredientDetails: {},
   order: {},
 
@@ -28,6 +34,29 @@ export const ingredientsReducer = (state = initialState, action) => {
         ...state,
         statusAvailableIngredients: false
       }
+    }
+    case GET_INGREDIENTS_REQUEST : {
+      return {
+        ...state,
+        statusAvailableIngredients: undefined
+      }
+    }
+    case ADD_SELECTED_INGREDIENT : {
+      return action.payload.type==='bun'
+        ? {
+            ...state,
+            selectedIngredients: {
+              bun: [action.payload],
+              fillings: [...state.selectedIngredients.fillings]
+            },
+        }
+        : {
+            ...state,
+            selectedIngredients: {
+              bun: [...state.selectedIngredients.bun],
+              fillings: [...state.selectedIngredients.fillings, action.payload]
+            }
+        }
     }
     // case GET_INGREDIENTS_CONSTRUCTOR: {
     //   return {

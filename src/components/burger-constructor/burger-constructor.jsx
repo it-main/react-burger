@@ -1,4 +1,4 @@
-import React, {useState, useContext} from "react";
+import React, {useState, useMemo} from "react";
 import {
   Button,
   ConstructorElement,
@@ -10,16 +10,22 @@ import { clsx } from "clsx";
 import OrderDetails from "../order-details/order-details";
 import Modal from "../modal/modal";
 import {useModal} from "../../hooks/useModal";
-import {SelectedIngredientsContext} from "../../services/selected-ingredients-context";
 import {OrderIdContext} from "../../services/burger-constructor-context";
 import {checkResponse, sendRequest} from "../../utils/api";
+import {useSelector} from "react-redux";
 
 function BurgerConstructor() {
 
+  const selectedIngredients = useSelector(state => state.ingredients.selectedIngredients);
+
   const { isModalOpen, openModal, closeModal } = useModal();
-  const [selectedIngredients] = useContext(SelectedIngredientsContext).selectedIngredientsState;
-  const sumIngredients = useContext(SelectedIngredientsContext).sumIngredients;
+  //const [selectedIngredients] = useContext(SelectedIngredientsContext).selectedIngredientsState;
+  //const sumIngredients = useContext(SelectedIngredientsContext).sumIngredients;
   const [orderId, setOrderId] = useState({});
+
+  const sumSelectedIngredients = useMemo(()=>{
+    return selectedIngredients.bun.reduce((sum, item) => sum + item.price * 2, 0) + selectedIngredients.fillings.reduce((sum, item) => sum + item.price, 0)
+  },[selectedIngredients])
 
   const handlePlaceOrder = () => {
     const requestInit = {
@@ -93,7 +99,7 @@ function BurgerConstructor() {
 
       <div className={clsx(styles.info)}>
         <span className={clsx("text text_type_digits-medium", styles.sum)}>
-          <p className={"text"}>{sumIngredients.price}</p>
+          <p className={"text"}>{sumSelectedIngredients}</p>
           <CurrencyIcon type="primary"/>
         </span>
         <Button

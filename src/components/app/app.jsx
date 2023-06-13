@@ -4,19 +4,20 @@ import BurgerConstructor from "../burger-constructor/burger-constructor";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import {useEffect, useReducer, useState} from "react";
 import {SelectedIngredientsContext} from "../../services/selected-ingredients-context";
-import {getIngredients} from "../../services/actions/ingredients";
+import {ADD_SELECTED_INGREDIENT, getIngredients} from "../../services/actions/ingredients";
 import {useDispatch, useSelector} from "react-redux";
 
 function App() {
 
+  const dispatch = useDispatch();
+  const {availableIngredients, selectedIngredients, statusAvailableIngredients} = useSelector(state => state.ingredients);
+
   //const [availableIngredients, setAvailableIngredients] = useState([]);
   //const [statusData, setStatusData] = useState(undefined);
-  const selectedIngredientsState = useReducer(reducerSelectedIngredients, {bun: [], fillings: []}, undefined);
+  //const selectedIngredientsState = useReducer(reducerSelectedIngredients, {bun: [], fillings: []}, undefined);
   //const [selectedIngredients, setSelectedIngredients] = selectedIngredientsState;
-  const [sumIngredients, dispatchSumIngredients, selectedIngredients] = useReducer(reducerBurgerSum, {price: 0}, undefined);
 
-  const dispatch = useDispatch();
-  const {availableIngredients, statusAvailableIngredients} = useSelector(state => state.ingredients);
+  const [sumIngredients, dispatchSumIngredients] = useReducer(reducerBurgerSum, {price: 0}, undefined);
 
   function reducerBurgerSum(state, action) {
     if (action.type === 'price') {
@@ -27,16 +28,16 @@ function App() {
     return state;
   }
 
-  function reducerSelectedIngredients(state, action) {
-    switch (action.type) {
-      case "addIngredient":
-        return action.ingredient.type === 'bun'
-          ? {bun: [action.ingredient], fillings: [...state.fillings]}
-          : {...state, fillings: [...state.fillings, action.ingredient]};
-      default:
-        return state;
-    }
-  }
+  // function reducerSelectedIngredients(state, action) {
+  //   switch (action.type) {
+  //     case "addIngredient":
+  //       return action.ingredient.type === 'bun'
+  //         ? {bun: [action.ingredient], fillings: [...state.fillings]}
+  //         : {...state, fillings: [...state.fillings, action.ingredient]};
+  //     default:
+  //       return state;
+  //   }
+  // }
 
   // const handleSetData = dataIngredients => {
   //   setStatusData(dataIngredients.status);
@@ -65,7 +66,8 @@ function App() {
       availableIngredients.forEach(element => {
         //setSelectedIngredients({type: "addIngredient", ingredient: element});
         dispatch({
-          selectedIngredients
+          type: ADD_SELECTED_INGREDIENT,
+          payload: element
         })
       })
     }
@@ -93,7 +95,7 @@ function App() {
       <main className={styles.content}>
     {/*    <SelectedIngredientsContext.Provider value={{selectedIngredientsState, sumIngredients}}>*/}
           <BurgerIngredients />
-    {/*      <BurgerConstructor/>*/}
+          <BurgerConstructor/>
     {/*    </SelectedIngredientsContext.Provider>*/}
       </main>
     </div>

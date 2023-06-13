@@ -3,6 +3,9 @@ import {checkResponse, sendRequest} from "../../utils/api";
 export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST';
 export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
 export const GET_INGREDIENTS_FAILED = 'GET_INGREDIENTS_FAILED';
+export const ADD_SELECTED_INGREDIENT = 'ADD_SELECTED_INGREDIENT';
+export const DELETE_SELECTED_INGREDIENT = 'DELETE_SELECTED_INGREDIENT';
+
 export const GET_INGREDIENTS_CONSTRUCTOR = 'GET_INGREDIENTS_CONSTRUCTOR';
 export const ADD_INGREDIENT_DETAILS = 'ADD_INGREDIENT_DETAILS';
 export const DELETE_INGREDIENT_DETAILS = 'DELETE_INGREDIENT_DETAILS';
@@ -14,7 +17,6 @@ function actionFailed(error) {
     payload: error
   }
 }
-//TODO Экшен
 export function getIngredients() {
   return function(dispatch) {
     dispatch({
@@ -43,5 +45,3 @@ export function getIngredients() {
   };
 }
 
-// export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
-// export const GET_INGREDIENTS_FAILED = 'GET_INGREDIENTS_FAILED';
