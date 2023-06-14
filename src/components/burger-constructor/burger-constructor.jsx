@@ -12,44 +12,52 @@ import Modal from "../modal/modal";
 import {useModal} from "../../hooks/useModal";
 import {OrderIdContext} from "../../services/burger-constructor-context";
 import {checkResponse, sendRequest} from "../../utils/api";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {CLOSE_PLACE_ORDER, getOrderNumber} from "../../services/actions/ingredients";
 
 function BurgerConstructor() {
 
-  const selectedIngredients = useSelector(state => state.ingredients.selectedIngredients);
+  const {selectedIngredients, statusOrderNumber, orderNumber} = useSelector(state => state.ingredients);
 
   const { isModalOpen, openModal, closeModal } = useModal();
   //const [selectedIngredients] = useContext(SelectedIngredientsContext).selectedIngredientsState;
   //const sumIngredients = useContext(SelectedIngredientsContext).sumIngredients;
-  const [orderId, setOrderId] = useState({});
-
+  //const [orderId, setOrderId] = useState({});
+  const dispatch = useDispatch();
   const sumSelectedIngredients = useMemo(()=>{
     return selectedIngredients.bun.reduce((sum, item) => sum + item.price * 2, 0) + selectedIngredients.fillings.reduce((sum, item) => sum + item.price, 0)
   },[selectedIngredients])
 
-  const handlePlaceOrder = () => {
-    const requestInit = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ingredients: [...selectedIngredients.bun, ...selectedIngredients.fillings].map(elem => elem._id)}),
-    }
+  const handleGetOrderNumber = () => {
+  //   const requestInit = {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify({ingredients: [...selectedIngredients.bun, ...selectedIngredients.fillings].map(elem => elem._id)}),
+    dispatch(getOrderNumber(selectedIngredients, openModal));
+  }
 
-    sendRequest('orders', requestInit)
-      .then(checkResponse)
-      .then(json => {
-        if (json.success) {
-          setOrderId({id:json.order.number});
-          openModal();
-        } else {
-          console.log("Произошла ошибка, попробуйте еще раз");
-        }
-      })
-      .catch(error => {
-        console.log(`Ошибка при загрузке данных с сервера ${error}`);
-      });
-  };
+  const handleClosePlaceOrder = () => {
+    dispatch({type: CLOSE_PLACE_ORDER})
+    closeModal();
+  }
+
+  //
+  //   sendRequest('orders', requestInit)
+  //     .then(checkResponse)
+  //     .then(json => {
+  //       if (json.success) {
+  //         setOrderId({id:json.order.number});
+  //         openModal();
+  //       } else {
+  //         console.log("Произошла ошибка, попробуйте еще раз");
+  //       }
+  //     })
+  //     .catch(error => {
+  //       console.log(`Ошибка при загрузке данных с сервера ${error}`);
+  //     });
+  // };
 
   const elementBun = selectedIngredients.bun[0];
   const elementsFillings = selectedIngredients.fillings;
@@ -106,17 +114,17 @@ function BurgerConstructor() {
           htmlType="button"
           type="primary"
           size="large"
-          onClick={handlePlaceOrder}
+          onClick={handleGetOrderNumber}
         >
           Оформить заказ
         </Button>
       </div>
     </section>
     {isModalOpen && (
-      <Modal closeModal={closeModal}>
-        <OrderIdContext.Provider value={orderId}>
+      <Modal closeModal={handleClosePlaceOrder}>
+        {/*<OrderIdContext.Provider value={orderNumber}>*/}
           <OrderDetails />
-        </OrderIdContext.Provider>
+        {/*</OrderIdContext.Provider>*/}
       </Modal>)}
   </>
   );

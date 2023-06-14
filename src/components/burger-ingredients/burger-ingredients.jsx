@@ -9,7 +9,8 @@ import PropTypes from "prop-types";
 import {ingredientPropType} from "../../utils/prop-types";
 import {useModal} from "../../hooks/useModal";
 import {SelectedIngredientsContext} from "../../services/selected-ingredients-context";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {ADD_INGREDIENT_DETAILS, DELETE_INGREDIENT_DETAILS} from "../../services/actions/ingredients";
 
 function Tabs({ ingredientsTypes }) {
   const [current, setCurrentTab] = useState("bun");
@@ -45,7 +46,7 @@ function IngredientsList(props) {
   return (
     <ul className={clsx(styles.ingredientsList, "pl-4 pr-1")}>
       {ingredients.map((ingredientData) => {
-        const count = 0// [...selectedIngredients.fillings, ...selectedIngredients.bun].filter(elem => elem._id === ingredientData._id).length;
+        const count = [...selectedIngredients.fillings, ...selectedIngredients.bun].filter(elem => elem._id === ingredientData._id).length;
         return (
           <BurgerIngredient
             ingredientData={ingredientData}
@@ -83,7 +84,7 @@ function IngredientsTypesList(props) {
   );
 }
 
-function BurgerIngredients(props) {
+function BurgerIngredients() {
 
   const ingredientsTypes = [
     { type: "bun", typeRus: "Булки" },
@@ -91,11 +92,20 @@ function BurgerIngredients(props) {
     { type: "main", typeRus: "Начинки" },
   ];
 
+  const dispatch = useDispatch();
+
+  //const [ingredient, setIngredient] = useState(undefined);
+
   const { isModalOpen, openModal, closeModal } = useModal();
-  const [ingredient, setIngredient] = useState(undefined);
+
   const openModalIngredient = (ingredientDetails) => {
-    setIngredient(ingredientDetails);
+    //setIngredient(ingredientDetails);
+    dispatch({type: ADD_INGREDIENT_DETAILS, payload: ingredientDetails})
     openModal();
+  }
+  const closeModalIngredient = () => {
+    dispatch({type: DELETE_INGREDIENT_DETAILS});
+    closeModal();
   }
 
   return (
@@ -105,15 +115,16 @@ function BurgerIngredients(props) {
       <Tabs ingredientsTypes={ingredientsTypes} />
       <IngredientsTypesList ingredientsTypes={ingredientsTypes} openModalIngredient={openModalIngredient}/>
     </section>
-    {/*{isModalOpen &&*/}
-    {/*  (<Modal header={"Детали ингредиента"} closeModal={closeModal}>*/}
-    {/*    <IngredientDetails ingredient={ingredient}/>*/}
-    {/*  </Modal>)*/}
-    {/*}*/}
+    {isModalOpen &&
+      (<Modal header={"Детали ингредиента"} closeModal={closeModalIngredient}>
+        <IngredientDetails/>
+      </Modal>)
+    }
     </>
   );
 }
 
+// TODO
 BurgerIngredients.propTypes = {
 //  availableIngredients: PropTypes.arrayOf(ingredientPropType).isRequired
 };

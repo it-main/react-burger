@@ -6,9 +6,12 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 import {ingredientPropType} from "../../utils/prop-types";
+import {useModal} from "../../hooks/useModal";
+import {ADD_INGREDIENT_DETAILS} from "../../services/actions/ingredients";
+import {useDispatch} from "react-redux";
 
 function BurgerIngredient(props) {
-  const { ingredientData, openModalIngredient, count } = props;
+  const { ingredientData, count, openModalIngredient } = props;
   return (
     <article className={styles.ingredient} onClick={() => openModalIngredient(ingredientData)}>
       {count > 0 && <Counter count={count} size="default" extraClass="m-1" />}
@@ -28,6 +31,7 @@ function BurgerIngredient(props) {
   );
 }
 
+// TODO
 BurgerIngredient.propTypes = {
   ingredientData: ingredientPropType.isRequired,
   openModalIngredient: PropTypes.func.isRequired,

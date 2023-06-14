@@ -2,10 +2,9 @@ import {
   ADD_INGREDIENT_DETAILS,
   DELETE_INGREDIENT_DETAILS,
   GET_INGREDIENTS_REQUEST,
-  GET_INGREDIENTS_CONSTRUCTOR,
-  GET_ORDER_NUMBER,
+  GET_ORDER_NUMBER_SUCCESS,
   GET_INGREDIENTS_SUCCESS,
-  GET_INGREDIENTS_FAILED, ADD_SELECTED_INGREDIENT
+  GET_INGREDIENTS_FAILED, ADD_SELECTED_INGREDIENT, GET_ORDER_NUMBER_FAILED, CLOSE_PLACE_ORDER
 } from "../actions/ingredients";
 
 const initialState = {
@@ -15,9 +14,9 @@ const initialState = {
     fillings: [],
   },
   ingredientDetails: {},
-  order: {},
-
-  statusAvailableIngredients: undefined
+  orderNumber: undefined,
+  statusAvailableIngredients: undefined,
+  statusOrderNumber: undefined,
 };
 
 export const ingredientsReducer = (state = initialState, action) => {
@@ -58,26 +57,37 @@ export const ingredientsReducer = (state = initialState, action) => {
             }
         }
     }
-    // case GET_INGREDIENTS_CONSTRUCTOR: {
-    //   return {
-    //
-    //   }
-    // }
-    // case GET_ORDER_NUMBER: {
-    //   return {
-    //
-    //   }
-    // }
-    // case ADD_INGREDIENT_DETAILS: {
-    //   return {
-    //
-    //   }
-    // }
-    // case DELETE_INGREDIENT_DETAILS: {
-    //   return {
-    //
-    //   }
-    // }
+    case GET_ORDER_NUMBER_SUCCESS: {
+      return {
+        ...state,
+        orderNumber: action.payload,
+        statusOrderNumber: true,
+      }
+    }
+    case GET_ORDER_NUMBER_FAILED: {
+      return {
+        ...state,
+        statusOrderNumber: false
+      }
+    }
+    case CLOSE_PLACE_ORDER: {
+      return {
+        ...state,
+        orderNumber: undefined,
+      }
+    }
+    case ADD_INGREDIENT_DETAILS: {
+      return {
+        ...state,
+        ingredientDetails: action.payload
+      }
+    }
+    case DELETE_INGREDIENT_DETAILS: {
+      return {
+        ...state,
+        ingredientDetails: {}
+      }
+    }
     default: return state;
   }
 }

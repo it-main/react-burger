@@ -1,7 +1,7 @@
 import styles from "./ingredient-details.module.css"
 import {clsx} from "clsx";
-import {ingredientPropType} from "../../utils/prop-types";
 import PropTypes from "prop-types";
+import {useSelector} from "react-redux";
 
 function NutritionalValue({title, value}) {
   return (
@@ -12,8 +12,8 @@ function NutritionalValue({title, value}) {
   )
 }
 
-function IngredientDetails({ingredient}) {
-  const {name, image, calories, proteins, fat, carbohydrates} = ingredient;
+function IngredientDetails() {
+  const {name, image, calories, proteins, fat, carbohydrates} = useSelector(state => state.ingredients.ingredientDetails);
 
   return (
     <div className={clsx(styles.ingredientDetails, "pl-25 pr-25 pb-15")}>
@@ -29,9 +29,10 @@ function IngredientDetails({ingredient}) {
   )
 }
 
-IngredientDetails.propTypes = {
-  ingredient: ingredientPropType.isRequired
-}
+// TODO
+// IngredientDetails.propTypes = {
+//   ingredient: ingredientPropType.isRequired
+// }
 
 NutritionalValue.propTypes = {
   title: PropTypes.string.isRequired,
