@@ -8,4 +8,6 @@ SPA для космической бургерной
 * CSS
 * JavaScript
 * JavaScript-библиотека React
+* JavaScript-библиотека react-dnd
 * Webpack
+
