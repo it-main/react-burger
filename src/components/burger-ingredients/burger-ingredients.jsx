@@ -7,10 +7,11 @@ import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import {useModal} from "../../hooks/useModal";
 import {useDispatch, useSelector} from "react-redux";
-import {ADD_INGREDIENT_DETAILS, DELETE_INGREDIENT_DETAILS} from "../../services/actions/actions";
+import {ADD_INGREDIENT_DETAILS, DELETE_INGREDIENT_DETAILS} from "../../services/actions/ingredient-details";
 import {useInView} from "react-intersection-observer";
 import PropTypes from "prop-types";
 import {ingredientPropType} from "../../utils/prop-types";
+import { getStateBurgerConstructor, getStateIngredients} from "../../utils/constants";
 
 function Tabs({ ingredientsTypes, stateCurrentTab }) {
   const [current, setCurrentTab] = stateCurrentTab;
@@ -40,7 +41,7 @@ function Tabs({ ingredientsTypes, stateCurrentTab }) {
 
 function IngredientsList(props) {
   const { ingredients } = props;
-  const selectedIngredients = useSelector(state => state.ingredients.selectedIngredients);
+  const selectedIngredients = useSelector(getStateBurgerConstructor).selectedIngredients;
   return (
     <ul className={clsx(styles.ingredientsList, "pl-4 pr-1") } >
       {ingredients.map((ingredientData) => {
@@ -90,7 +91,7 @@ function IngredientsTypeItem(props) {
 function IngredientsTypesList(props) {
   const { ingredientsTypes } = props;
   const refIngredientsTypesList = useRef();
-  const availableIngredients = useSelector(state => state.ingredients.availableIngredients);
+  const availableIngredients = useSelector(getStateIngredients).availableIngredients;
 
   return (
     <ul ref={refIngredientsTypesList} className={clsx(styles.ingredientsTypesList, "custom-scroll ingredients-types-list")}>
@@ -155,7 +156,7 @@ IngredientsList.propTypes = {
 
 Tabs.propTypes = {
   ingredientsTypes: PropTypes.arrayOf(PropTypes.shape({type: PropTypes.string, typeRus: PropTypes.string})).isRequired,
-  stateCurrentTab: PropTypes.func.isRequired,
+  stateCurrentTab: PropTypes.array.isRequired,
 };
 
 export default BurgerIngredients;

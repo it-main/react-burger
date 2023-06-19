@@ -10,30 +10,36 @@ import OrderDetails from "../order-details/order-details";
 import Modal from "../modal/modal";
 import {useModal} from "../../hooks/useModal";
 import {useDispatch, useSelector} from "react-redux";
-import {
-  CLOSE_PLACE_ORDER,
-  getOrderNumber,
-  ADD_SELECTED_INGREDIENT
-} from "../../services/actions/actions";
+import {ADD_SELECTED_INGREDIENT} from "../../services/actions/burger-constructor";
+import {getOrderNumber} from "../../services/actions/order";
 import {useDrop} from "react-dnd";
 import BurgerConstructorIngredient from "../burger-constructor-ingredient/burger-constructor-ingredient";
+import {CLOSE_PLACE_ORDER} from "../../services/actions/order";
+import {getStateBurgerConstructor} from "../../utils/constants";
 
 function BurgerConstructor() {
 
-  const {selectedIngredients} = useSelector(state => state.ingredients);
+  const {selectedIngredients} = useSelector(getStateBurgerConstructor);
   const { isModalOpen, openModal, closeModal } = useModal();
   const dispatch = useDispatch();
   const sumSelectedIngredients = useMemo(()=>{
     return selectedIngredients.bun.reduce((sum, item) => sum + item.price * 2, 0) + selectedIngredients.fillings.reduce((sum, item) => sum + item.price, 0)
   },[selectedIngredients])
 
+  const getActionAddIngredient = (item) => {
+    const payload = item.type === "bun"
+      ? [{ingredient: item, id: crypto.randomUUID()}, {ingredient: item, id: crypto.randomUUID()}]
+      : [{ingredient: item, id: crypto.randomUUID()}]
+    return {
+      type: ADD_SELECTED_INGREDIENT,
+      payload,
+    }
+  }
+
   const [, targetRef] = useDrop({
     accept: "ingredient",
     drop : (item) => {
-      dispatch({
-        type: ADD_SELECTED_INGREDIENT,
-        payload: item,
-      })
+      dispatch(getActionAddIngredient(item));
     }
   });
 

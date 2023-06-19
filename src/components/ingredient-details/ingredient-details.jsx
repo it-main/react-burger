@@ -2,6 +2,7 @@ import styles from "./ingredient-details.module.css"
 import {clsx} from "clsx";
 import PropTypes from "prop-types";
 import {useSelector} from "react-redux";
+import {getStateIngredientDetails} from "../../utils/constants";
 
 function NutritionalValue({title, value}) {
   return (
@@ -13,7 +14,7 @@ function NutritionalValue({title, value}) {
 }
 
 function IngredientDetails() {
-  const {name, image, calories, proteins, fat, carbohydrates} = useSelector(state => state.ingredients.ingredientDetails);
+  const {name, image, calories, proteins, fat, carbohydrates} = useSelector(getStateIngredientDetails).ingredientDetails;
 
   return (
     <div className={clsx(styles.ingredientDetails, "pl-25 pr-25 pb-15")}>

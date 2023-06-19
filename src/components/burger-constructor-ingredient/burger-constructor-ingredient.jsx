@@ -1,7 +1,7 @@
 import {clsx} from "clsx";
 import styles from "../burger-constructor-ingredient/burger-constructor-ingredient.module.css";
 import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import {DELETE_SELECTED_INGREDIENT, SORT_CONSTRUCTOR} from "../../services/actions/actions";
+import {DELETE_SELECTED_INGREDIENT, SORT_SELECTED_INGREDIENTS} from "../../services/actions/burger-constructor";
 import React, {useRef} from "react";
 import {useDispatch} from "react-redux";
 import {useDrag, useDrop} from "react-dnd";
@@ -51,7 +51,7 @@ function BurgerConstructorIngredient ({element, index}) {
         return undefined;
       }
       dispatch({
-        type: SORT_CONSTRUCTOR,
+        type: SORT_SELECTED_INGREDIENTS,
         payload: {
           dragIndex,
           hoverIndex

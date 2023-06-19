@@ -3,16 +3,18 @@ import AppHeader from "../app-header/app-header";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import {useEffect, useReducer } from "react";
-import { getIngredients} from "../../services/actions/actions";
+import { getIngredients} from "../../services/actions/ingredients";
 import {useDispatch, useSelector} from "react-redux";
 import {DndProvider} from "react-dnd";
 import {HTML5Backend} from "react-dnd-html5-backend";
+import {getStateBurgerConstructor, getStateIngredients} from "../../utils/constants";
 
 function App() {
 
   const dispatch = useDispatch();
-  const {selectedIngredients, statusAvailableIngredients} = useSelector(state => state.ingredients);
- const [, dispatchSumIngredients] = useReducer(reducerBurgerSum, {price: 0}, undefined);
+  const { statusAvailableIngredients } = useSelector(getStateIngredients);
+  const { selectedIngredients } = useSelector(getStateBurgerConstructor)
+  const [, dispatchSumIngredients] = useReducer(reducerBurgerSum, {price: 0}, undefined);
 
   function reducerBurgerSum(state, action) {
     if (action.type === 'price') {

@@ -2,9 +2,10 @@ import styles from "./order-details.module.css";
 import { clsx } from "clsx";
 import done from "../../images/done.svg";
 import {useSelector} from "react-redux";
+import {getOrder} from "../../utils/constants";
 
 function OrderDetails() {
-  const orderNumber = useSelector(state => state.ingredients.orderNumber)
+  const orderNumber = useSelector(getOrder).orderNumber;
   return (
     <div className={clsx(styles.orderDetails, "pt-4 pr-25 pb-30 pl-25")}>
       <h2
