@@ -29,15 +29,9 @@ function IngredientDetails() {
   )
 }
 
-// TODO
-// IngredientDetails.propTypes = {
-//   ingredient: ingredientPropType.isRequired
-// }
-
 NutritionalValue.propTypes = {
   title: PropTypes.string.isRequired,
   value: PropTypes.number.isRequired,
 }
-
 
 export default IngredientDetails;
