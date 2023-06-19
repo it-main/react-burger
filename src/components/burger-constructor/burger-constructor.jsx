@@ -44,7 +44,10 @@ function BurgerConstructor() {
   });
 
   const handleGetOrderNumber = () => {
-    dispatch(getOrderNumber(selectedIngredients, openModal));
+    if ((!selectedIngredients.bun.length && !selectedIngredients.fillings.length) || !selectedIngredients.bun.length)
+      return undefined;
+    dispatch(getOrderNumber(selectedIngredients));
+    openModal();
   }
 
   const handleClosePlaceOrder = () => {

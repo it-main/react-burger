@@ -1,7 +1,9 @@
 import {
   ADD_SELECTED_INGREDIENT,
   DELETE_SELECTED_INGREDIENT,
-  SORT_SELECTED_INGREDIENTS}
+  SORT_SELECTED_INGREDIENTS,
+  CLEAR_SELECTED_INGREDIENTS
+}
   from "../actions/burger-constructor";
 
 const initialState = {
@@ -50,6 +52,15 @@ export const burgerConstructorReducer = (state = initialState, action) => {
         selectedIngredients: {
           bun: [...state.selectedIngredients.bun],
           fillings: state.selectedIngredients.fillings.filter((elem,index) => action.payload !== index )
+        }
+      }
+    }
+    case CLEAR_SELECTED_INGREDIENTS: {
+      return {
+        ...state,
+        selectedIngredients: {
+          bun: [],
+          fillings: []
         }
       }
     }

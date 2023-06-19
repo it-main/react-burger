@@ -1,11 +1,23 @@
-import {CLOSE_PLACE_ORDER, GET_ORDER_NUMBER_FAILED, GET_ORDER_NUMBER_SUCCESS} from "../actions/order";
+import {
+  CLOSE_PLACE_ORDER,
+  GET_ORDER_NUMBER_FAILED,
+  GET_ORDER_NUMBER_REQUEST,
+  GET_ORDER_NUMBER_SUCCESS
+} from "../actions/order";
 
 const initialState = {
-  orderNumber: undefined,
+  orderNumber: "",
   statusOrderNumber: undefined,
 };
 export const orderReducer = (state = initialState, action) => {
   switch (action.type) {
+    case GET_ORDER_NUMBER_REQUEST: {
+      return {
+        ...state,
+        orderNumber: action.payload,
+        statusOrderNumber: undefined,
+      }
+    }
     case GET_ORDER_NUMBER_SUCCESS: {
       return {
         ...state,
@@ -16,13 +28,15 @@ export const orderReducer = (state = initialState, action) => {
     case GET_ORDER_NUMBER_FAILED: {
       return {
         ...state,
-        statusOrderNumber: false
+        statusOrderNumber: false,
+        orderNumber: ""
       }
     }
     case CLOSE_PLACE_ORDER: {
       return {
         ...state,
-        orderNumber: undefined,
+        orderNumber: "",
+        statusOrderNumber: undefined
       }
     }
     default: return state

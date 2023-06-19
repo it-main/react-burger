@@ -2,15 +2,18 @@ import styles from "./order-details.module.css";
 import { clsx } from "clsx";
 import done from "../../images/done.svg";
 import {useSelector} from "react-redux";
-import {getOrder} from "../../utils/constants";
+import {getStateOrder} from "../../utils/constants";
+
 
 function OrderDetails() {
-  const orderNumber = useSelector(getOrder).orderNumber;
+  const {orderNumber, statusOrderNumber} = useSelector(getStateOrder);
+
   return (
     <div className={clsx(styles.orderDetails, "pt-4 pr-25 pb-30 pl-25")}>
-      <h2
-        className={clsx("text text_type_digits-large mb-8", styles.orderNumber)}
-      >
+      {!statusOrderNumber ? <h1 className='text text_type_main-medium mb-15'> Загрузка...</h1>
+      : (
+        <>
+        <h2 className={clsx("text text_type_digits-large mb-8", styles.orderNumber)} >
         {orderNumber}
       </h2>
       <span className={clsx("text text_type_main-medium mb-15")}>
@@ -31,6 +34,8 @@ function OrderDetails() {
       >
         Дождитесь готовности на орбитальной станции
       </span>
+      </>
+        )}
     </div>
   );
 }
