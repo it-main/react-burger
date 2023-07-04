@@ -1,116 +1,136 @@
-import React, {useState, useContext} from "react";
+import React, {useMemo} from "react";
 import {
   Button,
   ConstructorElement,
   CurrencyIcon,
-  DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-constructor.module.css";
 import { clsx } from "clsx";
 import OrderDetails from "../order-details/order-details";
 import Modal from "../modal/modal";
 import {useModal} from "../../hooks/useModal";
-import {SelectedIngredientsContext} from "../../services/selected-ingredients-context";
-import {OrderIdContext} from "../../services/burger-constructor-context";
-import {checkResponse, sendRequest} from "../../utils/api";
+import {useDispatch, useSelector} from "react-redux";
+import {ADD_SELECTED_INGREDIENT} from "../../services/actions/burger-constructor";
+import {getOrderNumber} from "../../services/actions/order";
+import {useDrop} from "react-dnd";
+import BurgerConstructorIngredient from "../burger-constructor-ingredient/burger-constructor-ingredient";
+import {CLOSE_PLACE_ORDER} from "../../services/actions/order";
+import {getStateBurgerConstructor} from "../../utils/constants";
 
 function BurgerConstructor() {
 
+  const {selectedIngredients} = useSelector(getStateBurgerConstructor);
   const { isModalOpen, openModal, closeModal } = useModal();
-  const [selectedIngredients] = useContext(SelectedIngredientsContext).selectedIngredientsState;
-  const sumIngredients = useContext(SelectedIngredientsContext).sumIngredients;
-  const [orderId, setOrderId] = useState({});
+  const dispatch = useDispatch();
+  const sumSelectedIngredients = useMemo(()=>{
+    return selectedIngredients.bun.reduce((sum, item) => sum + item.price * 2, 0) + selectedIngredients.fillings.reduce((sum, item) => sum + item.price, 0)
+  },[selectedIngredients])
 
-  const handlePlaceOrder = () => {
-    const requestInit = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ingredients: [...selectedIngredients.bun, ...selectedIngredients.fillings].map(elem => elem._id)}),
+  const getActionAddIngredient = (item) => {
+    const payload = item.type === "bun"
+      ? [{ingredient: item, id: crypto.randomUUID()}, {ingredient: item, id: crypto.randomUUID()}]
+      : [{ingredient: item, id: crypto.randomUUID()}]
+    return {
+      type: ADD_SELECTED_INGREDIENT,
+      payload,
     }
+  }
 
-    sendRequest('orders', requestInit)
-      .then(checkResponse)
-      .then(json => {
-        if (json.success) {
-          setOrderId({id:json.order.number});
-          openModal();
-        } else {
-          console.log("Произошла ошибка, попробуйте еще раз");
-        }
-      })
-      .catch(error => {
-        console.log(`Ошибка при загрузке данных с сервера ${error}`);
-      });
-  };
+  const [, targetRef] = useDrop({
+    accept: "ingredient",
+    drop : (item) => {
+      dispatch(getActionAddIngredient(item));
+    }
+  });
 
-  const elementBun = selectedIngredients.bun[0];
+  const handleGetOrderNumber = () => {
+    if ((!selectedIngredients.bun.length && !selectedIngredients.fillings.length) || !selectedIngredients.bun.length)
+      return undefined;
+    dispatch(getOrderNumber(selectedIngredients));
+    openModal();
+  }
+
+  const handleClosePlaceOrder = () => {
+    dispatch({type: CLOSE_PLACE_ORDER})
+    closeModal();
+  }
+
+  const elementBun = selectedIngredients.bun;
   const elementsFillings = selectedIngredients.fillings;
+
+  function InvitationChoose() {
+    let invitationChoose;
+    if (!elementBun.length && !elementsFillings.length)
+      invitationChoose = "Соберите свой бургер!"
+    else if (!elementsFillings.length)
+      invitationChoose = "Выбирайте начинку!"
+    else if (!elementBun.length)
+      invitationChoose = "Выбирайте булку!"
+    return (
+      invitationChoose &&
+      <p
+        className={clsx("text text_type_main-large mt-4", styles.invitationChoose)}
+      >
+        {invitationChoose}
+      </p>
+    )
+}
 
   return (
     <>
     <section className={clsx(styles.burgerConstructor, "pt-15")}>
-      <div className={clsx(styles.burgerElements)}>
+      <div
+        className={clsx(styles.burgerElements)}
+        ref={targetRef}
+      >
         {elementBun &&
-          ["Top", "Bottom"].map((element, index) => {
-            const {name, price, image, _id} = elementBun;
+          elementBun.map((element, index) => {
+            const {name, price, image} = element;
+            const type = index === 0 ? "Top" : "Bottom";
             return (
               <div
-                className={clsx(styles[`bun${element}`], styles.bun)}
-                key={_id+index.toString()}
+                className={clsx(styles[`bun${type}`], styles.bun)}
+                key={element.id}
               >
                 <ConstructorElement
-                  type={element.toLowerCase()}
+                  type
                   isLocked={true}
-                  text={name + ` ${element==="Top" ? "(верх)" : "(низ)"}`}
+                  text={name + ` ${type==="Top" ? "(верх)" : "(низ)"}`}
                   price={price}
                   thumbnail={image}
                 />
               </div>
             );
           })}
-
+        <InvitationChoose/>
         <ul className={clsx(styles.burgerFillingList, "custom-scroll")}>
           {elementsFillings.map((element, index) => {
-            const { name, price, image, _id } = element;
             return (
-              <li
-                className={clsx(styles.burgerFillingElement, "ml-4")}
-                key={_id+index.toString()}
-              >
-                <DragIcon type={"primary"} />
-                <ConstructorElement
-                  text={name}
-                  price={price}
-                  thumbnail={image}
-                />
-              </li>
-            );
-          })}
+              <BurgerConstructorIngredient element={element} index={index} key={element.id}/>
+            )
+          })
+          }
         </ul>
       </div>
 
       <div className={clsx(styles.info)}>
         <span className={clsx("text text_type_digits-medium", styles.sum)}>
-          <p className={"text"}>{sumIngredients.price}</p>
+          <p className={"text"}>{sumSelectedIngredients}</p>
           <CurrencyIcon type="primary"/>
         </span>
         <Button
           htmlType="button"
           type="primary"
           size="large"
-          onClick={handlePlaceOrder}
+          onClick={handleGetOrderNumber}
         >
           Оформить заказ
         </Button>
       </div>
     </section>
     {isModalOpen && (
-      <Modal closeModal={closeModal}>
-        <OrderIdContext.Provider value={orderId}>
-          <OrderDetails />
-        </OrderIdContext.Provider>
+      <Modal closeModal={handleClosePlaceOrder}>
+        <OrderDetails />
       </Modal>)}
   </>
   );

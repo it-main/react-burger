@@ -28,14 +28,9 @@
   order: 1;
 }
 
-.burgerFillingElement {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
 .bun {
   margin-left: 48px;
+  user-select: none;
 }
 
 .bunTop {
@@ -58,4 +53,8 @@
   display: flex;
   align-items: center;
   gap: 9px;
+}
+
+.invitationChoose {
+  text-align: center;
 }
