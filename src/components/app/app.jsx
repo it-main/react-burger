@@ -1,26 +1,37 @@
 import styles from "./app.module.css";
 import AppHeader from "../app-header/app-header";
-import BurgerConstructor from "../burger-constructor/burger-constructor";
-import BurgerIngredients from "../burger-ingredients/burger-ingredients";
-import {useEffect, useReducer } from "react";
-import { getIngredients} from "../../services/actions/ingredients";
-import {useDispatch, useSelector} from "react-redux";
-import {DndProvider} from "react-dnd";
-import {HTML5Backend} from "react-dnd-html5-backend";
-import {getStateBurgerConstructor, getStateIngredients} from "../../utils/constants";
+import { useEffect, useReducer } from "react";
+import { getIngredients } from "../../services/actions/ingredients";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getStateBurgerConstructor,
+  getStateIngredients,
+} from "../../utils/constants";
+import HomePage from "../../pages/home";
+import { Route, Routes } from "react-router-dom";
 
 function App() {
-
   const dispatch = useDispatch();
   const { statusAvailableIngredients } = useSelector(getStateIngredients);
-  const { selectedIngredients } = useSelector(getStateBurgerConstructor)
-  const [, dispatchSumIngredients] = useReducer(reducerBurgerSum, {price: 0}, undefined);
+  const { selectedIngredients } = useSelector(getStateBurgerConstructor);
+  const [, dispatchSumIngredients] = useReducer(
+    reducerBurgerSum,
+    { price: 0 },
+    undefined,
+  );
 
   function reducerBurgerSum(state, action) {
-    if (action.type === 'price') {
-      const price = selectedIngredients.bun.reduce((sum, element) => sum + element.price * 2, 0) +
-        selectedIngredients.fillings.reduce((sum, element) => sum + element.price, 0);
-      return {price: price}
+    if (action.type === "price") {
+      const price =
+        selectedIngredients.bun.reduce(
+          (sum, element) => sum + element.price * 2,
+          0,
+        ) +
+        selectedIngredients.fillings.reduce(
+          (sum, element) => sum + element.price,
+          0,
+        );
+      return { price: price };
     }
     return state;
   }
@@ -30,15 +41,20 @@ function App() {
   }, [dispatch]);
 
   useEffect(() => {
-    dispatchSumIngredients({type: "price"})
-  }, [selectedIngredients])
+    dispatchSumIngredients({ type: "price" });
+  }, [selectedIngredients]);
 
   function DownloadStatus() {
     switch (statusAvailableIngredients) {
       case undefined:
-        return (<p className={"text_type_main-medium"}>Загрузка данных...</p>);
+        return <p className={"text_type_main-medium"}>Загрузка данных...</p>;
       case false:
-        return (<p>Произошла ошибка при загрузке данных с сервера, попробуйте обновить страницу</p>);
+        return (
+          <p>
+            Произошла ошибка при загрузке данных с сервера, попробуйте обновить
+            страницу
+          </p>
+        );
       default:
         return undefined;
     }
@@ -46,14 +62,11 @@ function App() {
 
   return (
     <div className={`${styles.page}`}>
-      <AppHeader/>
-      <DownloadStatus/>
-      <main className={styles.content}>
-        <DndProvider backend={HTML5Backend}>
-          <BurgerIngredients />
-          <BurgerConstructor/>
-        </DndProvider>
-      </main>
+      <AppHeader />
+      <DownloadStatus />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+      </Routes>
     </div>
   );
 }

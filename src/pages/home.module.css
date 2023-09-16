@@ -1,0 +1,7 @@
+.content {
+  display: flex;
+  margin: 0 auto;
+  padding-bottom: 40px;
+  gap: 40px;
+  height: calc(100vh - 138px - 40px);
+}

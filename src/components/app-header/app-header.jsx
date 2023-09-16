@@ -14,7 +14,7 @@ function AppHeader() {
       <nav className={clsx("pt-4 pb-4", styles.navigate)}>
         <div>
           <NavLink caption="Конструктор" classList="mr-2 pr-5">
-            <BurgerIcon type='primary' />
+            <BurgerIcon type="primary" />
           </NavLink>
           <NavLink caption="Лента заказов" classList="text_color_inactive pl-5">
             <ListIcon type="secondary" />
