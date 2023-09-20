@@ -5,6 +5,14 @@
   align-items: center;
 }
 
+.navigate a {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  cursor: pointer;
+  text-decoration: none;
+}
+
 .logo {
   position: absolute;
   width: 100%;
@@ -12,3 +20,4 @@
   justify-content: center;
   z-index: -1;
 }
+
