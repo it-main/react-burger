@@ -15,7 +15,7 @@ function AppHeader() {
       <nav className={clsx("pt-4 pb-4", styles.navigate)}>
         <div>
           {/*pt-4 pb-4*/}
-          <NavLink className={clsx("mr-2 pr-5", styles.link)}>
+          <NavLink className={( { isActive }  ) => isActive ? "text_type_main-default" : "text_color_inactive"   }>
             <BurgerIcon type="primary" />
             Конструктор
           </NavLink>
