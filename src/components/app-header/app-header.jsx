@@ -15,21 +15,24 @@ function AppHeader() {
       <nav className={clsx("pt-4 pb-4", styles.navigate)}>
         <div>
           {/*pt-4 pb-4*/}
-          <NavLink className={( { isActive }  ) => isActive ? "text_type_main-default" : "text_color_inactive"   }>
+          <NavLink to="." end className={styles.link}>
             <BurgerIcon type="primary" />
-            Конструктор
+            <span>Конструктор</span>
           </NavLink>
-          <NavLink classList="text_color_inactive pl-5">
+          <NavLink
+            to="lenta"
+            className={clsx("text_color_inactive pl-5", styles.link)}
+          >
             <ListIcon type="secondary" />
-            Лента заказов
+            <span>Лента заказов</span>
           </NavLink>
         </div>
         <a href="#" className={styles.logo}>
           <Logo />
         </a>
-        <NavLink classList="text_color_inactive">
+        <NavLink to="box" className={clsx("text_color_inactive", styles.link)}>
           <ProfileIcon type="secondary" />
-          Личный кабинет
+          <span>Личный кабинет</span>
         </NavLink>
       </nav>
     </header>
