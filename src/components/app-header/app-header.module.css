@@ -13,10 +13,6 @@
   text-decoration: none;
 }
 
-.link .active {
-  color: var(--text-primary-color);
-}
-
 .logo {
   position: absolute;
   width: 100%;

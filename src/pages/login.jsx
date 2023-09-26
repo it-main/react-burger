@@ -2,7 +2,8 @@ import {
   EmailInput,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-
+import { clsx } from "clsx";
+import style from "./login.module.css";
 const LoginPage = () => {
   // const { name, surname, numberOfPets, extraSocket, ownRack } = useSelector(
   //   (state) => state.participantRegistration.form,
@@ -17,16 +18,21 @@ const LoginPage = () => {
   };
   let email, password;
   return (
-    <form>
-      <EmailInput onChange={onFormChange} value={email} id="email" />{" "}
-      <Input
-        type="password"
-        onChange={onFormChange}
-        value={password}
-        id="password"
-      />
-      <button type="submit">Зарегистрироваться</button>
-    </form>
+    <div className={clsx(style.content)}>
+      <header className={clsx(style.header, "mb-6")}>
+        <h1 className="text text_type_main-medium">Вход</h1>
+      </header>
+      <form className={style.form}>
+        <EmailInput onChange={onFormChange} value={email} id="email" />{" "}
+        <Input
+          type="password"
+          onChange={onFormChange}
+          value={password}
+          id="password"
+        />
+        <button type="submit">Зарегистрироваться</button>
+      </form>
+    </div>
   );
 };
 

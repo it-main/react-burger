@@ -30,7 +30,10 @@ function AppHeader() {
         <a href="#" className={styles.logo}>
           <Logo />
         </a>
-        <NavLink to="box" className={clsx("text_color_inactive", styles.link)}>
+        <NavLink
+          to="login"
+          className={clsx("text_color_inactive", styles.link)}
+        >
           <ProfileIcon type="secondary" />
           <span>Личный кабинет</span>
         </NavLink>
