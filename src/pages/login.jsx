@@ -1,4 +1,5 @@
 import {
+  Button,
   EmailInput,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -19,9 +20,7 @@ const LoginPage = () => {
   let email, password;
   return (
     <div className={clsx(style.content)}>
-      <header className={clsx(style.header, "mb-6")}>
-        <h1 className="text text_type_main-medium">Вход</h1>
-      </header>
+      <h1 className={clsx("text text_type_main-medium", style.header)}>Вход</h1>
       <form className={style.form}>
         <EmailInput onChange={onFormChange} value={email} id="email" />{" "}
         <Input
@@ -30,7 +29,14 @@ const LoginPage = () => {
           value={password}
           id="password"
         />
-        <button type="submit">Зарегистрироваться</button>
+        <Button
+          htmlType="button"
+          type="primary"
+          size="medium"
+          extraClass={style.signin}
+        >
+          Войти
+        </Button>
       </form>
     </div>
   );

@@ -18,7 +18,7 @@ function App() {
   const [, dispatchSumIngredients] = useReducer(
     reducerBurgerSum,
     { price: 0 },
-    undefined,
+    undefined
   );
 
   function reducerBurgerSum(state, action) {
@@ -26,11 +26,11 @@ function App() {
       const price =
         selectedIngredients.bun.reduce(
           (sum, element) => sum + element.price * 2,
-          0,
+          0
         ) +
         selectedIngredients.fillings.reduce(
           (sum, element) => sum + element.price,
-          0,
+          0
         );
       return { price: price };
     }

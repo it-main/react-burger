@@ -1,13 +1,22 @@
 .content {
   margin: 0 auto;
-  /*max-width: 480px;*/
-  /*text-align: center;*/
+  text-align: center;
+  /* max-width: fit-content; */
 }
+
 .header {
   text-align: center;
+  display: inline-block;
 }
+
 .form {
   display: flex;
   flex-direction: column;
   gap: 24px;
+  align-items: center;
+}
+
+.signin {
+  max-width: fit-content;
+  display: inline-block;
 }
