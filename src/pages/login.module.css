@@ -1,0 +1,13 @@
+.content {
+  margin: 0 auto;
+  /*max-width: 480px;*/
+  /*text-align: center;*/
+}
+.header {
+  text-align: center;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}

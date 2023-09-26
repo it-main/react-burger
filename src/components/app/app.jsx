@@ -9,6 +9,7 @@ import {
 } from "../../utils/constants";
 import HomePage from "../../pages/home";
 import { Route, Routes } from "react-router-dom";
+import LoginPage from "../../pages/login";
 
 function App() {
   const dispatch = useDispatch();
@@ -66,6 +67,7 @@ function App() {
       <DownloadStatus />
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="login" element={<LoginPage />} />
       </Routes>
     </div>
   );
