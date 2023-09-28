@@ -1,12 +1,14 @@
 .content {
-  margin: 0 auto;
+
+  /*margin: 0 auto;*/
   text-align: center;
   /* max-width: fit-content; */
 }
 
 .header {
-  text-align: center;
-  display: inline-block;
+  padding-top: 180px;
+  /*text-align: center;*/
+  /*display: inline-block;*/
 }
 
 .form {

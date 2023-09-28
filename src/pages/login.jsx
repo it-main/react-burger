@@ -21,7 +21,7 @@ const LoginPage = () => {
   return (
     <div className={clsx(style.content)}>
       <h1 className={clsx("text text_type_main-medium", style.header)}>Вход</h1>
-      <form className={style.form}>
+      <form className={clsx(style.form, "pb-20")}>
         <EmailInput onChange={onFormChange} value={email} id="email" />{" "}
         <Input
           type="password"
