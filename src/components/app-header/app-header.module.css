@@ -3,6 +3,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background: #1C1C21;
 }
 
 .link {
@@ -11,13 +12,18 @@
   align-items: center;
   cursor: pointer;
   text-decoration: none;
+  color: #F2F2F3;
 }
 
 .logo {
+  margin: 0 auto;
   position: absolute;
-  width: 100%;
+  width: fit-content;
   display: flex;
-  justify-content: center;
-  z-index: -1;
+  align-items: center;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
 }
 

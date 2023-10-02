@@ -8,30 +8,28 @@ import {
   ListIcon,
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { URL_HOME, URL_LOGIN } from "../../utils/constants";
 
 function AppHeader() {
   return (
-    <header className={"mb-10"}>
+    <header>
       <nav className={clsx("pt-4 pb-4", styles.navigate)}>
         <div>
           {/*pt-4 pb-4*/}
-          <NavLink to="." end className={styles.link}>
+          <NavLink to={URL_HOME} end className={styles.link}>
             <BurgerIcon type="primary" />
             <span>Конструктор</span>
           </NavLink>
-          <NavLink
-            to="lenta"
-            className={clsx("text_color_inactive pl-5", styles.link)}
-          >
+          <NavLink className={clsx("text_color_inactive pl-5", styles.link)}>
             <ListIcon type="secondary" />
             <span>Лента заказов</span>
           </NavLink>
         </div>
-        <a href="#" className={styles.logo}>
+        <NavLink to={URL_HOME} className={styles.logo}>
           <Logo />
-        </a>
+        </NavLink>
         <NavLink
-          to="login"
+          to={URL_LOGIN}
           className={clsx("text_color_inactive", styles.link)}
         >
           <ProfileIcon type="secondary" />
