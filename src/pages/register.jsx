@@ -1,14 +1,15 @@
 import {
   Button,
   EmailInput,
+  Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { clsx } from "clsx";
 import style from "./form.module.css";
-import { URL_FORGOT_PASSWORD, URL_REGISTER } from "../utils/constants";
+import { URL_LOGIN } from "../utils/constants";
 import FormAdditionalAction from "../components/form-additional-action/form-additional-action";
 
-function LoginPage() {
+function RegisterPage() {
   // const { name, surname, numberOfPets, extraSocket, ownRack } = useSelector(
   //   (state) => state.participantRegistration.form,
   // );
@@ -24,7 +25,8 @@ function LoginPage() {
   return (
     <div className={clsx(style.content)}>
       <form className={style.form}>
-        <h1 className="text text_type_main-medium">Вход</h1>
+        <h1 className="text text_type_main-medium">Регистрация</h1>
+        <Input type="text" placeholder="Имя" onChange={onFormChange}></Input>
         <EmailInput onChange={onFormChange} value={email} id="email" />
         <PasswordInput
           placeholder="Пароль"
@@ -39,22 +41,16 @@ function LoginPage() {
           size="medium"
           extraClass="mb-20"
         >
-          Войти
+          Зарегистрироваться
         </Button>
       </form>
       <FormAdditionalAction
-        label="Вы - новый пользователь?"
-        linkCaption="Зарегистрироваться"
-        url={URL_REGISTER}
-        extraClass="mb-4"
-      />
-      <FormAdditionalAction
-        label="Забыли пароль?"
-        linkCaption="Восстановить пароль"
-        url={URL_FORGOT_PASSWORD}
+        label="Уже зарегистрированы?"
+        linkCaption="Войти"
+        url={URL_LOGIN}
       />
     </div>
   );
 }
 
-export default LoginPage;
+export default RegisterPage;

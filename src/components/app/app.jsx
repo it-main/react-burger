@@ -4,12 +4,16 @@ import { useEffect, useReducer } from "react";
 import { getIngredients } from "../../services/actions/ingredients";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  URL_HOME,
+  URL_LOGIN,
+  URL_REGISTER,
   getStateBurgerConstructor,
   getStateIngredients,
 } from "../../utils/constants";
 import HomePage from "../../pages/home";
 import { Route, Routes } from "react-router-dom";
 import LoginPage from "../../pages/login";
+import RegisterPage from "../../pages/register";
 
 function App() {
   const dispatch = useDispatch();
@@ -66,8 +70,9 @@ function App() {
       <AppHeader />
       <DownloadStatus />
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="login" element={<LoginPage />} />
+        <Route path={URL_HOME} element={<HomePage />} />
+        <Route path={URL_LOGIN} element={<LoginPage />} />
+        <Route path={URL_REGISTER} element={<RegisterPage />} />
       </Routes>
     </div>
   );
