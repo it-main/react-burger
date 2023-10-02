@@ -4,6 +4,7 @@ import { useEffect, useReducer } from "react";
 import { getIngredients } from "../../services/actions/ingredients";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  URL_FORGOT_PASSWORD,
   URL_HOME,
   URL_LOGIN,
   URL_REGISTER,
@@ -14,6 +15,7 @@ import HomePage from "../../pages/home";
 import { Route, Routes } from "react-router-dom";
 import LoginPage from "../../pages/login";
 import RegisterPage from "../../pages/register";
+import ForgotPasswordPage from "../../pages/forgot-password";
 
 function App() {
   const dispatch = useDispatch();
@@ -73,6 +75,7 @@ function App() {
         <Route path={URL_HOME} element={<HomePage />} />
         <Route path={URL_LOGIN} element={<LoginPage />} />
         <Route path={URL_REGISTER} element={<RegisterPage />} />
+        <Route path={URL_FORGOT_PASSWORD} element={<ForgotPasswordPage />} />
       </Routes>
     </div>
   );
