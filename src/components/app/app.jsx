@@ -11,6 +11,7 @@ import {
   getStateBurgerConstructor,
   getStateIngredients,
   URL_RESET_PASSWORD,
+  URL_PROFILE,
 } from "../../utils/constants";
 import HomePage from "../../pages/home";
 import { Route, Routes } from "react-router-dom";
@@ -18,6 +19,7 @@ import LoginPage from "../../pages/login";
 import RegisterPage from "../../pages/register";
 import ForgotPasswordPage from "../../pages/forgot-password";
 import ResetPasswordPage from "../../pages/reset-password";
+import ProfilePage from "../../pages/profile";
 
 function App() {
   const dispatch = useDispatch();
@@ -79,6 +81,7 @@ function App() {
         <Route path={URL_REGISTER} element={<RegisterPage />} />
         <Route path={URL_FORGOT_PASSWORD} element={<ForgotPasswordPage />} />
         <Route path={URL_RESET_PASSWORD} element={<ResetPasswordPage />} />
+        <Route path={URL_PROFILE} element={<ProfilePage />} />
       </Routes>
     </div>
   );
