@@ -10,12 +10,14 @@ import {
   URL_REGISTER,
   getStateBurgerConstructor,
   getStateIngredients,
+  URL_RESET_PASSWORD,
 } from "../../utils/constants";
 import HomePage from "../../pages/home";
 import { Route, Routes } from "react-router-dom";
 import LoginPage from "../../pages/login";
 import RegisterPage from "../../pages/register";
 import ForgotPasswordPage from "../../pages/forgot-password";
+import ResetPasswordPage from "../../pages/reset-password";
 
 function App() {
   const dispatch = useDispatch();
@@ -24,7 +26,7 @@ function App() {
   const [, dispatchSumIngredients] = useReducer(
     reducerBurgerSum,
     { price: 0 },
-    undefined
+    undefined,
   );
 
   function reducerBurgerSum(state, action) {
@@ -32,11 +34,11 @@ function App() {
       const price =
         selectedIngredients.bun.reduce(
           (sum, element) => sum + element.price * 2,
-          0
+          0,
         ) +
         selectedIngredients.fillings.reduce(
           (sum, element) => sum + element.price,
-          0
+          0,
         );
       return { price: price };
     }
@@ -76,6 +78,7 @@ function App() {
         <Route path={URL_LOGIN} element={<LoginPage />} />
         <Route path={URL_REGISTER} element={<RegisterPage />} />
         <Route path={URL_FORGOT_PASSWORD} element={<ForgotPasswordPage />} />
+        <Route path={URL_RESET_PASSWORD} element={<ResetPasswordPage />} />
       </Routes>
     </div>
   );
