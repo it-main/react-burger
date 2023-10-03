@@ -10,9 +10,17 @@
 
 .link {
   text-decoration: none;
-  /*color: #8585AD;*/
   min-height: 64px;
-  min-width: 320px;
+}
+
+/* .link_active { */
+a .active {
+  color: #f2f2f3;
+}
+
+.menu {
+  max-width: 320px;
+  margin-right: 60px;
 }
 
 .form {
@@ -21,4 +29,3 @@
   gap: 24px;
   align-items: center;
 }
-

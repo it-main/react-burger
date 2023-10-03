@@ -29,19 +29,31 @@ function ProfilePage() {
         <nav className={style.navigate}>
           <NavLink
             to={URL_PROFILE}
-            className={clsx("text text_type_main-medium", style.link)}
+            className={({ isActive }) =>
+              clsx(
+                "text text_type_main-medium",
+                style.link,
+                isActive ? style.link_active : "text_color_inactive"
+              )
+            }
           >
             Профиль
           </NavLink>
           <NavLink
             to={URL_PROFILE}
-            className={clsx("text text_type_main-medium", style.link)}
+            className={clsx(
+              style.link,
+              "text text_type_main-medium text_color_inactive"
+            )}
           >
             История заказов
           </NavLink>
           <NavLink
             to={URL_PROFILE}
-            className={clsx("text text_type_main-medium", style.link)}
+            className={clsx(
+              "text text_type_main-medium text_color_inactive",
+              style.link
+            )}
           >
             Выход
           </NavLink>
