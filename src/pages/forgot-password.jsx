@@ -1,18 +1,13 @@
 import {
   Button,
   EmailInput,
-  PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { clsx } from "clsx";
 import style from "./form.module.css";
-import {
-  URL_FORGOT_PASSWORD,
-  URL_LOGIN,
-  URL_REGISTER,
-} from "../utils/constants";
+import { URL_LOGIN } from "../utils/constants";
 import FormAdditionalAction from "../components/form-additional-action/form-additional-action";
 
-function ForgotPasswordPage() {
+function ForgotPassword() {
   // const { name, surname, numberOfPets, extraSocket, ownRack } = useSelector(
   //   (state) => state.participantRegistration.form,
   // );
@@ -49,4 +44,4 @@ function ForgotPasswordPage() {
   );
 }
 
-export default ForgotPasswordPage;
+export default ForgotPassword;

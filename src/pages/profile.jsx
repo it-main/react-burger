@@ -1,16 +1,19 @@
 import {
-  Button,
   EmailInput,
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { clsx } from "clsx";
 import style from "./profile.module.css";
-import { URL_LOGIN, URL_PROFILE } from "../utils/constants";
-import FormAdditionalAction from "../components/form-additional-action/form-additional-action";
+import {
+  linkIsActive,
+  URL_FEED,
+  URL_LOGIN,
+  URL_PROFILE,
+} from "../utils/constants";
 import { NavLink } from "react-router-dom";
 
-function ProfilePage() {
+function Profile() {
   // const { name, surname, numberOfPets, extraSocket, ownRack } = useSelector(
   //   (state) => state.participantRegistration.form,
   // );
@@ -33,27 +36,33 @@ function ProfilePage() {
               clsx(
                 "text text_type_main-medium",
                 style.link,
-                isActive ? style.link_active : "text_color_inactive"
+                linkIsActive(isActive),
               )
             }
           >
             Профиль
           </NavLink>
           <NavLink
-            to={URL_PROFILE}
-            className={clsx(
-              style.link,
-              "text text_type_main-medium text_color_inactive"
-            )}
+            to={URL_FEED}
+            className={({ isActive }) =>
+              clsx(
+                "text text_type_main-medium",
+                style.link,
+                linkIsActive(isActive),
+              )
+            }
           >
             История заказов
           </NavLink>
           <NavLink
-            to={URL_PROFILE}
-            className={clsx(
-              "text text_type_main-medium text_color_inactive",
-              style.link
-            )}
+            to={URL_LOGIN}
+            className={({ isActive }) =>
+              clsx(
+                "text text_type_main-medium",
+                style.link,
+                linkIsActive(isActive),
+              )
+            }
           >
             Выход
           </NavLink>
@@ -83,4 +92,4 @@ function ProfilePage() {
   );
 }
 
-export default ProfilePage;
+export default Profile;

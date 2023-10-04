@@ -8,7 +8,7 @@ import style from "./form.module.css";
 import { URL_LOGIN } from "../utils/constants";
 import FormAdditionalAction from "../components/form-additional-action/form-additional-action";
 
-function ResetPasswordPage() {
+function ResetPassword() {
   // const { name, surname, numberOfPets, extraSocket, ownRack } = useSelector(
   //   (state) => state.participantRegistration.form,
   // );
@@ -55,4 +55,4 @@ function ResetPasswordPage() {
   );
 }
 
-export default ResetPasswordPage;
+export default ResetPassword;

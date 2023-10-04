@@ -1,25 +1,29 @@
-import styles from "./app.module.css";
-import AppHeader from "../app-header/app-header";
+import { Route, Routes } from "react-router-dom";
 import { useEffect, useReducer } from "react";
-import { getIngredients } from "../../services/actions/ingredients";
 import { useDispatch, useSelector } from "react-redux";
+import { getIngredients } from "../../services/actions/ingredients";
 import {
+  getStateBurgerConstructor,
+  getStateIngredients,
   URL_FORGOT_PASSWORD,
   URL_HOME,
   URL_LOGIN,
   URL_REGISTER,
-  getStateBurgerConstructor,
-  getStateIngredients,
   URL_RESET_PASSWORD,
   URL_PROFILE,
+  URL_FEED,
+  URL_NOTFOUND,
 } from "../../utils/constants";
+import AppHeader from "../app-header/app-header";
 import HomePage from "../../pages/home";
-import { Route, Routes } from "react-router-dom";
-import LoginPage from "../../pages/login";
-import RegisterPage from "../../pages/register";
-import ForgotPasswordPage from "../../pages/forgot-password";
-import ResetPasswordPage from "../../pages/reset-password";
-import ProfilePage from "../../pages/profile";
+import Login from "../../pages/login";
+import Register from "../../pages/register";
+import ForgotPassword from "../../pages/forgot-password";
+import ResetPassword from "../../pages/reset-password";
+import Profile from "../../pages/profile";
+import Feed from "../../pages/feed";
+import NotFound from "../../pages/not-found";
+import styles from "./app.module.css";
 
 function App() {
   const dispatch = useDispatch();
@@ -77,11 +81,13 @@ function App() {
       <DownloadStatus />
       <Routes>
         <Route path={URL_HOME} element={<HomePage />} />
-        <Route path={URL_LOGIN} element={<LoginPage />} />
-        <Route path={URL_REGISTER} element={<RegisterPage />} />
-        <Route path={URL_FORGOT_PASSWORD} element={<ForgotPasswordPage />} />
-        <Route path={URL_RESET_PASSWORD} element={<ResetPasswordPage />} />
-        <Route path={URL_PROFILE} element={<ProfilePage />} />
+        <Route path={URL_LOGIN} element={<Login />} />
+        <Route path={URL_REGISTER} element={<Register />} />
+        <Route path={URL_FORGOT_PASSWORD} element={<ForgotPassword />} />
+        <Route path={URL_RESET_PASSWORD} element={<ResetPassword />} />
+        <Route path={URL_PROFILE} element={<Profile />} />
+        <Route path={URL_FEED} element={<Feed />} />
+        <Route path={URL_NOTFOUND} element={<NotFound />} />
       </Routes>
     </div>
   );

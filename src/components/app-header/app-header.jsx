@@ -1,14 +1,18 @@
 import { Logo } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./app-header.module.css";
-// import NavLink from "../nav-link/nav-link";
-import { clsx } from "clsx";
 import { NavLink } from "react-router-dom";
+import { clsx } from "clsx";
 import {
   BurgerIcon,
   ListIcon,
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { URL_HOME, URL_LOGIN } from "../../utils/constants";
+import {
+  linkIsActive,
+  URL_FEED,
+  URL_HOME,
+  URL_LOGIN,
+} from "../../utils/constants";
 
 function AppHeader() {
   return (
@@ -16,11 +20,21 @@ function AppHeader() {
       <nav className={clsx("pt-4 pb-4", styles.navigate)}>
         <div>
           {/*pt-4 pb-4*/}
-          <NavLink to={URL_HOME} end className={styles.link}>
+          <NavLink
+            to={URL_HOME}
+            className={({ isActive }) =>
+              clsx(styles.link, linkIsActive(isActive))
+            }
+          >
             <BurgerIcon type="primary" />
             <span>Конструктор</span>
           </NavLink>
-          <NavLink className={clsx("text_color_inactive pl-5", styles.link)}>
+          <NavLink
+            to={URL_FEED}
+            className={({ isActive }) =>
+              clsx("pl-5", styles.link, linkIsActive(isActive))
+            }
+          >
             <ListIcon type="secondary" />
             <span>Лента заказов</span>
           </NavLink>
@@ -30,7 +44,9 @@ function AppHeader() {
         </NavLink>
         <NavLink
           to={URL_LOGIN}
-          className={clsx("text_color_inactive", styles.link)}
+          className={({ isActive }) =>
+            clsx(styles.link, linkIsActive(isActive))
+          }
         >
           <ProfileIcon type="secondary" />
           <span>Личный кабинет</span>

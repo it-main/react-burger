@@ -6,17 +6,16 @@
 .navigate {
   display: inline-flex;
   flex-direction: column;
+  margin-bottom: 80px;
 }
 
 .link {
   text-decoration: none;
   min-height: 64px;
+  display: flex;
+  align-items: center;
 }
 
-/* .link_active { */
-a .active {
-  color: #f2f2f3;
-}
 
 .menu {
   max-width: 320px;

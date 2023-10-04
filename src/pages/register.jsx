@@ -9,7 +9,7 @@ import style from "./form.module.css";
 import { URL_LOGIN } from "../utils/constants";
 import FormAdditionalAction from "../components/form-additional-action/form-additional-action";
 
-function RegisterPage() {
+function Register() {
   // const { name, surname, numberOfPets, extraSocket, ownRack } = useSelector(
   //   (state) => state.participantRegistration.form,
   // );
@@ -53,4 +53,4 @@ function RegisterPage() {
   );
 }
 
-export default RegisterPage;
+export default Register;

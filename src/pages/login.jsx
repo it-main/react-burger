@@ -8,7 +8,7 @@ import style from "./form.module.css";
 import { URL_FORGOT_PASSWORD, URL_REGISTER } from "../utils/constants";
 import FormAdditionalAction from "../components/form-additional-action/form-additional-action";
 
-function LoginPage() {
+function Login() {
   // const { name, surname, numberOfPets, extraSocket, ownRack } = useSelector(
   //   (state) => state.participantRegistration.form,
   // );
@@ -57,4 +57,4 @@ function LoginPage() {
   );
 }
 
-export default LoginPage;
+export default Login;

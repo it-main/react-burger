@@ -6,7 +6,7 @@ function FormAdditionalAction({ label, linkCaption, url, extraClass }) {
   return (
     <p className={clsx("text text_type_main-default", extraClass, style.label)}>
       {label}
-      <Link className={"ml-2"} to={url}>
+      <Link className={clsx("ml-2", style.link)} to={url}>
         {linkCaption}
       </Link>
     </p>
