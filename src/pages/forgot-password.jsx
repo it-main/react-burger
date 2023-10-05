@@ -15,17 +15,13 @@ function ForgotPassword() {
   const dispatch = useDispatch();
 
   function setFormValue(field, value) {
-    return { type: FORM_SET_VALUE, payload: { [field]: value } };
+    return { type: FORM_SET_VALUE, payload: { field, value } };
   }
   const onFormChange = (e) => {
-    // if (e.target.name === "extraSocket" || e.target.name === "ownRack") {
-    //   dispatch(setParticipantFormValue(e.target.name, e.target.checked));
-    // } else {
-    dispatch(setFormValue(e.target.name, e.target.value));
-    // }
+    dispatch(setFormValue(e.target.id, e.target.value));
   };
   return (
-    <div className={clsx(style.content)}>
+    <div className={style.content}>
       <form className={style.form}>
         <h1 className="text text_type_main-medium">Восстановление пароля</h1>
         <EmailInput onChange={onFormChange} value={email} id="email" />

@@ -15,12 +15,20 @@ export const sendRequest = (endpoint, requestInit) => {
 };
 
 export function sendRequestResetPassword() {
-  //email должен быть в стейте. Отправить текст запроса с email
+
   return function (dispatch) {
+
     dispatch({
       type: RESET_PASSWORD_REQUEST,
     });
-    sendRequest("password-reset")
+    const requestInit = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({email: ""}),
+    };
+    sendRequest("password-reset", requestInit)
       .then(checkResponse)
       .then((json) => {
         if (json.success) {
