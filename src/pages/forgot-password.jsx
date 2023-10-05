@@ -6,20 +6,24 @@ import { clsx } from "clsx";
 import style from "./form.module.css";
 import { URL_LOGIN } from "../utils/constants";
 import FormAdditionalAction from "../components/form-additional-action/form-additional-action";
+import { sendRequestResetPassword } from "../utils/api";
+import { useDispatch, useSelector } from "react-redux";
+import { FORM_SET_VALUE } from "../services/actions/profile";
 
 function ForgotPassword() {
-  // const { name, surname, numberOfPets, extraSocket, ownRack } = useSelector(
-  //   (state) => state.participantRegistration.form,
-  // );
-  // const dispatch = useDispatch();
+  const { email } = useSelector((state) => state.profile);
+  const dispatch = useDispatch();
+
+  function setFormValue(field, value) {
+    return { type: FORM_SET_VALUE, payload: { [field]: value } };
+  }
   const onFormChange = (e) => {
     // if (e.target.name === "extraSocket" || e.target.name === "ownRack") {
     //   dispatch(setParticipantFormValue(e.target.name, e.target.checked));
     // } else {
-    //   dispatch(setParticipantFormValue(e.target.name, e.target.value));
+    dispatch(setFormValue(e.target.name, e.target.value));
     // }
   };
-  let email;
   return (
     <div className={clsx(style.content)}>
       <form className={style.form}>
@@ -30,6 +34,7 @@ function ForgotPassword() {
           type="primary"
           size="medium"
           extraClass="mb-20"
+          onClick={sendRequestResetPassword}
         >
           Восстановить
         </Button>

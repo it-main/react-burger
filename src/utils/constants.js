@@ -6,7 +6,7 @@ export const getStateOrder = (state) => state.order;
 export function linkIsActive(isActive) {
   return isActive ? "text_color_primary" : "text_color_inactive";
 }
-
+export const URL_API = "https://norma.nomoreparties.space/api";
 export const URL_HOME = "/";
 export const URL_LOGIN = "/login";
 export const URL_REGISTER = "/register";
