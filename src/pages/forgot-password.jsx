@@ -2,7 +2,7 @@ import {
   Button,
   EmailInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { clsx } from "clsx";
+
 import style from "./form.module.css";
 import { URL_LOGIN } from "../utils/constants";
 import FormAdditionalAction from "../components/form-additional-action/form-additional-action";
@@ -13,6 +13,10 @@ import { FORM_SET_VALUE } from "../services/actions/profile";
 function ForgotPassword() {
   const { email } = useSelector((state) => state.profile);
   const dispatch = useDispatch();
+
+  function handleResetPassword() {
+    dispatch(sendRequestResetPassword());
+  }
 
   function setFormValue(field, value) {
     return { type: FORM_SET_VALUE, payload: { field, value } };
@@ -30,7 +34,7 @@ function ForgotPassword() {
           type="primary"
           size="medium"
           extraClass="mb-20"
-          onClick={sendRequestResetPassword}
+          onClick={handleResetPassword}
         >
           Восстановить
         </Button>

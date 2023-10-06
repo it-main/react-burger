@@ -15,9 +15,9 @@ export const sendRequest = (endpoint, requestInit) => {
 };
 
 export function sendRequestResetPassword() {
-
+  console.log("1");
   return function (dispatch) {
-
+    console.log("2");
     dispatch({
       type: RESET_PASSWORD_REQUEST,
     });
@@ -26,7 +26,7 @@ export function sendRequestResetPassword() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({email: ""}),
+      body: JSON.stringify({ email: "" }),
     };
     sendRequest("password-reset", requestInit)
       .then(checkResponse)
@@ -34,7 +34,7 @@ export function sendRequestResetPassword() {
         if (json.success) {
           dispatch({
             type: RESET_PASSWORD_SUCCESS,
-            payload: json.success,
+            payload: JSON.stringify(json),
           });
         } else {
           dispatch({

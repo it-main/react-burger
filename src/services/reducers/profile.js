@@ -12,6 +12,7 @@ const initialState = {
   sendRequest: false,
 };
 export const profileReducer = (state = initialState, action) => {
+  console.log(action);
   switch (action.type) {
     case RESET_PASSWORD_REQUEST: {
       return {
