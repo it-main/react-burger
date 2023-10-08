@@ -8,11 +8,12 @@ import {
 const initialState = {
   name: undefined,
   email: "",
-  password: undefined,
+  password: "",
+  verifyCode: "",
   sendRequest: false,
+  resultRequestForgotPassword: undefined,
 };
 export const profileReducer = (state = initialState, action) => {
-  console.log(action);
   switch (action.type) {
     case RESET_PASSWORD_REQUEST: {
       return {
@@ -25,6 +26,7 @@ export const profileReducer = (state = initialState, action) => {
       return {
         ...state,
         sendRequest: false,
+        resultRequestForgotPassword: action.payload,
       };
     }
     case RESET_PASSWORD_FAILED: {

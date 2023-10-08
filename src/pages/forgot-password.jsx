@@ -8,33 +8,38 @@ import { URL_LOGIN } from "../utils/constants";
 import FormAdditionalAction from "../components/form-additional-action/form-additional-action";
 import { sendRequestResetPassword } from "../utils/api";
 import { useDispatch, useSelector } from "react-redux";
-import { FORM_SET_VALUE } from "../services/actions/profile";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import {onFormChange} from "../services/actions/profile";
 
 function ForgotPassword() {
-  const { email } = useSelector((state) => state.profile);
+  const { email, resultRequestForgotPassword } = useSelector(
+    (state) => state.profile
+  );
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  function handleResetPassword() {
-    dispatch(sendRequestResetPassword());
+  function handleSubmit(event) {
+    event.preventDefault();
+    dispatch(sendRequestResetPassword(email));
   }
 
-  function setFormValue(field, value) {
-    return { type: FORM_SET_VALUE, payload: { field, value } };
-  }
-  const onFormChange = (e) => {
-    dispatch(setFormValue(e.target.id, e.target.value));
-  };
+  useEffect(() => {
+    if (resultRequestForgotPassword) {
+      navigate("/reset-password", { replace: true });
+    }
+  }, [resultRequestForgotPassword]);
+
   return (
     <div className={style.content}>
-      <form className={style.form}>
+      <form className={style.form} onSubmit={handleSubmit}>
         <h1 className="text text_type_main-medium">Восстановление пароля</h1>
-        <EmailInput onChange={onFormChange} value={email} id="email" />
+        <EmailInput onChange={(event) => onFormChange(event,dispatch)} value={email} id="email" />
         <Button
-          htmlType="button"
+          htmlType="submit"
           type="primary"
           size="medium"
           extraClass="mb-20"
-          onClick={handleResetPassword}
         >
           Восстановить
         </Button>

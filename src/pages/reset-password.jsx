@@ -7,20 +7,13 @@ import { clsx } from "clsx";
 import style from "./form.module.css";
 import { URL_LOGIN } from "../utils/constants";
 import FormAdditionalAction from "../components/form-additional-action/form-additional-action";
+import {useDispatch, useSelector} from "react-redux";
+import {onFormChange} from "../services/actions/profile";
 
 function ResetPassword() {
-  // const { name, surname, numberOfPets, extraSocket, ownRack } = useSelector(
-  //   (state) => state.participantRegistration.form,
-  // );
-  // const dispatch = useDispatch();
-  const onFormChange = (e) => {
-    // if (e.target.name === "extraSocket" || e.target.name === "ownRack") {
-    //   dispatch(setParticipantFormValue(e.target.name, e.target.checked));
-    // } else {
-    //   dispatch(setParticipantFormValue(e.target.name, e.target.value));
-    // }
-  };
-  let password;
+  const { password, verificationCode } = useSelector((state) => state.profile);
+  const dispatch = useDispatch();
+
   return (
     <div className={clsx(style.content)}>
       <form className={style.form}>
@@ -28,14 +21,15 @@ function ResetPassword() {
         <PasswordInput
           placeholder="Введите новый пароль"
           icon="ShowIcon"
-          onChange={onFormChange}
+          onChange={(event) => onFormChange(event, dispatch)}
           value={password}
           id="password"
         />
         <Input
           type="text"
           placeholder="Введите код из письма"
-          onChange={onFormChange}
+          onChange={(event) => onFormChange(event, dispatch)}
+          id={verificationCode}
         ></Input>
         <Button
           htmlType="button"
