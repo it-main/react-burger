@@ -9,8 +9,8 @@ import style from "./form.module.css";
 import { URL_LOGIN } from "../utils/constants";
 import FormAdditionalAction from "../components/form-additional-action/form-additional-action";
 import { useState } from "react";
-import { sendRequestRegister } from "../utils/api";
 import { useDispatch } from "react-redux";
+import {sendRequestRegister} from "../services/actions/profile";
 
 function Register() {
   const [name, setName] = useState("");

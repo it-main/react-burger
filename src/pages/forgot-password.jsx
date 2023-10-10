@@ -6,11 +6,11 @@ import {
 import style from "./form.module.css";
 import { URL_LOGIN } from "../utils/constants";
 import FormAdditionalAction from "../components/form-additional-action/form-additional-action";
-import { sendRequestForgotPassword } from "../utils/api";
+
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { onFormChange, RESET_PASSWORD_INIT } from "../services/actions/profile";
+import {onFormChange, RESET_PASSWORD_INIT, sendRequestForgotPassword} from "../services/actions/profile";
 
 function ForgotPassword() {
   const { email, resultRequestForgotPassword } = useSelector(
@@ -27,9 +27,9 @@ function ForgotPassword() {
   useEffect(() => {
     if (resultRequestForgotPassword) {
       navigate("/reset-password", { replace: true });
-      dispatch({ type: RESET_PASSWORD_INIT });
+      // dispatch({ type: RESET_PASSWORD_INIT });
     }
-  }, [resultRequestForgotPassword]);
+  }, [navigate, resultRequestForgotPassword]);
 
   return (
     <div className={style.content}>

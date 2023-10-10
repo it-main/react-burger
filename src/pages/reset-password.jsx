@@ -8,8 +8,8 @@ import style from "./form.module.css";
 import { URL_LOGIN } from "../utils/constants";
 import FormAdditionalAction from "../components/form-additional-action/form-additional-action";
 import { useDispatch, useSelector } from "react-redux";
-import { onFormChange } from "../services/actions/profile";
-import { sendRequestResetPassword } from "../utils/api";
+import {onFormChange, sendRequestResetPassword} from "../services/actions/profile";
+
 
 function ResetPassword() {
   const { password, token } = useSelector((state) => state.profile);

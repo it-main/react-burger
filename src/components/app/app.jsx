@@ -24,6 +24,7 @@ import Profile from "../../pages/profile";
 import Feed from "../../pages/feed";
 import NotFound from "../../pages/not-found";
 import styles from "./app.module.css";
+import ProtectedRoute from "../protected-route/protected-route";
 
 function App() {
   const dispatch = useDispatch();
@@ -85,7 +86,9 @@ function App() {
         <Route path={URL_REGISTER} element={<Register />} />
         <Route path={URL_FORGOT_PASSWORD} element={<ForgotPassword />} />
         <Route path={URL_RESET_PASSWORD} element={<ResetPassword />} />
-        <Route path={URL_PROFILE} element={<Profile />} />
+        <Route element={<ProtectedRoute/>}>
+          <Route path={URL_PROFILE} element={<Profile />} />
+        </Route>
         <Route path={URL_FEED} element={<Feed />} />
         <Route path={URL_NOTFOUND} element={<NotFound />} />
       </Routes>
