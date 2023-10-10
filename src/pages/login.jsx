@@ -7,12 +7,11 @@ import { clsx } from "clsx";
 import style from "./form.module.css";
 import { URL_FORGOT_PASSWORD, URL_REGISTER } from "../utils/constants";
 import FormAdditionalAction from "../components/form-additional-action/form-additional-action";
+import { useDispatch, useSelector } from "react-redux";
 
 function Login() {
-  // const { name, surname, numberOfPets, extraSocket, ownRack } = useSelector(
-  //   (state) => state.participantRegistration.form,
-  // );
-  // const dispatch = useDispatch();
+  const { email, password } = useSelector((state) => state.profile);
+  const dispatch = useDispatch();
   const onFormChange = (e) => {
     // if (e.target.name === "extraSocket" || e.target.name === "ownRack") {
     //   dispatch(setParticipantFormValue(e.target.name, e.target.checked));
@@ -20,7 +19,7 @@ function Login() {
     //   dispatch(setParticipantFormValue(e.target.name, e.target.value));
     // }
   };
-  let email, password;
+
   return (
     <div className={clsx(style.content)}>
       <form className={style.form}>
