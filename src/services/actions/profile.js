@@ -8,6 +8,9 @@ export const FORM_SET_VALUE = "FORM_SET_VALUE";
 export const REGISTER_REQUEST = "REGISTER_REQUEST";
 export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
 export const REGISTER_FAILED = "REGISTER_FAILED";
+export const LOGIN_REQUEST = "LOGIN_REQUEST";
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+export const LOGIN_FAILED = "LOGIN_FAILED";
 
 export const LOGOUT = "LOGOUT";
 
@@ -132,38 +135,39 @@ export function sendRequestRegister(name, email, password) {
       });
   };
 }
-export function sendRequestLogin(name, email, password) {
+
+export function sendRequestLogin(email, password) {
   return function (dispatch) {
     dispatch({
-      type: REGISTER_REQUEST,
+      type: LOGIN_REQUEST,
     });
     const requestInit = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email, password, name }),
+      body: JSON.stringify({ email, password}),
     };
-    sendRequest("auth/register", requestInit)
+    sendRequest("auth/login", requestInit)
       .then(checkResponse)
       .then((json) => {
         if (json.success) {
           dispatch({
-            type: REGISTER_SUCCESS,
+            type: LOGIN_SUCCESS,
             payload: { ...json.user },
           });
         } else {
           dispatch({
-            type: REGISTER_FAILED,
+            type: LOGIN_FAILED,
             payload: undefined,
           });
-          console.error("Ошибка при регистрации");
+          console.error("Ошибка при авторизации");
         }
       })
       .catch((error) => {
         console.error(error);
         dispatch({
-          type: REGISTER_FAILED,
+          type: LOGIN_FAILED,
           payload: undefined,
         });
       });

@@ -1,5 +1,5 @@
 import {
-  FORM_SET_VALUE,
+  FORM_SET_VALUE, LOGIN_FAILED, LOGIN_REQUEST, LOGIN_SUCCESS, REGISTER_FAILED,
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
   RESET_PASSWORD_FAILED,
@@ -66,6 +66,40 @@ export const profileReducer = (state = initialState, action) => {
         email: data.email,
       };
     }
+    case REGISTER_FAILED: {
+      return {
+        ...state,
+        sendRequest: false,
+        successRequest: false,
+      };
+    }
+
+    case LOGIN_REQUEST: {
+      return {
+        ...state,
+        sendRequest: true,
+        successRequest: undefined,
+      };
+    }
+    case LOGIN_SUCCESS: {
+      const data = action.payload;
+      return {
+        ...state,
+        sendRequest: false,
+        successRequest: true,
+        isAuth: true,
+        name: data.name,
+        email: data.email,
+      };
+    }
+    case LOGIN_FAILED: {
+      return {
+        ...state,
+        sendRequest: false,
+        successRequest: false,
+      };
+    }
+
     case FORM_SET_VALUE: {
       return {
         ...state,

@@ -9,21 +9,16 @@ import { URL_FORGOT_PASSWORD, URL_REGISTER } from "../utils/constants";
 import FormAdditionalAction from "../components/form-additional-action/form-additional-action";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
+import {sendRequestLogin} from "../services/actions/profile";
 
 function Login() {
   const { email, setEmail } = useState("");
   const { password, setPassword } = useState("");
   const dispatch = useDispatch();
-  const onFormChange = (e) => {
-    // if (e.target.name === "extraSocket" || e.target.name === "ownRack") {
-    //   dispatch(setParticipantFormValue(e.target.name, e.target.checked));
-    // } else {
-    //   dispatch(setParticipantFormValue(e.target.name, e.target.value));
-    // }
-  };
 
   function handleSubmit(event) {
     event.preventDefault();
+    dispatch(sendRequestLogin(email, password));
   }
 
   return (
