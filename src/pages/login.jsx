@@ -8,9 +8,11 @@ import style from "./form.module.css";
 import { URL_FORGOT_PASSWORD, URL_REGISTER } from "../utils/constants";
 import FormAdditionalAction from "../components/form-additional-action/form-additional-action";
 import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
 
 function Login() {
-  const { email, password } = useSelector((state) => state.profile);
+  const { email, setEmail } = useState("");
+  const { password, setPassword } = useState("");
   const dispatch = useDispatch();
   const onFormChange = (e) => {
     // if (e.target.name === "extraSocket" || e.target.name === "ownRack") {
@@ -20,20 +22,28 @@ function Login() {
     // }
   };
 
+  function handleSubmit(event) {
+    event.preventDefault();
+  }
+
   return (
     <div className={clsx(style.content)}>
-      <form className={style.form}>
+      <form className={style.form} onSubmit={handleSubmit}>
         <h1 className="text text_type_main-medium">Вход</h1>
-        <EmailInput onChange={onFormChange} value={email} id="email" />
+        <EmailInput
+          onChange={(event) => setEmail(event.target.value)}
+          value={email}
+          id="email"
+        />
         <PasswordInput
           placeholder="Пароль"
           icon="ShowIcon"
-          onChange={onFormChange}
+          onChange={(event) => setPassword(event.target.value)}
           value={password}
           id="password"
         />
         <Button
-          htmlType="button"
+          htmlType="submit"
           type="primary"
           size="medium"
           extraClass="mb-20"

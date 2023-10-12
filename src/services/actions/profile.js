@@ -1,4 +1,4 @@
-import {checkResponse, sendRequest} from "../../utils/api";
+import { checkResponse, sendRequest } from "../../utils/api";
 
 export const RESET_PASSWORD_REQUEST = "RESET_PASSWORD_REQUEST";
 export const RESET_PASSWORD_SUCCESS = "RESET_PASSWORD_SUCCESS";
@@ -96,6 +96,43 @@ export function sendRequestResetPassword(password, token) {
 }
 
 export function sendRequestRegister(name, email, password) {
+  return function (dispatch) {
+    dispatch({
+      type: REGISTER_REQUEST,
+    });
+    const requestInit = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password, name }),
+    };
+    sendRequest("auth/register", requestInit)
+      .then(checkResponse)
+      .then((json) => {
+        if (json.success) {
+          dispatch({
+            type: REGISTER_SUCCESS,
+            payload: { ...json.user },
+          });
+        } else {
+          dispatch({
+            type: REGISTER_FAILED,
+            payload: undefined,
+          });
+          console.error("Ошибка при регистрации");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        dispatch({
+          type: REGISTER_FAILED,
+          payload: undefined,
+        });
+      });
+  };
+}
+export function sendRequestLogin(name, email, password) {
   return function (dispatch) {
     dispatch({
       type: REGISTER_REQUEST,
