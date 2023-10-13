@@ -1,4 +1,5 @@
 import { checkResponse, sendRequest } from "../../utils/api";
+import { setCookie } from "../../utils/cookie";
 
 export const RESET_PASSWORD_REQUEST = "RESET_PASSWORD_REQUEST";
 export const RESET_PASSWORD_SUCCESS = "RESET_PASSWORD_SUCCESS";
@@ -143,10 +144,15 @@ export function sendRequestLogin(email, password) {
     });
     const requestInit = {
       method: "POST",
+      mode: "cors",
+      cache: "no-cache",
+      credentials: "same-origin",
+      redirect: "follow",
+      referrerPolicy: "no-referrer",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email, password}),
+      body: JSON.stringify({ email, password }),
     };
     sendRequest("auth/login", requestInit)
       .then(checkResponse)
@@ -156,6 +162,8 @@ export function sendRequestLogin(email, password) {
             type: LOGIN_SUCCESS,
             payload: { ...json.user },
           });
+          setCookie("accessToken", json.accessToken.split("Bearer ")[1]);
+          setCookie("refreshToken", json.refreshToken);
         } else {
           dispatch({
             type: LOGIN_FAILED,

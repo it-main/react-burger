@@ -7,13 +7,13 @@ import { clsx } from "clsx";
 import style from "./form.module.css";
 import { URL_FORGOT_PASSWORD, URL_REGISTER } from "../utils/constants";
 import FormAdditionalAction from "../components/form-additional-action/form-additional-action";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useState } from "react";
-import {sendRequestLogin} from "../services/actions/profile";
+import { sendRequestLogin } from "../services/actions/profile";
 
 function Login() {
-  const { email, setEmail } = useState("");
-  const { password, setPassword } = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const dispatch = useDispatch();
 
   function handleSubmit(event) {
