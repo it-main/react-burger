@@ -5,21 +5,37 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { clsx } from "clsx";
 import style from "./form.module.css";
-import { URL_FORGOT_PASSWORD, URL_REGISTER } from "../utils/constants";
+import {
+  URL_FORGOT_PASSWORD,
+  URL_HOME,
+  URL_REGISTER,
+} from "../utils/constants";
 import FormAdditionalAction from "../components/form-additional-action/form-additional-action";
-import { useDispatch } from "react-redux";
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 import { sendRequestLogin } from "../services/actions/profile";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { isAuth } = useSelector((state) => state.profile);
+  const from = useLocation().state?.from || URL_HOME;
 
   function handleSubmit(event) {
     event.preventDefault();
     dispatch(sendRequestLogin(email, password));
   }
+
+  // console.log(useLocation().state);
+  if (isAuth) return <Navigate to={from} replace />;
+  //useEffect(() => {
+  //   if (isAuth) {
+  //     navigate(from, { replace: true });
+  //   }
+  //}, [isAuth, navigate, from]);
 
   return (
     <div className={clsx(style.content)}>

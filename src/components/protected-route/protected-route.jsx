@@ -1,18 +1,17 @@
 import { useSelector } from "react-redux";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { URL_LOGIN } from "../../utils/constants";
 
 function ProtectedRoute(props) {
   const { isAuth } = useSelector((state) => state.profile);
-  const navigate = useNavigate();
   const location = useLocation();
-  // useEffect(() => {
-  if (!isAuth) {
-    navigate(URL_LOGIN, { replace: true });
-  }
-  // }, [location, navigate, isAuth]);
+
+  if (!isAuth)
+    return (
+      <Navigate to={URL_LOGIN} replace state={{ from: location.pathname }} />
+    );
+
   return <Outlet />;
 }
-
 export default ProtectedRoute;

@@ -12,6 +12,7 @@ import {
   URL_FEED,
   URL_HOME,
   URL_LOGIN,
+  URL_PROFILE,
 } from "../../utils/constants";
 
 function AppHeader() {
@@ -43,7 +44,7 @@ function AppHeader() {
           <Logo />
         </NavLink>
         <NavLink
-          to={URL_LOGIN}
+          to={URL_PROFILE}
           className={({ isActive }) =>
             clsx(styles.link, linkIsActive(isActive))
           }

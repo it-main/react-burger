@@ -7,12 +7,16 @@ import { clsx } from "clsx";
 import style from "./form.module.css";
 import { URL_LOGIN } from "../utils/constants";
 import FormAdditionalAction from "../components/form-additional-action/form-additional-action";
-import { useDispatch, useSelector } from "react-redux";
-import {onFormChange, sendRequestResetPassword} from "../services/actions/profile";
-
+import { useDispatch } from "react-redux";
+import {
+  onFormChange,
+  sendRequestResetPassword,
+} from "../services/actions/profile";
+import { useState } from "react";
 
 function ResetPassword() {
-  const { password, token } = useSelector((state) => state.profile);
+  const [form, setFormValue] = useState({ password: "", token: "" });
+
   const dispatch = useDispatch();
 
   function handleSubmit(event) {
@@ -27,14 +31,14 @@ function ResetPassword() {
         <PasswordInput
           placeholder="Введите новый пароль"
           icon="ShowIcon"
-          onChange={(event) => onFormChange(event, dispatch)}
+          onChange={(event) => setPassword(event.target.value)}
           value={password}
           id="password"
         />
         <Input
           type="text"
           placeholder="Введите код из письма"
-          onChange={(event) => onFormChange(event, dispatch)}
+          onChange={(event) => setToken(event.target.value)}
           value={token}
           id="token"
         ></Input>

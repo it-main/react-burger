@@ -1,5 +1,9 @@
 import {
-  FORM_SET_VALUE, LOGIN_FAILED, LOGIN_REQUEST, LOGIN_SUCCESS, REGISTER_FAILED,
+  FORM_SET_VALUE,
+  LOGIN_FAILED,
+  LOGIN_REQUEST,
+  LOGIN_SUCCESS,
+  REGISTER_FAILED,
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
   RESET_PASSWORD_FAILED,
@@ -11,7 +15,6 @@ import {
 const initialState = {
   name: "",
   email: "",
-  password: "",
   isAuth: false,
   sendRequest: false,
   successRequest: undefined,
