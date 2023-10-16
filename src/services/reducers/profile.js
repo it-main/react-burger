@@ -18,7 +18,6 @@ const initialState = {
   isAuth: false,
   sendRequest: false,
   successRequest: undefined,
-  errorRequest: undefined,
 };
 export const profileReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -27,7 +26,6 @@ export const profileReducer = (state = initialState, action) => {
         ...state,
         sendRequest: true,
         successRequest: undefined,
-        errorRequest: undefined,
       };
     }
     case RESET_PASSWORD_SUCCESS: {

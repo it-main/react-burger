@@ -10,16 +10,19 @@ import { URL_LOGIN } from "../utils/constants";
 import FormAdditionalAction from "../components/form-additional-action/form-additional-action";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import {sendRequestRegister} from "../services/actions/profile";
+import { sendRequestRegister } from "../services/actions/profile";
 
 function Register() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [form, setFormValue] = useState({ name: "", email: "", password: "" });
+  const { name, email, password } = form;
   const dispatch = useDispatch();
   function handleSubmit(event) {
     event.preventDefault();
     dispatch(sendRequestRegister(name, email, password));
+  }
+
+  function onChange(event) {
+    setFormValue({ ...form, [event.target.id]: event.target.value });
   }
 
   return (
@@ -30,18 +33,15 @@ function Register() {
           type="text"
           value={name}
           placeholder="Имя"
-          onChange={(event) => setName(event.target.value)}
+          onChange={onChange}
+          id="name"
         ></Input>
-        <EmailInput
-          onChange={(event) => setEmail(event.target.value)}
-          value={email}
-          id="email"
-        />
+        <EmailInput onChange={onChange} value={email} id="email" />
         <PasswordInput
           placeholder="Пароль"
           icon="ShowIcon"
           value={password}
-          onChange={(event) => setPassword(event.target.value)}
+          onChange={onChange}
           id="password"
         />
         <Button

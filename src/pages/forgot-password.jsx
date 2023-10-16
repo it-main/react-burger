@@ -4,39 +4,41 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import style from "./form.module.css";
-import { URL_LOGIN } from "../utils/constants";
+import { URL_HOME, URL_LOGIN } from "../utils/constants";
 import FormAdditionalAction from "../components/form-additional-action/form-additional-action";
 
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import {onFormChange, RESET_PASSWORD_INIT, sendRequestForgotPassword} from "../services/actions/profile";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { sendRequestForgotPassword } from "../services/actions/profile";
 
 function ForgotPassword() {
-  const { email, resultRequestForgotPassword } = useSelector(
-    (state) => state.profile,
-  );
+  const [email, setEmail] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
 
+  const { isAuth, successRequest } = useSelector((state) => state.profile);
   function handleSubmit(event) {
     event.preventDefault();
     dispatch(sendRequestForgotPassword(email));
   }
 
   useEffect(() => {
-    if (resultRequestForgotPassword) {
-      navigate("/reset-password", { replace: true });
-      // dispatch({ type: RESET_PASSWORD_INIT });
-    }
-  }, [navigate, resultRequestForgotPassword]);
+    isAuth && navigate(URL_HOME, { replace: true });
+    successRequest &&
+      navigate("/reset-password", {
+        replace: true,
+        state: { from: location.pathname },
+      });
+  }, [navigate, successRequest, isAuth]);
 
   return (
     <div className={style.content}>
       <form className={style.form} onSubmit={handleSubmit}>
         <h1 className="text text_type_main-medium">Восстановление пароля</h1>
         <EmailInput
-          onChange={(event) => onFormChange(event, dispatch)}
+          onChange={(event) => setEmail(event.target.value)}
           value={email}
           id="email"
         />

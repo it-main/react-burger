@@ -5,23 +5,29 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { clsx } from "clsx";
 import style from "./form.module.css";
-import { URL_LOGIN } from "../utils/constants";
+import { URL_HOME, URL_LOGIN } from "../utils/constants";
 import FormAdditionalAction from "../components/form-additional-action/form-additional-action";
-import { useDispatch } from "react-redux";
-import {
-  onFormChange,
-  sendRequestResetPassword,
-} from "../services/actions/profile";
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { sendRequestResetPassword } from "../services/actions/profile";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function ResetPassword() {
-  const [form, setFormValue] = useState({ password: "", token: "" });
-
   const dispatch = useDispatch();
+  const [form, setFormValue] = useState({
+    password: "",
+    token: "",
+  });
+  const navigate = useNavigate();
+  const { isAuth } = useSelector((state) => state.profile);
+
+  useEffect(() => {
+    isAuth && navigate(URL_HOME, { replace: true });
+  }, [navigate, isAuth]);
 
   function handleSubmit(event) {
     event.preventDefault();
-    dispatch(sendRequestResetPassword(password, token));
+    dispatch(sendRequestResetPassword(form.password, form.token));
   }
 
   return (
@@ -31,15 +37,19 @@ function ResetPassword() {
         <PasswordInput
           placeholder="Введите новый пароль"
           icon="ShowIcon"
-          onChange={(event) => setPassword(event.target.value)}
-          value={password}
+          onChange={(event) =>
+            setFormValue({ ...form, password: event.target.value })
+          }
+          value={form.password}
           id="password"
         />
         <Input
           type="text"
           placeholder="Введите код из письма"
-          onChange={(event) => setToken(event.target.value)}
-          value={token}
+          onChange={(event) =>
+            setFormValue({ ...form, token: event.target.value })
+          }
+          value={form.token}
           id="token"
         ></Input>
         <Button

@@ -15,14 +15,6 @@ export const LOGIN_FAILED = "LOGIN_FAILED";
 
 export const LOGOUT = "LOGOUT";
 
-function setFormValue(field, value) {
-  return { type: FORM_SET_VALUE, payload: { field, value } };
-}
-
-export const onFormChange = (event, dispatch) => {
-  dispatch(setFormValue(event.target.id, event.target.value));
-};
-
 export function sendRequestForgotPassword(email) {
   return function (dispatch) {
     dispatch({
@@ -41,7 +33,7 @@ export function sendRequestForgotPassword(email) {
         if (json.success) {
           dispatch({
             type: RESET_PASSWORD_SUCCESS,
-            payload: json.success,
+            payload: json,
           });
         } else {
           dispatch({
