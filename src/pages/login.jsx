@@ -17,8 +17,8 @@ import { sendRequestLogin } from "../services/actions/profile";
 import { Navigate, useLocation } from "react-router-dom";
 
 function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [form, setFormValue] = useState({ email: "", password: "" });
+  const { password, email } = form;
   const dispatch = useDispatch();
   const { isAuth } = useSelector((state) => state.profile);
   const from = useLocation().state?.from || URL_HOME;
@@ -28,27 +28,21 @@ function Login() {
     dispatch(sendRequestLogin(email, password));
   }
 
-  // console.log(useLocation().state);
+  function onChange(event) {
+    setFormValue({ ...form, [event.target.id]: event.target.value });
+  }
+
   if (isAuth) return <Navigate to={from} replace />;
-  //useEffect(() => {
-  //   if (isAuth) {
-  //     navigate(from, { replace: true });
-  //   }
-  //}, [isAuth, navigate, from]);
 
   return (
     <div className={clsx(style.content)}>
       <form className={style.form} onSubmit={handleSubmit}>
         <h1 className="text text_type_main-medium">Вход</h1>
-        <EmailInput
-          onChange={(event) => setEmail(event.target.value)}
-          value={email}
-          id="email"
-        />
+        <EmailInput onChange={onChange} value={email} id="email" />
         <PasswordInput
           placeholder="Пароль"
           icon="ShowIcon"
-          onChange={(event) => setPassword(event.target.value)}
+          onChange={onChange}
           value={password}
           id="password"
         />
