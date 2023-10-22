@@ -11,7 +11,6 @@ import {
   linkIsActive,
   URL_FEED,
   URL_HOME,
-  URL_LOGIN,
   URL_PROFILE,
 } from "../../utils/constants";
 
