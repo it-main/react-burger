@@ -5,7 +5,11 @@ import "./index.css";
 import App from "./components/app/app";
 import reportWebVitals from "./reportWebVitals";
 
-import { compose, createStore, applyMiddleware } from "redux";
+import {
+  compose,
+  legacy_createStore as createStore,
+  applyMiddleware,
+} from "redux";
 import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 import { rootReducer } from "./services/reducers";
@@ -31,9 +35,8 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
+    {/*redux*/}
     <Provider store={store}>
-      {" "}
-      {/*redux*/}
       <BrowserRouter>
         <App />
       </BrowserRouter>

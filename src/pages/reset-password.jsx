@@ -5,12 +5,12 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { clsx } from "clsx";
 import style from "./form.module.css";
-import { URL_HOME, URL_LOGIN } from "../utils/constants";
+import { URL_FORGOT_PASSWORD, URL_HOME, URL_LOGIN } from "../utils/constants";
 import FormAdditionalAction from "../components/form-additional-action/form-additional-action";
 import { useDispatch, useSelector } from "react-redux";
 import { sendRequestResetPassword } from "../services/actions/profile";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function ResetPassword() {
   const dispatch = useDispatch();
@@ -18,16 +18,20 @@ function ResetPassword() {
     password: "",
     token: "",
   });
+  const { password, token } = form;
   const navigate = useNavigate();
+  const from = useLocation().state?.from;
   const { isAuth } = useSelector((state) => state.profile);
 
   useEffect(() => {
     isAuth && navigate(URL_HOME, { replace: true });
-  }, [navigate, isAuth]);
+    from !== URL_FORGOT_PASSWORD &&
+      navigate(URL_FORGOT_PASSWORD, { replace: true });
+  }, [from, navigate, isAuth]);
 
   function handleSubmit(event) {
     event.preventDefault();
-    dispatch(sendRequestResetPassword(form.password, form.token));
+    dispatch(sendRequestResetPassword(password, token));
   }
 
   return (
@@ -40,7 +44,7 @@ function ResetPassword() {
           onChange={(event) =>
             setFormValue({ ...form, password: event.target.value })
           }
-          value={form.password}
+          value={password}
           id="password"
         />
         <Input
@@ -49,7 +53,7 @@ function ResetPassword() {
           onChange={(event) =>
             setFormValue({ ...form, token: event.target.value })
           }
-          value={form.token}
+          value={token}
           id="token"
         ></Input>
         <Button
