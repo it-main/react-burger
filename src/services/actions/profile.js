@@ -4,7 +4,6 @@ import { setCookie } from "../../utils/cookie";
 export const RESET_PASSWORD_REQUEST = "RESET_PASSWORD_REQUEST";
 export const RESET_PASSWORD_SUCCESS = "RESET_PASSWORD_SUCCESS";
 export const RESET_PASSWORD_FAILED = "RESET_PASSWORD_FAILED";
-export const RESET_PASSWORD_INIT = "RESET_PASSWORD_INIT";
 export const FORM_SET_VALUE = "FORM_SET_VALUE";
 export const REGISTER_REQUEST = "REGISTER_REQUEST";
 export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
@@ -15,11 +14,56 @@ export const LOGIN_FAILED = "LOGIN_FAILED";
 
 export const LOGOUT = "LOGOUT";
 
+const resetPasswordSuccess = (message) => {
+  return {
+    type: RESET_PASSWORD_SUCCESS,
+    payload: message,
+  };
+};
+
+const resetPasswordFailed = {
+  type: RESET_PASSWORD_FAILED,
+  payload: false,
+};
+
+const resetPasswordRequest = {
+  type: RESET_PASSWORD_REQUEST,
+};
+
+const registerRequest = {
+  type: REGISTER_REQUEST,
+};
+const registerSuccess = (data) => {
+  return {
+    type: REGISTER_SUCCESS,
+    payload: data.user,
+  };
+};
+
+const registerFailed = {
+  type: REGISTER_FAILED,
+  payload: undefined,
+};
+
+const loginRequest = {
+  type: LOGIN_REQUEST,
+};
+
+const loginSuccess = (data) => {
+  return {
+    type: LOGIN_SUCCESS,
+    payload: data.user,
+  };
+};
+
+const loginFailed = {
+  type: LOGIN_FAILED,
+  payload: undefined,
+};
+
 export function sendRequestForgotPassword(email) {
   return function (dispatch) {
-    dispatch({
-      type: RESET_PASSWORD_REQUEST,
-    });
+    dispatch(resetPasswordRequest);
     const requestInit = {
       method: "POST",
       headers: {
@@ -31,33 +75,22 @@ export function sendRequestForgotPassword(email) {
       .then(checkResponse)
       .then((json) => {
         if (json.success) {
-          dispatch({
-            type: RESET_PASSWORD_SUCCESS,
-            payload: json,
-          });
+          dispatch(resetPasswordSuccess(json.message));
         } else {
-          dispatch({
-            type: RESET_PASSWORD_FAILED,
-            payload: false,
-          });
+          dispatch(resetPasswordFailed);
           console.error("Ошибка получения данных с сервера");
         }
       })
       .catch((error) => {
         console.error(error);
-        dispatch({
-          type: RESET_PASSWORD_FAILED,
-          payload: false,
-        });
+        dispatch(resetPasswordFailed);
       });
   };
 }
 
 export function sendRequestResetPassword(password, token) {
   return function (dispatch) {
-    dispatch({
-      type: RESET_PASSWORD_REQUEST,
-    });
+    dispatch(resetPasswordRequest);
     const requestInit = {
       method: "POST",
       headers: {
@@ -69,33 +102,22 @@ export function sendRequestResetPassword(password, token) {
       .then(checkResponse)
       .then((json) => {
         if (json.success) {
-          dispatch({
-            type: RESET_PASSWORD_SUCCESS,
-            payload: json.success,
-          });
+          dispatch(resetPasswordSuccess(json.message));
         } else {
-          dispatch({
-            type: RESET_PASSWORD_FAILED,
-            payload: false,
-          });
+          dispatch(resetPasswordFailed);
           console.error("Ошибка получения данных с сервера");
         }
       })
       .catch((error) => {
         console.error(error);
-        dispatch({
-          type: RESET_PASSWORD_FAILED,
-          payload: false,
-        });
+        dispatch(resetPasswordFailed);
       });
   };
 }
 
 export function sendRequestRegister(name, email, password) {
   return function (dispatch) {
-    dispatch({
-      type: REGISTER_REQUEST,
-    });
+    dispatch(registerRequest);
     const requestInit = {
       method: "POST",
       headers: {
@@ -107,33 +129,22 @@ export function sendRequestRegister(name, email, password) {
       .then(checkResponse)
       .then((json) => {
         if (json.success) {
-          dispatch({
-            type: REGISTER_SUCCESS,
-            payload: { ...json.user },
-          });
+          dispatch(registerSuccess(json));
         } else {
-          dispatch({
-            type: REGISTER_FAILED,
-            payload: undefined,
-          });
+          dispatch(registerFailed);
           console.error("Ошибка при регистрации");
         }
       })
       .catch((error) => {
         console.error(error);
-        dispatch({
-          type: REGISTER_FAILED,
-          payload: undefined,
-        });
+        dispatch(registerFailed);
       });
   };
 }
 
 export function sendRequestLogin(email, password) {
   return function (dispatch) {
-    dispatch({
-      type: LOGIN_REQUEST,
-    });
+    dispatch(loginRequest);
     const requestInit = {
       method: "POST",
       mode: "cors",
@@ -150,26 +161,17 @@ export function sendRequestLogin(email, password) {
       .then(checkResponse)
       .then((json) => {
         if (json.success) {
-          dispatch({
-            type: LOGIN_SUCCESS,
-            payload: { ...json.user },
-          });
+          dispatch(loginSuccess(json));
           setCookie("accessToken", json.accessToken.split("Bearer ")[1]);
           setCookie("refreshToken", json.refreshToken);
         } else {
-          dispatch({
-            type: LOGIN_FAILED,
-            payload: undefined,
-          });
+          dispatch(loginFailed);
           console.error("Ошибка при авторизации");
         }
       })
       .catch((error) => {
         console.error(error);
-        dispatch({
-          type: LOGIN_FAILED,
-          payload: undefined,
-        });
+        dispatch(loginFailed);
       });
   };
 }

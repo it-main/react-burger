@@ -7,7 +7,6 @@ import {
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
   RESET_PASSWORD_FAILED,
-  RESET_PASSWORD_INIT,
   RESET_PASSWORD_REQUEST,
   RESET_PASSWORD_SUCCESS,
 } from "../actions/profile";
@@ -43,13 +42,6 @@ export const profileReducer = (state = initialState, action) => {
         successRequest: undefined,
       };
     }
-    // case RESET_PASSWORD_INIT: {
-    //   return {
-    //     ...state,
-    //     sendRequest: false,
-    //     resultRequestForgotPassword: undefined,
-    //   };
-    // }
     case REGISTER_REQUEST: {
       return {
         ...state,

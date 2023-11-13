@@ -21,7 +21,7 @@ import Register from "../../pages/register";
 import ForgotPassword from "../../pages/forgot-password";
 import ResetPassword from "../../pages/reset-password";
 import Profile from "../../pages/profile";
-import Feed from "../../pages/feed";
+import Orders from "../../pages/orders";
 import NotFound from "../../pages/not-found";
 import styles from "./app.module.css";
 import ProtectedRoute from "../protected-route/protected-route";
@@ -85,16 +85,17 @@ function App() {
         <Route path={URL_REGISTER} element={<Register />} />
         <Route path={URL_FORGOT_PASSWORD} element={<ForgotPassword />} />
         <Route path={URL_RESET_PASSWORD} element={<ResetPassword />} />
-        <Route
-          path={URL_LOGIN}
-          element={
-            <ProtectedRoute onlyUnAuth>
-              <Login />
-            </ProtectedRoute>
-          }
-        />
+        <Route path={URL_LOGIN} element={<Login />} />
+        {/*<Route*/}
+        {/*  path={URL_LOGIN}*/}
+        {/*  element={*/}
+        {/*    <ProtectedRoute onlyUnAuth>*/}
+        {/*      <Login />*/}
+        {/*    </ProtectedRoute>*/}
+        {/*  }*/}
+        {/*/>*/}
         <Route path={URL_PROFILE} element={<Profile />} />
-        <Route path={URL_FEED} element={<Feed />} />
+        <Route path={URL_FEED} element={<Orders />} />
         <Route path={URL_NOTFOUND} element={<NotFound />} />
       </Routes>
     </div>
