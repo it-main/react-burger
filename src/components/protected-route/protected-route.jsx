@@ -7,8 +7,10 @@ function ProtectedRoute({ onlyUnAuth = false, children }) {
   const location = useLocation();
   const from = location.state?.from || URL_HOME;
 
-  if (!isAuthChecked) return null;
-
+  // if (!isAuthChecked) return null;
+  //После успешной авторизации, процедура авторизации перенаправляет на home
+  //Тут только защищаем конкретные маршруты.
+  //На логин можно только если не авторизован
   console.log(onlyUnAuth, isAuth);
   if (!onlyUnAuth && !isAuth) {
     return (

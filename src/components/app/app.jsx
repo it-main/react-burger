@@ -85,15 +85,15 @@ function App() {
         <Route path={URL_REGISTER} element={<Register />} />
         <Route path={URL_FORGOT_PASSWORD} element={<ForgotPassword />} />
         <Route path={URL_RESET_PASSWORD} element={<ResetPassword />} />
-        <Route path={URL_LOGIN} element={<Login />} />
-        {/*<Route*/}
-        {/*  path={URL_LOGIN}*/}
-        {/*  element={*/}
-        {/*    <ProtectedRoute onlyUnAuth>*/}
-        {/*      <Login />*/}
-        {/*    </ProtectedRoute>*/}
-        {/*  }*/}
-        {/*/>*/}
+        {/*<Route path={URL_LOGIN} element={<Login />} />*/}
+        <Route
+          path={URL_LOGIN}
+          element={
+            <ProtectedRoute onlyUnAuth>
+              <Login />
+            </ProtectedRoute>
+          }
+        />
         <Route path={URL_PROFILE} element={<Profile />} />
         <Route path={URL_FEED} element={<Orders />} />
         <Route path={URL_NOTFOUND} element={<NotFound />} />
