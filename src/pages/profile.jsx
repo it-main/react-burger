@@ -7,8 +7,11 @@ import {
   URL_PROFILE,
 } from "../utils/constants";
 import { NavLink } from "react-router-dom";
+import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 
 function Profile() {
+  const handleExit = () => {};
+
   return (
     <div className={clsx(style.content)}>
       <div className={style.menu}>
@@ -18,7 +21,7 @@ function Profile() {
             className={({ isActive }) =>
               clsx(
                 "text text_type_main-medium",
-                style.link,
+                style.navItem,
                 linkIsActive(isActive),
               )
             }
@@ -30,25 +33,26 @@ function Profile() {
             className={({ isActive }) =>
               clsx(
                 "text text_type_main-medium",
-                style.link,
+                style.navItem,
                 linkIsActive(isActive),
               )
             }
           >
             История заказов
           </NavLink>
-          <NavLink
-            to={URL_LOGIN}
-            className={({ isActive }) =>
-              clsx(
-                "text text_type_main-medium",
-                style.link,
-                linkIsActive(isActive),
-              )
-            }
+          <Button
+            htmlType="button"
+            type="secondary"
+            size="medium"
+            onClick={handleExit}
+            extraClass={clsx(
+              style.navItem,
+              style.navExit,
+              "text text_type_main-medium text_color_inactive",
+            )}
           >
             Выход
-          </NavLink>
+          </Button>
         </nav>
         <p className="text text_type_main-default text_color_inactive">
           В этом разделе вы можете изменить свои персональные данные

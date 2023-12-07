@@ -9,13 +9,16 @@
   margin-bottom: 80px;
 }
 
-.link {
+.navItem {
   text-decoration: none;
   min-height: 64px;
   display: flex;
   align-items: center;
 }
 
+.navExit:hover {
+  color: var(--text-inactive-color);
+}
 
 .menu {
   max-width: 320px;
