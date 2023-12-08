@@ -1,5 +1,4 @@
 import { checkResponse, sendRequest } from "../../utils/api";
-import { setCookie } from "../../utils/cookie";
 
 export const RESET_PASSWORD_REQUEST = "RESET_PASSWORD_REQUEST";
 export const RESET_PASSWORD_SUCCESS = "RESET_PASSWORD_SUCCESS";
@@ -44,23 +43,19 @@ const registerFailed = {
   type: REGISTER_FAILED,
   payload: undefined,
 };
-
-const loginRequest = {
+export const loginRequest = {
   type: LOGIN_REQUEST,
 };
-
-const loginSuccess = (data) => {
+export const loginSuccess = (data) => {
   return {
     type: LOGIN_SUCCESS,
     payload: data.user,
   };
 };
-
-const loginFailed = {
+export const loginFailed = {
   type: LOGIN_FAILED,
   payload: undefined,
 };
-
 export function sendRequestForgotPassword(email) {
   return function (dispatch) {
     dispatch(resetPasswordRequest);
@@ -138,40 +133,6 @@ export function sendRequestRegister(name, email, password) {
       .catch((error) => {
         console.error(error);
         dispatch(registerFailed);
-      });
-  };
-}
-
-export function sendRequestLogin(email, password) {
-  return function (dispatch) {
-    dispatch(loginRequest);
-    const requestInit = {
-      method: "POST",
-      mode: "cors",
-      cache: "no-cache",
-      credentials: "same-origin",
-      redirect: "follow",
-      referrerPolicy: "no-referrer",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password }),
-    };
-    sendRequest("auth/login", requestInit)
-      .then(checkResponse)
-      .then((json) => {
-        if (json.success) {
-          dispatch(loginSuccess(json));
-          setCookie("accessToken", json.accessToken.split("Bearer ")[1]);
-          setCookie("refreshToken", json.refreshToken);
-        } else {
-          dispatch(loginFailed);
-          console.error("Ошибка при авторизации");
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-        dispatch(loginFailed);
       });
   };
 }

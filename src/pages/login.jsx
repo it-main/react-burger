@@ -9,7 +9,8 @@ import { URL_FORGOT_PASSWORD, URL_REGISTER } from "../utils/constants";
 import FormAdditionalAction from "../components/form-additional-action/form-additional-action";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
-import { sendRequestLogin } from "../services/actions/profile";
+
+import { signIn } from "../services/auth";
 
 function Login() {
   const [form, setFormValue] = useState({ email: "", password: "" });
@@ -18,7 +19,7 @@ function Login() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    dispatch(sendRequestLogin(email, password));
+    dispatch(signIn(email, password));
   }
 
   function onChange(event) {
