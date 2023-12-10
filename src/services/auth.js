@@ -5,11 +5,11 @@ import {loginFailed, loginRequest, loginSuccess} from "./actions/profile";
 
 export function signOut() {
   return (dispatch) => {
-    dispatch(logout);
+    // dispatch(logout);
     deleteCookie(accessToken);
     deleteCookie(refreshToken);
 
-    https://norma.nomoreparties.space/api/auth/logout
+    // https://norma.nomoreparties.space/api/auth/logout
   };
 }
 

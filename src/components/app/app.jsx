@@ -5,14 +5,7 @@ import { getIngredients } from "../../services/actions/ingredients";
 import {
   getStateBurgerConstructor,
   getStateIngredients,
-  URL_FORGOT_PASSWORD,
-  URL_HOME,
-  URL_LOGIN,
-  URL_REGISTER,
-  URL_RESET_PASSWORD,
-  URL_PROFILE,
-  URL_FEED,
-  URL_NOTFOUND,
+  url
 } from "../../utils/constants";
 import AppHeader from "../app-header/app-header";
 import HomePage from "../../pages/home";
@@ -81,22 +74,22 @@ function App() {
       <AppHeader />
       <DownloadStatus />
       <Routes>
-        <Route path={URL_HOME} element={<HomePage />} />
-        <Route path={URL_REGISTER} element={<Register />} />
-        <Route path={URL_FORGOT_PASSWORD} element={<ForgotPassword />} />
-        <Route path={URL_RESET_PASSWORD} element={<ResetPassword />} />
+        <Route path={url.home} element={<HomePage />} />
+        <Route path={url.register} element={<Register />} />
+        <Route path={url.forgot} element={<ForgotPassword />} />
+        <Route path={url.reset} element={<ResetPassword />} />
         {/*<Route path={URL_LOGIN} element={<Login />} />*/}
         <Route
-          path={URL_LOGIN}
+          path={url.login}
           element={
             <ProtectedRoute onlyUnAuth>
               <Login />
             </ProtectedRoute>
           }
         />
-        <Route path={URL_PROFILE} element={<Profile />} />
-        <Route path={URL_FEED} element={<Orders />} />
-        <Route path={URL_NOTFOUND} element={<NotFound />} />
+        <Route path={url.profile} element={<Profile />} />
+        <Route path={url.feed} element={<Orders />} />
+        <Route path={url.notfound} element={<NotFound />} />
       </Routes>
     </div>
   );

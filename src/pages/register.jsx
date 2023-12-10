@@ -6,7 +6,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { clsx } from "clsx";
 import style from "./form.module.css";
-import { URL_LOGIN } from "../utils/constants";
+import { url } from "../utils/constants";
 import FormAdditionalAction from "../components/form-additional-action/form-additional-action";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -56,7 +56,7 @@ function Register() {
       <FormAdditionalAction
         label="Уже зарегистрированы?"
         linkCaption="Войти"
-        url={URL_LOGIN}
+        url={url.login}
       />
     </div>
   );

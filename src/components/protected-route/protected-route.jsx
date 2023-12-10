@@ -1,23 +1,23 @@
 import { useSelector } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
-import { URL_HOME, URL_LOGIN } from "../../utils/constants";
+import { url } from "../../utils/constants";
 
-function ProtectedRoute({ onlyUnAuth = false, children }) {
+function ProtectedRoute({ routeAuthorizedOnly = false, children }) {
   const { isAuth, isAuthChecked } = useSelector((state) => state.profile);
   const location = useLocation();
-  const from = location.state?.from || URL_HOME;
 
-  // if (!isAuthChecked) return null;
-  //После успешной авторизации, процедура авторизации перенаправляет на home
-  //Тут только защищаем конкретные маршруты.
-  //На логин можно только если не авторизован
-  console.log(onlyUnAuth, isAuth);
-  if (!onlyUnAuth && !isAuth) {
-    return (
-      <Navigate to={URL_LOGIN} replace state={{ from: location.pathname }} />
-    );
+  if (!isAuthChecked) return <p>Загрузка...</p>;
+
+  //Пользователь не авторизован, но роут только для авторизованного
+  if (!isAuth ?? routeAuthorizedOnly) {
+    return <Navigate to="/login" state={{ from: location.pathname }} />;
   }
 
+  //Пользователь авторизован, но роут только для не авторизованного (login)
+  if (isAuth && !routeAuthorizedOnly) {
+    const to = location.state?.from || url.home;
+    return <Navigate to={to} replace state={{ from: location.pathname }} />;
+  }
   return children;
 }
 export default ProtectedRoute;

@@ -1,4 +1,4 @@
-import { URL_API } from "./constants";
+import { url } from "./constants";
 
 export const checkResponse = (response) => {
   return response.ok
@@ -7,6 +7,6 @@ export const checkResponse = (response) => {
 };
 
 export const sendRequest = (endpoint, requestInit) => {
-  return fetch(`${URL_API}/${endpoint}`, requestInit);
+  return fetch(`${url.api}/${endpoint}`, requestInit);
 };
 

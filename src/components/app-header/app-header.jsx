@@ -9,9 +9,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import {
   linkIsActive,
-  URL_FEED,
-  URL_HOME,
-  URL_PROFILE,
+  url
 } from "../../utils/constants";
 
 function AppHeader() {
@@ -21,7 +19,7 @@ function AppHeader() {
         <div>
           {/*pt-4 pb-4*/}
           <NavLink
-            to={URL_HOME}
+            to={url.home}
             className={({ isActive }) =>
               clsx(styles.link, linkIsActive(isActive))
             }
@@ -30,7 +28,7 @@ function AppHeader() {
             <span>Конструктор</span>
           </NavLink>
           <NavLink
-            to={URL_FEED}
+            to={url.feed}
             className={({ isActive }) =>
               clsx("pl-5", styles.link, linkIsActive(isActive))
             }
@@ -39,11 +37,11 @@ function AppHeader() {
             <span>Лента заказов</span>
           </NavLink>
         </div>
-        <NavLink to={URL_HOME} className={styles.logo}>
+        <NavLink to={url.home} className={styles.logo}>
           <Logo />
         </NavLink>
         <NavLink
-          to={URL_PROFILE}
+          to={url.profile}
           className={({ isActive }) =>
             clsx(styles.link, linkIsActive(isActive))
           }
