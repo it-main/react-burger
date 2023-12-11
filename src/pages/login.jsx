@@ -5,7 +5,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { clsx } from "clsx";
 import style from "./form.module.css";
-import { url } from "../utils/constants";
+import { routes } from "../utils/constants";
 import FormAdditionalAction from "../components/form-additional-action/form-additional-action";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
@@ -50,13 +50,13 @@ function Login() {
       <FormAdditionalAction
         label="Вы - новый пользователь?"
         linkCaption="Зарегистрироваться"
-        url={url.register}
+        url={routes.register}
         extraClass="mb-4"
       />
       <FormAdditionalAction
         label="Забыли пароль?"
         linkCaption="Восстановить пароль"
-        url={url.forgot}
+        url={routes.forgot}
       />
     </div>
   );

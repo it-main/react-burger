@@ -4,7 +4,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import style from "./form.module.css";
-import { url } from "../utils/constants";
+import { routes } from "../utils/constants";
 import FormAdditionalAction from "../components/form-additional-action/form-additional-action";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -25,7 +25,7 @@ function ForgotPassword() {
   }
 
   useEffect(() => {
-    isAuth && navigate(url.home, { replace: true });
+    isAuth && navigate(routes.home, { replace: true });
     successRequest &&
       navigate("/reset-password", {
         replace: true,
@@ -54,7 +54,7 @@ function ForgotPassword() {
       <FormAdditionalAction
         label="Вспомнили пароль?"
         linkCaption="Войти"
-        url={url.login}
+        url={routes.login}
         extraClass="mb-4"
       />
     </div>

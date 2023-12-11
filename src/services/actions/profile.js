@@ -1,4 +1,5 @@
 import { checkResponse, sendRequest } from "../../utils/api";
+import { endpoints } from "../../utils/constants";
 
 export const RESET_PASSWORD_REQUEST = "RESET_PASSWORD_REQUEST";
 export const RESET_PASSWORD_SUCCESS = "RESET_PASSWORD_SUCCESS";
@@ -66,7 +67,7 @@ export function sendRequestForgotPassword(email) {
       },
       body: JSON.stringify({ email }),
     };
-    sendRequest("password-reset", requestInit)
+    sendRequest(endpoints.forgotPassword, requestInit)
       .then(checkResponse)
       .then((json) => {
         if (json.success) {
@@ -93,7 +94,7 @@ export function sendRequestResetPassword(password, token) {
       },
       body: JSON.stringify({ password, token }),
     };
-    sendRequest("password-reset/reset", requestInit)
+    sendRequest(endpoints.resetPassword, requestInit)
       .then(checkResponse)
       .then((json) => {
         if (json.success) {
@@ -120,7 +121,7 @@ export function sendRequestRegister(name, email, password) {
       },
       body: JSON.stringify({ email, password, name }),
     };
-    sendRequest("auth/register", requestInit)
+    sendRequest(endpoints.register, requestInit)
       .then(checkResponse)
       .then((json) => {
         if (json.success) {
@@ -134,5 +135,21 @@ export function sendRequestRegister(name, email, password) {
         console.error(error);
         dispatch(registerFailed);
       });
+  };
+}
+
+export function checkUserAuth() {
+  return (dispatch) => {
+    if (localStorage.getItem("accessToken")) {
+      dispatch(getUser())
+        .catch(() => {
+          localStorage.removeItem("accessToken");
+          localStorage.removeItem("refreshToken");
+          dispatch(setUser(null));
+        })
+        .finally(() => dispatch(setAuthChecked(true)));
+    } else {
+      dispatch(setAuthChecked(true));
+    }
   };
 }

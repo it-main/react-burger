@@ -7,10 +7,7 @@ import {
   ListIcon,
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import {
-  linkIsActive,
-  url
-} from "../../utils/constants";
+import { linkIsActive, routes } from "../../utils/constants";
 
 function AppHeader() {
   return (
@@ -19,7 +16,7 @@ function AppHeader() {
         <div>
           {/*pt-4 pb-4*/}
           <NavLink
-            to={url.home}
+            to={routes.home}
             className={({ isActive }) =>
               clsx(styles.link, linkIsActive(isActive))
             }
@@ -28,7 +25,7 @@ function AppHeader() {
             <span>Конструктор</span>
           </NavLink>
           <NavLink
-            to={url.feed}
+            to={routes.feed}
             className={({ isActive }) =>
               clsx("pl-5", styles.link, linkIsActive(isActive))
             }
@@ -37,11 +34,11 @@ function AppHeader() {
             <span>Лента заказов</span>
           </NavLink>
         </div>
-        <NavLink to={url.home} className={styles.logo}>
+        <NavLink to={routes.home} className={styles.logo}>
           <Logo />
         </NavLink>
         <NavLink
-          to={url.profile}
+          to={routes.profile}
           className={({ isActive }) =>
             clsx(styles.link, linkIsActive(isActive))
           }

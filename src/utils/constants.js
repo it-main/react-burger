@@ -10,8 +10,7 @@ export function linkIsActive(isActive) {
 export const accessToken = "accessToken";
 export const refreshToken = "refreshToken";
 
-export const url = {
-  api: "https://norma.nomoreparties.space/api",
+export const routes = {
   home: "/",
   login: "/login",
   register: "/register",
@@ -20,4 +19,15 @@ export const url = {
   profile: "/profile",
   feed: "/feed",
   notfound: "*",
-}
+};
+
+export const endpoints = {
+  api: "https://norma.nomoreparties.space/api",
+  login: "auth/login",
+  register: "auth/register",
+  forgotPassword: "password-reset",
+  resetPassword: "password-reset/reset",
+  logout: "auth/logout",
+  token: "auth/token",
+  user: "auth/user",
+};

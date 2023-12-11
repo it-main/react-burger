@@ -1,9 +1,6 @@
 import { clsx } from "clsx";
 import style from "./profile.module.css";
-import {
-  linkIsActive,
-  url,
-} from "../utils/constants";
+import { linkIsActive, routes } from "../utils/constants";
 import { NavLink } from "react-router-dom";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 
@@ -15,7 +12,7 @@ function Profile() {
       <div className={style.menu}>
         <nav className={style.navigate}>
           <NavLink
-            to={url.profile}
+            to={routes.profile}
             className={({ isActive }) =>
               clsx(
                 "text text_type_main-medium",
@@ -27,7 +24,7 @@ function Profile() {
             Профиль
           </NavLink>
           <NavLink
-            to={url.feed}
+            to={routes.feed}
             className={({ isActive }) =>
               clsx(
                 "text text_type_main-medium",

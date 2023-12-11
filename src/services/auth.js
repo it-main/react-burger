@@ -1,7 +1,7 @@
-import {deleteCookie, setCookie} from "../utils/cookie";
-import {accessToken, refreshToken} from "../utils/constants";
-import {checkResponse, sendRequest} from "../utils/api";
-import {loginFailed, loginRequest, loginSuccess} from "./actions/profile";
+import { deleteCookie, setCookie } from "../utils/cookie";
+import { accessToken, endpoints, refreshToken } from "../utils/constants";
+import { checkResponse, sendRequest } from "../utils/api";
+import { loginFailed, loginRequest, loginSuccess } from "./actions/profile";
 
 export function signOut() {
   return (dispatch) => {
@@ -26,9 +26,9 @@ export function signIn(email, password) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({email, password}),
+      body: JSON.stringify({ email, password }),
     };
-    sendRequest("auth/login", requestInit)
+    sendRequest(endpoints.login, requestInit)
       .then(checkResponse)
       .then((json) => {
         if (json.success) {
