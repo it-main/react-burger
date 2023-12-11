@@ -1,7 +1,7 @@
 import { deleteCookie, setCookie } from "../utils/cookie";
-import { accessToken, endpoints, refreshToken } from "../utils/constants";
-import { checkResponse, sendRequest } from "../utils/api";
-import { loginFailed, loginRequest, loginSuccess } from "./actions/profile";
+import { accessToken, refreshToken } from "../utils/constants";
+import { checkResponse, loginRequest, sendRequest } from "../utils/api";
+import { loginFailed, login, loginSuccess } from "./actions/profile";
 
 export function signOut() {
   return (dispatch) => {
@@ -15,20 +15,8 @@ export function signOut() {
 
 export function signIn(email, password) {
   return function (dispatch) {
-    dispatch(loginRequest);
-    const requestInit = {
-      method: "POST",
-      mode: "cors",
-      cache: "no-cache",
-      credentials: "same-origin",
-      redirect: "follow",
-      referrerPolicy: "no-referrer",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password }),
-    };
-    sendRequest(endpoints.login, requestInit)
+    dispatch(login);
+    loginRequest(email, password)
       .then(checkResponse)
       .then((json) => {
         if (json.success) {

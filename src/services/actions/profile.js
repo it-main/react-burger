@@ -44,7 +44,7 @@ const registerFailed = {
   type: REGISTER_FAILED,
   payload: undefined,
 };
-export const loginRequest = {
+export const login = {
   type: LOGIN_REQUEST,
 };
 export const loginSuccess = (data) => {
