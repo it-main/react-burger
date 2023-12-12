@@ -13,11 +13,6 @@ export function sendRequest(endpoint, requestInit) {
 export function loginRequest(email, password) {
   const requestInit = {
     method: "POST",
-    mode: "cors",
-    cache: "no-cache",
-    credentials: "same-origin",
-    redirect: "follow",
-    referrerPolicy: "no-referrer",
     headers: {
       "Content-Type": "application/json",
     },
@@ -25,3 +20,5 @@ export function loginRequest(email, password) {
   };
   return sendRequest(endpoints.login, requestInit);
 }
+
+export function getUser() {}

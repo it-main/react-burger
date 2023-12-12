@@ -15,9 +15,9 @@ const initialState = {
   name: "",
   email: "",
   isAuth: false,
+  isAuthChecked: false,
   sendRequest: false,
   successRequest: undefined,
-  // isAuthChecked: false,
 };
 export const profileReducer = (state = initialState, action) => {
   switch (action.type) {

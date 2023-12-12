@@ -1,5 +1,6 @@
 import { checkResponse, sendRequest } from "../../utils/api";
-import { endpoints } from "../../utils/constants";
+import { accessToken, endpoints } from "../../utils/constants";
+import { getCookie } from "../../utils/cookie";
 
 export const RESET_PASSWORD_REQUEST = "RESET_PASSWORD_REQUEST";
 export const RESET_PASSWORD_SUCCESS = "RESET_PASSWORD_SUCCESS";
@@ -44,16 +45,16 @@ const registerFailed = {
   type: REGISTER_FAILED,
   payload: undefined,
 };
-export const login = {
+export const loginRequestAction = {
   type: LOGIN_REQUEST,
 };
-export const loginSuccess = (data) => {
+export const loginSuccessAction = (data) => {
   return {
     type: LOGIN_SUCCESS,
     payload: data.user,
   };
 };
-export const loginFailed = {
+export const loginFailedAction = {
   type: LOGIN_FAILED,
   payload: undefined,
 };
@@ -140,7 +141,8 @@ export function sendRequestRegister(name, email, password) {
 
 export function checkUserAuth() {
   return (dispatch) => {
-    if (localStorage.getItem("accessToken")) {
+    // if (localStorage.getItem("accessToken")) {
+    if (getCookie(accessToken)) {
       dispatch(getUser())
         .catch(() => {
           localStorage.removeItem("accessToken");

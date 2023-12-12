@@ -18,6 +18,7 @@ import Orders from "../../pages/orders";
 import NotFound from "../../pages/not-found";
 import styles from "./app.module.css";
 import ProtectedRoute from "../protected-route/protected-route";
+import { checkUserAuth } from "../../services/actions/profile";
 
 function App() {
   const dispatch = useDispatch();
@@ -46,6 +47,7 @@ function App() {
   }
 
   useEffect(() => {
+    dispatch(checkUserAuth());
     dispatch(getIngredients());
   }, [dispatch]);
 

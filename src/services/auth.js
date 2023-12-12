@@ -1,7 +1,11 @@
 import { deleteCookie, setCookie } from "../utils/cookie";
 import { accessToken, refreshToken } from "../utils/constants";
 import { checkResponse, loginRequest, sendRequest } from "../utils/api";
-import { loginFailed, login, loginSuccess } from "./actions/profile";
+import {
+  loginFailedAction,
+  loginRequestAction,
+  loginSuccessAction,
+} from "./actions/profile";
 
 export function signOut() {
   return (dispatch) => {
@@ -15,22 +19,23 @@ export function signOut() {
 
 export function signIn(email, password) {
   return function (dispatch) {
-    dispatch(login);
+    dispatch(loginRequestAction);
     loginRequest(email, password)
       .then(checkResponse)
       .then((json) => {
         if (json.success) {
-          dispatch(loginSuccess(json));
+          console.log(json);
+          dispatch(loginSuccessAction(json));
           setCookie(accessToken, json.accessToken.split("Bearer ")[1]);
           setCookie(refreshToken, json.refreshToken);
         } else {
-          dispatch(loginFailed);
+          dispatch(loginFailedAction);
           console.error("Ошибка при авторизации");
         }
       })
       .catch((error) => {
         console.error(error);
-        dispatch(loginFailed);
+        dispatch(loginFailedAction);
       });
   };
 }
