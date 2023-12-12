@@ -1,6 +1,6 @@
-import { checkResponse, sendRequest } from "../../utils/api";
+import { checkResponse, registerRequest, sendRequest } from "../../utils/api";
 import { accessToken, endpoints } from "../../utils/constants";
-import { getCookie } from "../../utils/cookie";
+import { deleteCookie, getCookie, setCookie } from "../../utils/cookie";
 
 export const RESET_PASSWORD_REQUEST = "RESET_PASSWORD_REQUEST";
 export const RESET_PASSWORD_SUCCESS = "RESET_PASSWORD_SUCCESS";
@@ -31,7 +31,7 @@ const resetPasswordRequest = {
   type: RESET_PASSWORD_REQUEST,
 };
 
-const registerRequest = {
+const register = {
   type: REGISTER_REQUEST,
 };
 const registerSuccess = (data) => {
@@ -114,15 +114,8 @@ export function sendRequestResetPassword(password, token) {
 
 export function sendRequestRegister(name, email, password) {
   return function (dispatch) {
-    dispatch(registerRequest);
-    const requestInit = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password, name }),
-    };
-    sendRequest(endpoints.register, requestInit)
+    dispatch(register);
+    registerRequest(name, email, password)
       .then(checkResponse)
       .then((json) => {
         if (json.success) {
@@ -143,15 +136,15 @@ export function checkUserAuth() {
   return (dispatch) => {
     // if (localStorage.getItem("accessToken")) {
     if (getCookie(accessToken)) {
-      dispatch(getUser())
-        .catch(() => {
-          localStorage.removeItem("accessToken");
-          localStorage.removeItem("refreshToken");
-          dispatch(setUser(null));
-        })
-        .finally(() => dispatch(setAuthChecked(true)));
+      dispatch(getUser());
+      //   .catch(() => {
+      //     localStorage.removeItem("accessToken");
+      //     localStorage.removeItem("refreshToken");
+      //     dispatch(setUser(null));
+      //   })
+      //   .finally(() => dispatch(setAuthChecked(true)));
     } else {
-      dispatch(setAuthChecked(true));
+      // dispatch(setAuthChecked(true));
     }
   };
 }

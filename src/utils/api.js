@@ -1,4 +1,5 @@
-import { endpoints } from "./constants";
+import { accessToken, endpoints } from "./constants";
+import { getCookie } from "./cookie";
 
 export function checkResponse(response) {
   return response.ok
@@ -21,4 +22,25 @@ export function loginRequest(email, password) {
   return sendRequest(endpoints.login, requestInit);
 }
 
-export function getUser() {}
+export function registerRequest(name, email, password) {
+  const requestInit = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email, password, name }),
+  };
+  return sendRequest(endpoints.register, requestInit);
+}
+
+export function getUser() {
+  const requestInit = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    authorization: getCookie(accessToken),
+    //body: JSON.stringify({ email, password }),
+  };
+  return sendRequest(endpoints.user, requestInit);
+}
