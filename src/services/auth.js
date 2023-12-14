@@ -1,11 +1,30 @@
 import { deleteCookie, setCookie } from "../utils/cookie";
 import { accessToken, refreshToken } from "../utils/constants";
-import { checkResponse, loginRequest, sendRequest } from "../utils/api";
+import {
+  checkResponse,
+  getUserRequest,
+  loginRequest,
+  sendRequest,
+} from "../utils/api";
 import {
   loginFailedAction,
   loginRequestAction,
   loginSuccessAction,
+  requestSent,
 } from "./actions/profile";
+
+export function getUser() {
+  return function (dispatch) {
+    dispatch(requestSent);
+    getUserRequest()
+      .then(checkResponse)
+      .then((json) => {
+        if (json.success) {
+          dispatch(setUser(json.user));
+        }
+      });
+  };
+}
 
 export function signOut() {
   return (dispatch) => {

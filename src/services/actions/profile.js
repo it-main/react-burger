@@ -1,4 +1,9 @@
-import { checkResponse, registerRequest, sendRequest } from "../../utils/api";
+import {
+  checkResponse,
+  registerRequest,
+  sendRequest,
+  getUser,
+} from "../../utils/api";
 import { accessToken, endpoints } from "../../utils/constants";
 import { deleteCookie, getCookie, setCookie } from "../../utils/cookie";
 
@@ -13,7 +18,14 @@ export const LOGIN_REQUEST = "LOGIN_REQUEST";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILED = "LOGIN_FAILED";
 
+export const SET_USER = "SET_USER";
+export const REQUEST_SENT = "SET_REQUEST";
+
 export const LOGOUT = "LOGOUT";
+
+export const requestSent = {
+  type: REQUEST_SENT,
+};
 
 const resetPasswordSuccess = (message) => {
   return {
@@ -129,6 +141,13 @@ export function sendRequestRegister(name, email, password) {
         console.error(error);
         dispatch(registerFailed);
       });
+  };
+}
+
+export function setUser(user) {
+  return {
+    type: SET_USER,
+    payload: user,
   };
 }
 

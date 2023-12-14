@@ -33,14 +33,13 @@ export function registerRequest(name, email, password) {
   return sendRequest(endpoints.register, requestInit);
 }
 
-export function getUser() {
+export function getUserRequest() {
   const requestInit = {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     authorization: getCookie(accessToken),
-    //body: JSON.stringify({ email, password }),
   };
   return sendRequest(endpoints.user, requestInit);
 }
