@@ -24,7 +24,6 @@ export function signIn(email, password) {
       .then(checkResponse)
       .then((json) => {
         if (json.success) {
-          console.log(json);
           dispatch(loginSuccessAction(json));
           setCookie(accessToken, json.accessToken.split("Bearer ")[1]);
           setCookie(refreshToken, json.refreshToken);
