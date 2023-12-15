@@ -9,7 +9,7 @@ import {
   RESET_PASSWORD_FAILED,
   RESET_PASSWORD_REQUEST,
   RESET_PASSWORD_SUCCESS,
-  REQUEST_SENT,
+  SEND_REQUEST,
   SET_USER,
   LOGOUT,
   SET_AUTH_CHECKED,
@@ -41,11 +41,11 @@ export const profileReducer = (state = initialState, action) => {
     case SET_AUTH_CHECKED: {
       return {
         ...state,
-        isAuthChecked: action.payload,
+        isAuthChecked: true,
         requestSent: false,
       };
     }
-    case REQUEST_SENT: {
+    case SEND_REQUEST: {
       return {
         ...state,
         requestSent: true,

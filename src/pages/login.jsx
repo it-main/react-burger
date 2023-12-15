@@ -10,7 +10,7 @@ import FormAdditionalAction from "../components/form-additional-action/form-addi
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 
-import { signIn } from "../services/auth";
+import { signIn } from "../services/actions/profile";
 
 function Login() {
   const [form, setFormValue] = useState({ email: "", password: "" });

@@ -1,8 +1,9 @@
 import {
   checkResponse,
+  getUserRequest,
+  loginRequest,
   registerRequest,
   sendRequest,
-  getUserRequest,
 } from "../../utils/api";
 import { accessToken, endpoints, refreshToken } from "../../utils/constants";
 import { deleteCookie, getCookie, setCookie } from "../../utils/cookie";
@@ -20,23 +21,22 @@ export const LOGIN_FAILED = "LOGIN_FAILED";
 
 export const SET_USER = "SET_USER";
 export const SET_AUTH_CHECKED = "SET_AUTH_CHECKED";
-export const REQUEST_SENT = "SET_REQUEST";
+export const SEND_REQUEST = "SEND_REQUEST";
 
 export const LOGOUT = "LOGOUT";
 
-export const requestSent = {
-  type: REQUEST_SENT,
+export const sendRequestAction = {
+  type: SEND_REQUEST,
 };
 
-export const logout = {
+export const logoutAction = {
   type: LOGOUT,
 };
 
-export const setAuthChecked = (value) => {
-  return {
-    type: SET_AUTH_CHECKED,
-    payload: value,
-  };
+//TODO////////////////////////////////////////////
+
+export const setAuthChecked = {
+  type: SET_AUTH_CHECKED,
 };
 
 const resetPasswordSuccess = (message) => {
@@ -69,9 +69,7 @@ const registerFailed = {
   type: REGISTER_FAILED,
   payload: undefined,
 };
-export const loginRequestAction = {
-  type: LOGIN_REQUEST,
-};
+
 export const loginSuccessAction = (data) => {
   return {
     type: LOGIN_SUCCESS,
@@ -163,28 +161,65 @@ export function sendRequestRegister(name, email, password) {
   };
 }
 
+export function getUser() {
+  return (dispatch) => {
+    dispatch(sendRequestAction);
+    return getUserRequest()
+      .then(checkResponse)
+      .then((json) => {
+        if (json.success) {
+          console.log(json.user);
+          dispatch(setUser(json.user));
+        }
+      });
+  };
+}
 export function checkUserAuth() {
   return (dispatch) => {
-    dispatch(requestSent);
     if (getCookie(accessToken)) {
-      dispatch(getUserRequest())
-        // .then(checkResponse)
-        // .then(json)
+      dispatch(getUser())
         .catch(() => {
-          console.log("catch");
-          // localStorage.removeItem("accessToken");
-          //     localStorage.removeItem("refreshToken");
-          //     dispatch(setUser(null));
           deleteCookie(accessToken);
           deleteCookie(refreshToken);
-          dispatch(logout);
+          dispatch(logoutAction);
         })
         .finally(() => {
-          dispatch(setAuthChecked(true));
-          console.log("fin");
+          dispatch(setAuthChecked);
         });
     } else {
-      dispatch(setAuthChecked(true));
+      dispatch(setAuthChecked);
     }
+  };
+}
+
+export function signOut() {
+  return (dispatch) => {
+    // dispatch(logout);
+    deleteCookie(accessToken);
+    deleteCookie(refreshToken);
+
+    // https://norma.nomoreparties.space/api/auth/logout
+  };
+}
+
+export function signIn(email, password) {
+  return function (dispatch) {
+    dispatch(sendRequestAction);
+    loginRequest(email, password)
+      .then(checkResponse)
+      .then((json) => {
+        if (json.success) {
+          dispatch(loginSuccessAction(json));
+          setCookie(accessToken, json.accessToken.split("Bearer ")[1]);
+          setCookie(refreshToken, json.refreshToken);
+        } else {
+          dispatch(loginFailedAction);
+          console.error("Ошибка при авторизации");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        dispatch(loginFailedAction);
+      });
   };
 }

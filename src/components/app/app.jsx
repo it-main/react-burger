@@ -80,7 +80,6 @@ function App() {
         <Route path={routes.register} element={<Register />} />
         <Route path={routes.forgot} element={<ForgotPassword />} />
         <Route path={routes.reset} element={<ResetPassword />} />
-        {/*<Route path={URL_LOGIN} element={<Login />} />*/}
         <Route
           path={routes.login}
           element={
