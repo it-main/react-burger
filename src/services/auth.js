@@ -20,7 +20,7 @@ export function getUser() {
       .then(checkResponse)
       .then((json) => {
         if (json.success) {
-          dispatch(setUser(json.user));
+          // dispatch(setUser(json.user));
         }
       });
   };

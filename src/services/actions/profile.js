@@ -2,9 +2,9 @@ import {
   checkResponse,
   registerRequest,
   sendRequest,
-  getUser,
+  getUserRequest,
 } from "../../utils/api";
-import { accessToken, endpoints } from "../../utils/constants";
+import { accessToken, endpoints, refreshToken } from "../../utils/constants";
 import { deleteCookie, getCookie, setCookie } from "../../utils/cookie";
 
 export const RESET_PASSWORD_REQUEST = "RESET_PASSWORD_REQUEST";
@@ -19,12 +19,24 @@ export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILED = "LOGIN_FAILED";
 
 export const SET_USER = "SET_USER";
+export const SET_AUTH_CHECKED = "SET_AUTH_CHECKED";
 export const REQUEST_SENT = "SET_REQUEST";
 
 export const LOGOUT = "LOGOUT";
 
 export const requestSent = {
   type: REQUEST_SENT,
+};
+
+export const logout = {
+  type: LOGOUT,
+};
+
+export const setAuthChecked = (value) => {
+  return {
+    type: SET_AUTH_CHECKED,
+    payload: value,
+  };
 };
 
 const resetPasswordSuccess = (message) => {
@@ -70,6 +82,13 @@ export const loginFailedAction = {
   type: LOGIN_FAILED,
   payload: undefined,
 };
+export function setUser(user) {
+  return {
+    type: SET_USER,
+    payload: user,
+  };
+}
+
 export function sendRequestForgotPassword(email) {
   return function (dispatch) {
     dispatch(resetPasswordRequest);
@@ -144,26 +163,28 @@ export function sendRequestRegister(name, email, password) {
   };
 }
 
-export function setUser(user) {
-  return {
-    type: SET_USER,
-    payload: user,
-  };
-}
-
 export function checkUserAuth() {
   return (dispatch) => {
-    // if (localStorage.getItem("accessToken")) {
+    dispatch(requestSent);
     if (getCookie(accessToken)) {
-      dispatch(getUser());
-      //   .catch(() => {
-      //     localStorage.removeItem("accessToken");
-      //     localStorage.removeItem("refreshToken");
-      //     dispatch(setUser(null));
-      //   })
-      //   .finally(() => dispatch(setAuthChecked(true)));
+      dispatch(getUserRequest())
+        // .then(checkResponse)
+        // .then(json)
+        .catch(() => {
+          console.log("catch");
+          // localStorage.removeItem("accessToken");
+          //     localStorage.removeItem("refreshToken");
+          //     dispatch(setUser(null));
+          deleteCookie(accessToken);
+          deleteCookie(refreshToken);
+          dispatch(logout);
+        })
+        .finally(() => {
+          dispatch(setAuthChecked(true));
+          console.log("fin");
+        });
     } else {
-      // dispatch(setAuthChecked(true));
+      dispatch(setAuthChecked(true));
     }
   };
 }

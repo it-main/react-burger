@@ -11,6 +11,8 @@ import {
   RESET_PASSWORD_SUCCESS,
   REQUEST_SENT,
   SET_USER,
+  LOGOUT,
+  SET_AUTH_CHECKED,
 } from "../actions/profile";
 
 const initialState = {
@@ -19,53 +21,63 @@ const initialState = {
   isAuth: false,
   isAuthChecked: false,
   requestSent: false,
-  successRequest: undefined,
+  // successRequest: undefined,
 };
 export const profileReducer = (state = initialState, action) => {
   switch (action.type) {
+    case LOGOUT: {
+      return { ...initialState };
+    }
     case SET_USER: {
       return {
         ...state,
         name: action.payload.name,
         email: action.payload.email,
-        successRequest: true,
+        // successRequest: true,
         requestSent: false,
         isAuth: true,
+      };
+    }
+    case SET_AUTH_CHECKED: {
+      return {
+        ...state,
+        isAuthChecked: action.payload,
+        requestSent: false,
       };
     }
     case REQUEST_SENT: {
       return {
         ...state,
         requestSent: true,
-        successRequest: undefined,
+        // successRequest: undefined,
       };
     }
     case RESET_PASSWORD_REQUEST: {
       return {
         ...state,
         requestSent: true,
-        successRequest: undefined,
+        // successRequest: undefined,
       };
     }
     case RESET_PASSWORD_SUCCESS: {
       return {
         ...state,
         requestSent: false,
-        successRequest: action.payload,
+        // successRequest: action.payload,
       };
     }
     case RESET_PASSWORD_FAILED: {
       return {
         ...state,
         requestSent: false,
-        successRequest: undefined,
+        // successRequest: undefined,
       };
     }
     case REGISTER_REQUEST: {
       return {
         ...state,
         requestSent: true,
-        successRequest: undefined,
+        // successRequest: undefined,
       };
     }
     case REGISTER_SUCCESS: {
@@ -73,7 +85,7 @@ export const profileReducer = (state = initialState, action) => {
       return {
         ...state,
         requestSent: false,
-        successRequest: true,
+        // successRequest: true,
         isAuth: true,
         name: data.name,
         email: data.email,
@@ -83,7 +95,7 @@ export const profileReducer = (state = initialState, action) => {
       return {
         ...state,
         requestSent: false,
-        successRequest: false,
+        // successRequest: false,
       };
     }
 
@@ -91,7 +103,7 @@ export const profileReducer = (state = initialState, action) => {
       return {
         ...state,
         requestSent: true,
-        successRequest: undefined,
+        // successRequest: undefined,
       };
     }
     case LOGIN_SUCCESS: {
@@ -99,7 +111,7 @@ export const profileReducer = (state = initialState, action) => {
       return {
         ...state,
         requestSent: false,
-        successRequest: true,
+        // successRequest: true,
         isAuth: true,
         name: data.name,
         email: data.email,
@@ -109,7 +121,7 @@ export const profileReducer = (state = initialState, action) => {
       return {
         ...state,
         requestSent: false,
-        successRequest: false,
+        // successRequest: false,
       };
     }
 
