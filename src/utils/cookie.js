@@ -39,6 +39,5 @@ export function getCookie(name) {
 }
 
 export function deleteCookie(name) {
-  console.log("del cookie");
   setCookie(name, null, { expires: -1 });
 }
