@@ -11,6 +11,10 @@ export function sendRequest(endpoint, requestInit) {
   return fetch(`${endpoints.api}/${endpoint}`, requestInit);
 }
 
+function getAuthorizedToken() {
+  return "Bearer " + getCookie(accessToken);
+}
+
 export function loginRequest(email, password) {
   const requestInit = {
     method: "POST",
@@ -35,11 +39,33 @@ export function registerRequest(name, email, password) {
 
 export function getUserRequest() {
   const requestInit = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: getAuthorizedToken(),
+    },
+  };
+  return sendRequest(endpoints.user, requestInit);
+}
+
+export function forgotPasswordRequest(email) {
+  const requestInit = {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    authorization: getCookie(accessToken),
+    body: JSON.stringify({ email }),
   };
-  return sendRequest(endpoints.user, requestInit);
+  return sendRequest(endpoints.forgotPassword, requestInit);
+}
+
+export function resetPasswordRequest(password, token) {
+  const requestInit = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ password, token }),
+  };
+  return sendRequest(endpoints.resetPassword, requestInit);
 }

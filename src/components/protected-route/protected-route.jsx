@@ -15,6 +15,7 @@ function ProtectedRoute({ routeAuthorizedOnly = false, children }) {
 
   //Пользователь авторизован, но роут только для не авторизованного (login)
   if (isAuth && !routeAuthorizedOnly) {
+    console.log("location", location);
     const to = location.state?.from || routes.home;
     return <Navigate to={to} replace state={{ from: location.pathname }} />;
   }

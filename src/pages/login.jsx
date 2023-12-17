@@ -50,13 +50,13 @@ function Login() {
       <FormAdditionalAction
         label="Вы - новый пользователь?"
         linkCaption="Зарегистрироваться"
-        url={routes.register}
+        patch={routes.register}
         extraClass="mb-4"
       />
       <FormAdditionalAction
         label="Забыли пароль?"
         linkCaption="Восстановить пароль"
-        url={routes.forgot}
+        patch={routes.forgot}
       />
     </div>
   );

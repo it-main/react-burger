@@ -10,7 +10,7 @@ import FormAdditionalAction from "../components/form-additional-action/form-addi
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { sendRequestForgotPassword } from "../services/actions/profile";
+import { forgotPassword } from "../services/actions/profile";
 
 function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -21,7 +21,7 @@ function ForgotPassword() {
   const { isAuth, successRequest } = useSelector((state) => state.profile);
   function handleSubmit(event) {
     event.preventDefault();
-    dispatch(sendRequestForgotPassword(email));
+    dispatch(forgotPassword(email));
   }
 
   useEffect(() => {
@@ -54,7 +54,7 @@ function ForgotPassword() {
       <FormAdditionalAction
         label="Вспомнили пароль?"
         linkCaption="Войти"
-        url={routes.login}
+        patch={routes.login}
         extraClass="mb-4"
       />
     </div>

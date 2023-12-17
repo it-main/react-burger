@@ -8,7 +8,7 @@ import style from "./form.module.css";
 import { routes } from "../utils/constants";
 import FormAdditionalAction from "../components/form-additional-action/form-additional-action";
 import { useDispatch, useSelector } from "react-redux";
-import { sendRequestResetPassword } from "../services/actions/profile";
+import { resetPassword } from "../services/actions/profile";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -30,7 +30,7 @@ function ResetPassword() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    dispatch(sendRequestResetPassword(password, token));
+    dispatch(resetPassword(password, token));
   }
 
   return (
@@ -67,7 +67,7 @@ function ResetPassword() {
       <FormAdditionalAction
         label="Вспомнили пароль?"
         linkCaption="Войти"
-        url={routes.login}
+        patch={routes.login}
       />
     </div>
   );

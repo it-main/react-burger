@@ -56,7 +56,7 @@ function Register() {
       <FormAdditionalAction
         label="Уже зарегистрированы?"
         linkCaption="Войти"
-        url={routes.login}
+        patch={routes.login}
       />
     </div>
   );
