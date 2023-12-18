@@ -1,10 +1,8 @@
 import {
   checkResponse,
-  forgotPasswordRequest,
   getUserRequest,
   loginRequest,
   registerRequest,
-  resetPasswordRequest,
 } from "../../utils/api";
 import { accessToken, refreshToken } from "../../utils/constants";
 import { deleteCookie, getCookie, setCookie } from "../../utils/cookie";
