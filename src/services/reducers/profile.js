@@ -2,7 +2,6 @@ import {
   FORM_SET_VALUE,
   LOGIN_SUCCESS,
   REGISTER_SUCCESS,
-  RESET_PASSWORD_SUCCESS,
   SEND_REQUEST,
   SET_USER,
   LOGOUT,
@@ -58,14 +57,6 @@ export const profileReducer = (state = initialState, action) => {
         sendRequest: false,
         successRequest: true,
         isAuthChecked: true,
-      };
-    }
-
-    case RESET_PASSWORD_SUCCESS: {
-      return {
-        ...state,
-        sendRequest: false,
-        successRequest: true,
       };
     }
 

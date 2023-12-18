@@ -3,6 +3,7 @@ import { useEffect, useReducer } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getIngredients } from "../../services/actions/ingredients";
 import {
+  forgotPassword,
   getStateBurgerConstructor,
   getStateIngredients,
   routes,
@@ -19,6 +20,7 @@ import NotFound from "../../pages/not-found";
 import styles from "./app.module.css";
 import ProtectedRoute from "../protected-route/protected-route";
 import { checkUserAuth } from "../../services/actions/profile";
+import resetPassword from "../../pages/reset-password";
 
 function App() {
   const dispatch = useDispatch();

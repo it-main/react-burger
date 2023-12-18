@@ -56,7 +56,7 @@ export function forgotPasswordRequest(email) {
     },
     body: JSON.stringify({ email }),
   };
-  return sendRequest(endpoints.forgotPassword, requestInit);
+  return sendRequest(endpoints.resetPassword, requestInit);
 }
 
 export function resetPasswordRequest(password, token) {
@@ -67,5 +67,5 @@ export function resetPasswordRequest(password, token) {
     },
     body: JSON.stringify({ password, token }),
   };
-  return sendRequest(endpoints.resetPassword, requestInit);
+  return sendRequest(endpoints.reset, requestInit);
 }

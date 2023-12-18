@@ -10,7 +10,7 @@ import { accessToken, refreshToken } from "../../utils/constants";
 import { deleteCookie, getCookie, setCookie } from "../../utils/cookie";
 
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
-export const RESET_PASSWORD_SUCCESS = "RESET_PASSWORD_SUCCESS";
+
 export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
 export const SEND_REQUEST = "SEND_REQUEST";
 export const REQUEST_FAILED = "REQUEST_FAILED";
@@ -56,48 +56,14 @@ function setUserAction(user) {
   };
 }
 
-const resetPasswordSuccessAction = {
-  type: RESET_PASSWORD_SUCCESS,
-};
-
-export function forgotPassword(email) {
-  return function (dispatch) {
-    dispatch(sendRequestAction);
-    forgotPasswordRequest(email)
-      .then(checkResponse)
-      .then((json) => {
-        if (json.success) {
-          dispatch(resetPasswordSuccessAction);
-        } else {
-          dispatch(requestFailedAction);
-          console.error("Ошибка получения данных с сервера");
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-        dispatch(requestFailedAction);
-      });
-  };
+function setCookies(json) {
+  setCookie(accessToken, json.accessToken.split("Bearer ")[1]);
+  setCookie(refreshToken, json.refreshToken);
 }
 
-export function resetPassword(password, token) {
-  return function (dispatch) {
-    dispatch(sendRequestAction);
-    resetPasswordRequest(password, token)
-      .then(checkResponse)
-      .then((json) => {
-        if (json.success) {
-          dispatch(resetPasswordSuccessAction);
-        } else {
-          dispatch(requestFailedAction);
-          console.error("Ошибка получения данных с сервера");
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-        dispatch(requestFailedAction);
-      });
-  };
+function deleteCookies() {
+  deleteCookie(accessToken);
+  deleteCookie(refreshToken);
 }
 
 export function sendRequestRegister(name, email, password) {
@@ -107,6 +73,7 @@ export function sendRequestRegister(name, email, password) {
       .then(checkResponse)
       .then((json) => {
         if (json.success) {
+          setCookies(json);
           dispatch(registerSuccessAction(json));
         } else {
           dispatch(requestFailedAction);
@@ -140,8 +107,7 @@ export function checkUserAuth() {
     if (getCookie(accessToken)) {
       dispatch(getUser())
         .catch(() => {
-          deleteCookie(accessToken);
-          deleteCookie(refreshToken);
+          deleteCookies();
           dispatch(logoutAction);
         })
         .finally(() => {
@@ -156,8 +122,7 @@ export function checkUserAuth() {
 export function signOut() {
   return (dispatch) => {
     // dispatch(logout);
-    deleteCookie(accessToken);
-    deleteCookie(refreshToken);
+    deleteCookies();
 
     // https://norma.nomoreparties.space/api/auth/logout
   };
@@ -171,8 +136,7 @@ export function signIn(email, password) {
       .then((json) => {
         if (json.success) {
           dispatch(loginSuccessAction(json));
-          setCookie(accessToken, json.accessToken.split("Bearer ")[1]);
-          setCookie(refreshToken, json.refreshToken);
+          setCookies(json);
         } else {
           dispatch(requestFailedAction);
           console.error("Ошибка при авторизации");

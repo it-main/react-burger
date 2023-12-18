@@ -5,32 +5,49 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { clsx } from "clsx";
 import style from "./form.module.css";
-import { routes } from "../utils/constants";
+import { endpoints, forgotPassword, routes } from "../utils/constants";
 import FormAdditionalAction from "../components/form-additional-action/form-additional-action";
-import { useDispatch, useSelector } from "react-redux";
-import { resetPassword } from "../services/actions/profile";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { checkResponse, resetPasswordRequest } from "../utils/api";
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
 
 function ResetPassword() {
-  const dispatch = useDispatch();
   const [form, setFormValue] = useState({
     password: "",
     token: "",
   });
-  const { password, token } = form;
   const navigate = useNavigate();
-  const from = useLocation().state?.from;
-  const { isAuth } = useSelector((state) => state.profile);
+  const { password, token } = form;
+  // const from = useLocation().state?.from;
 
-  useEffect(() => {
-    isAuth && navigate(routes.home, { replace: true });
-    from !== routes.forgot && navigate(routes.forgot, { replace: true });
-  }, [from, navigate, isAuth]);
+  //TODO
+  // useEffect(() => {
+  //   console.log("mount");
+  //   return () => {
+  //     console.log("unmount");
+  //     localStorage.removeItem(forgotPassword);
+  //   };
+  // }, []);
 
   function handleSubmit(event) {
     event.preventDefault();
-    dispatch(resetPassword(password, token));
+    resetPasswordRequest(password, token)
+      .then(checkResponse)
+      .then((json) => {
+        if (json.success) {
+          localStorage.removeItem(forgotPassword);
+          navigate(endpoints.login);
+        } else {
+          console.error("Ошибка получения данных с сервера");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  if (!localStorage.getItem(forgotPassword)) {
+    return <Navigate to={routes.home} />;
   }
 
   return (

@@ -16,6 +16,7 @@ function Register() {
   const [form, setFormValue] = useState({ name: "", email: "", password: "" });
   const { name, email, password } = form;
   const dispatch = useDispatch();
+
   function handleSubmit(event) {
     event.preventDefault();
     dispatch(sendRequestRegister(name, email, password));

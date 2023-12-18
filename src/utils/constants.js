@@ -9,6 +9,7 @@ export function linkIsActive(isActive) {
 
 export const accessToken = "accessToken";
 export const refreshToken = "refreshToken";
+export const forgotPassword = "forgotPassword";
 
 export const routes = {
   home: "/",
@@ -25,8 +26,8 @@ export const endpoints = {
   api: "https://norma.nomoreparties.space/api",
   login: "auth/login",
   register: "auth/register",
-  forgotPassword: "password-reset",
-  resetPassword: "password-reset/reset",
+  resetPassword: "password-reset",
+  reset: "reset",
   logout: "auth/logout",
   token: "auth/token",
   user: "auth/user",
