@@ -27,7 +27,7 @@ export const endpoints = {
   login: "auth/login",
   register: "auth/register",
   resetPassword: "password-reset",
-  reset: "reset",
+  reset: "password-reset/reset",
   logout: "auth/logout",
   token: "auth/token",
   user: "auth/user",

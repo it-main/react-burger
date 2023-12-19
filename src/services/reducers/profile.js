@@ -1,5 +1,4 @@
 import {
-  // FORM_SET_VALUE,
   LOGIN_SUCCESS,
   REGISTER_SUCCESS,
   SEND_REQUEST,
@@ -37,7 +36,7 @@ export const profileReducer = (state = initialState, action) => {
     }
 
     case LOGOUT: {
-      return { ...initialState };
+      return { ...initialState, isAuthChecked: true };
     }
 
     case SET_USER: {
@@ -83,13 +82,6 @@ export const profileReducer = (state = initialState, action) => {
         email: data.email,
       };
     }
-
-    // case FORM_SET_VALUE: {
-    //   return {
-    //     ...state,
-    //     [action.payload.field]: action.payload.value,
-    //   };
-    // }
 
     default:
       return state;

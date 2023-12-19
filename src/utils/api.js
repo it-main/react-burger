@@ -76,7 +76,7 @@ export function signOutRequest() {
     headers: {
       "Content-Type": "application/json",
     },
-    body: getCookie(refreshToken),
+    body: JSON.stringify({ token: getCookie(refreshToken) }),
   };
   return sendRequest(endpoints.logout, requestInit);
 }

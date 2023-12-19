@@ -124,8 +124,8 @@ export function signOut() {
   return function (dispatch) {
     dispatch(sendRequestAction);
     signOutRequest().finally(() => {
-      dispatch(logoutAction);
       deleteCookies();
+      dispatch(logoutAction);
     });
   };
 }

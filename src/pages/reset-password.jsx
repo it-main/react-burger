@@ -36,7 +36,7 @@ function ResetPassword() {
       .then((json) => {
         if (json.success) {
           localStorage.removeItem(forgotPassword);
-          navigate(endpoints.login);
+          navigate(routes.login);
         } else {
           console.error("Ошибка получения данных с сервера");
         }
