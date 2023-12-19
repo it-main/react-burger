@@ -5,7 +5,7 @@ import { routes } from "../../utils/constants";
 function ProtectedRoute({ routeAuthorizedOnly = false, children }) {
   const { isAuth, isAuthChecked } = useSelector((state) => state.profile);
   const location = useLocation();
-
+  console.log("ProtectedRoute");
   if (!isAuthChecked) return <p>Загрузка...</p>;
 
   //Пользователь не авторизован, но роут только для авторизованного (profile)

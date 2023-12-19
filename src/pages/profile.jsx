@@ -3,9 +3,14 @@ import style from "./profile.module.css";
 import { linkIsActive, routes } from "../utils/constants";
 import { NavLink } from "react-router-dom";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useDispatch } from "react-redux";
+import { signOut } from "../services/actions/profile";
 
 function Profile() {
-  const handleExit = () => {};
+  const dispatch = useDispatch();
+  const handleSignOut = () => {
+    dispatch(signOut());
+  };
 
   return (
     <div className={clsx(style.content)}>
@@ -39,7 +44,7 @@ function Profile() {
             htmlType="button"
             type="secondary"
             size="medium"
-            onClick={handleExit}
+            onClick={handleSignOut}
             extraClass={clsx(
               style.navItem,
               style.navExit,

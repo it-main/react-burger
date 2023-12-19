@@ -3,7 +3,6 @@ import { useEffect, useReducer } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getIngredients } from "../../services/actions/ingredients";
 import {
-  forgotPassword,
   getStateBurgerConstructor,
   getStateIngredients,
   routes,
@@ -20,7 +19,6 @@ import NotFound from "../../pages/not-found";
 import styles from "./app.module.css";
 import ProtectedRoute from "../protected-route/protected-route";
 import { checkUserAuth } from "../../services/actions/profile";
-import resetPassword from "../../pages/reset-password";
 
 function App() {
   const dispatch = useDispatch();
@@ -79,8 +77,22 @@ function App() {
       <DownloadStatus />
       <Routes>
         <Route path={routes.home} element={<HomePage />} />
-        <Route path={routes.register} element={<Register />} />
-        <Route path={routes.forgot} element={<ForgotPassword />} />
+        <Route
+          path={routes.register}
+          element={
+            <ProtectedRoute>
+              <Register />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={routes.forgot}
+          element={
+            <ProtectedRoute>
+              <ForgotPassword />
+            </ProtectedRoute>
+          }
+        />
         <Route path={routes.reset} element={<ResetPassword />} />
         <Route
           path={routes.login}
@@ -98,7 +110,14 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route path={routes.feed} element={<Orders />} />
+        <Route
+          path={routes.feed}
+          element={
+            <ProtectedRoute routeAuthorizedOnly>
+              <Orders />
+            </ProtectedRoute>
+          }
+        />
         <Route path={routes.notfound} element={<NotFound />} />
       </Routes>
     </div>

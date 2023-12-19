@@ -1,4 +1,4 @@
-import { accessToken, endpoints } from "./constants";
+import { accessToken, endpoints, refreshToken } from "./constants";
 import { getCookie } from "./cookie";
 
 export function checkResponse(response) {
@@ -68,4 +68,15 @@ export function resetPasswordRequest(password, token) {
     body: JSON.stringify({ password, token }),
   };
   return sendRequest(endpoints.reset, requestInit);
+}
+
+export function signOutRequest() {
+  const requestInit = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: getCookie(refreshToken),
+  };
+  return sendRequest(endpoints.logout, requestInit);
 }

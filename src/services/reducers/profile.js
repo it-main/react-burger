@@ -1,5 +1,5 @@
 import {
-  FORM_SET_VALUE,
+  // FORM_SET_VALUE,
   LOGIN_SUCCESS,
   REGISTER_SUCCESS,
   SEND_REQUEST,
@@ -84,12 +84,12 @@ export const profileReducer = (state = initialState, action) => {
       };
     }
 
-    case FORM_SET_VALUE: {
-      return {
-        ...state,
-        [action.payload.field]: action.payload.value,
-      };
-    }
+    // case FORM_SET_VALUE: {
+    //   return {
+    //     ...state,
+    //     [action.payload.field]: action.payload.value,
+    //   };
+    // }
 
     default:
       return state;
