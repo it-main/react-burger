@@ -9,13 +9,9 @@ import { accessToken, refreshToken } from "../../utils/constants";
 import { deleteCookie, getCookie, setCookie } from "../../utils/cookie";
 
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
-
 export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
 export const SEND_REQUEST = "SEND_REQUEST";
 export const REQUEST_FAILED = "REQUEST_FAILED";
-
-// export const FORM_SET_VALUE = "FORM_SET_VALUE";
-
 export const SET_USER = "SET_USER";
 export const SET_AUTH_CHECKED = "SET_AUTH_CHECKED";
 export const LOGOUT = "LOGOUT";

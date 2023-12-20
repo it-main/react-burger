@@ -5,11 +5,11 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { clsx } from "clsx";
 import style from "./form.module.css";
-import { endpoints, forgotPassword, routes } from "../utils/constants";
+import { forgotPassword, routes } from "../utils/constants";
 import FormAdditionalAction from "../components/form-additional-action/form-additional-action";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { checkResponse, resetPasswordRequest } from "../utils/api";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 function ResetPassword() {
   const [form, setFormValue] = useState({
@@ -18,16 +18,7 @@ function ResetPassword() {
   });
   const navigate = useNavigate();
   const { password, token } = form;
-  // const from = useLocation().state?.from;
-
-  //TODO
-  // useEffect(() => {
-  //   console.log("mount");
-  //   return () => {
-  //     console.log("unmount");
-  //     localStorage.removeItem(forgotPassword);
-  //   };
-  // }, []);
+  const location = useLocation();
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -36,7 +27,10 @@ function ResetPassword() {
       .then((json) => {
         if (json.success) {
           localStorage.removeItem(forgotPassword);
-          navigate(routes.login);
+          navigate(routes.login, {
+            replace: true,
+            state: { from: location.pathname },
+          });
         } else {
           console.error("Ошибка получения данных с сервера");
         }

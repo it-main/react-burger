@@ -47,7 +47,6 @@ function App() {
   }
 
   useEffect(() => {
-    console.log("checkUserAuth");
     dispatch(checkUserAuth());
     dispatch(getIngredients());
   }, [dispatch]);
