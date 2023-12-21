@@ -11,6 +11,59 @@ export function sendRequest(endpoint, requestInit) {
   return fetch(`${endpoints.api}/${endpoint}`, requestInit);
 }
 
+export function refreshTokenRequest() {
+  const requestInit = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json;charset=utf-8",
+    },
+    body: JSON.stringify({ token: getCookie(refreshToken) }),
+  };
+  return sendRequest(endpoints.token, requestInit);
+}
+
+// export function fetchWithRefresh (url, requestInit) {
+//   const res = sendRequest(url, requestInit)
+//     .then(checkResponse)
+//     .then(json) {return await checkReponse(res)}
+//   } catch (err) {
+//     if (err.message === "jwt expired") {
+//       const refreshData = await refreshTokenRequest(); //обновляем токен
+//       if (!refreshData.success) {
+//         return Promise.reject(refreshData);
+//       }
+//       localStorage.setItem("refreshToken", refreshData.refreshToken);
+//       localStorage.setItem("accessToken", refreshData.accessToken);
+//       requestInit.headers.authorization = refreshData.accessToken;
+//       const res = await fetch(url, requestInit); //повторяем запрос
+//       return await checkReponse(res);
+//     } else {
+//       return Promise.reject(err);
+//     }
+//   }
+// };
+
+export const fetchWithRefresh = async (url, options) => {
+  try {
+    const res = await fetch(url, options);
+    return await checkResponse(res);
+  } catch (err) {
+    if (err.message === "jwt expired") {
+      const refreshData = await refreshToken(); //обновляем токен
+      if (!refreshData.success) {
+        return Promise.reject(refreshData);
+      }
+      localStorage.setItem("refreshToken", refreshData.refreshToken);
+      localStorage.setItem("accessToken", refreshData.accessToken);
+      options.headers.authorization = refreshData.accessToken;
+      const res = await fetch(url, options); //повторяем запрос
+      return await checkResponse(res);
+    } else {
+      return Promise.reject(err);
+    }
+  }
+};
+
 function getAuthorizedToken() {
   return "Bearer " + getCookie(accessToken);
 }
