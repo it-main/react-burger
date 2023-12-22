@@ -87,18 +87,21 @@ export function sendRequestRegister(name, email, password) {
 export function getUser() {
   return (dispatch) => {
     dispatch(sendRequestAction);
-    return getUserRequest()
-      .then(checkResponse)
-      .then((json) => {
-        if (json.success) {
-          dispatch(setUserAction(json.user));
-          console.error("Ошибка при запросе информации о пользователе");
-        } else {
-          dispatch(requestFailedAction);
-        }
-      });
+    return (
+      getUserRequest()
+        // .then(checkResponse)
+        .then((json) => {
+          if (json.success) {
+            dispatch(setUserAction(json.user));
+            console.error("Ошибка при запросе информации о пользователе");
+          } else {
+            dispatch(requestFailedAction);
+          }
+        })
+    );
   };
 }
+
 export function checkUserAuth() {
   return (dispatch) => {
     if (getCookie(accessToken)) {
