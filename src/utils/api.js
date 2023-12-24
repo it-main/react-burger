@@ -7,10 +7,6 @@ export function checkResponse(response) {
     : Promise.reject(`Ошибка: ${response.status}`);
 }
 
-const checkReponse1 = (res) => {
-  return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
-};
-
 export function sendRequest(endpoint, requestInit) {
   return fetch(`${endpoints.api}/${endpoint}`, requestInit);
 }
@@ -82,6 +78,7 @@ export function getUserRequest() {
       authorization: getAuthorizedToken(),
     },
   };
+  console.log("getUserRequest");
   return sendRequestWithRefresh(endpoints.user, requestInit);
 }
 
@@ -96,36 +93,54 @@ export function refreshTokenRequest() {
   return sendRequest(endpoints.token, requestInit);
 }
 
-export function sendRequestWithRefresh1(url, requestInit) {
+export function testPromise() {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve("Таймаут 2000");
+    }, 2000);
+  });
+}
+
+export function sendRequestWithRefresh(url, requestInit) {
+  console.log("start sendRequestWithRefresh");
+  let rez = Promise.resolve();
   sendRequest(url, requestInit)
-    .then((res) => {
-      if (res.ok) {
-        return Promise.resolve(res.json());
-      } else {
-        Promise.reject(res.status);
-      }
+    .then((resp) => {
+      console.log("then: ", rez);
+      return Promise.resolve(resp);
     })
     .catch((err) => {
-      console.log("catch sendRequestWithRefresh: ", err.message);
-      if (err.message === "jwt expired") {
-        refreshTokenRequest()
-          .then(checkResponse)
-          .then((refreshData) => {
-            if (!refreshData.success) {
-              return Promise.reject(refreshData);
-            }
-            setCookie(accessToken, refreshData.accessToken);
-            setCookie(refreshToken, refreshData.refreshToken);
-            requestInit.headers.authorization = refreshData.accessToken;
-            sendRequest(url, requestInit).then((res) => {
-              return checkResponse(res);
-            });
-          })
-          .catch((err) => {
-            return Promise.reject(err);
-          });
-      } else {
-        return Promise.reject(err);
-      }
+      console.log("catch: ", rez);
+      return Promise.reject(err);
     });
+  console.log("end sendRequestWithRefresh");
+  // .then(() => {
+  //   return Promise.resolve();
+  // });
+  // .catch((err) => {
+  //   console.log("catch sendRequestWithRefresh: ", err.message);
+  //
+  // }) //del line
+
+  //   if (err.message === "jwt expired") {
+  //     refreshTokenRequest()
+  //       .then(checkResponse)
+  //       .then((refreshData) => {
+  //         if (!refreshData.success) {
+  //           return Promise.reject(refreshData);
+  //         }
+  //         setCookie(accessToken, refreshData.accessToken);
+  //         setCookie(refreshToken, refreshData.refreshToken);
+  //         requestInit.headers.authorization = refreshData.accessToken;
+  //         sendRequest(url, requestInit).then((res) => {
+  //           return checkResponse(res);
+  //         });
+  //       })
+  //       .catch((err) => {
+  //         return Promise.reject(err);
+  //       });
+  //   } else {
+  //     return Promise.reject(err);
+  //   }
+  //});
 }
