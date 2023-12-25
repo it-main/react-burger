@@ -54,7 +54,9 @@ function setUserAction(user) {
 }
 
 function setCookies(json) {
-  setCookie(accessToken, json.accessToken.split("Bearer ")[1]);
+  // TODO
+  // setCookie(accessToken, json.accessToken.split("Bearer ")[1]);
+  setCookies(accessToken, json.accessToken);
   setCookie(refreshToken, json.refreshToken);
 }
 
