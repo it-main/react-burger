@@ -13,15 +13,6 @@ function ForgotPassword() {
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
-  // useEffect(() => {
-  //   isAuth && navigate(routes.home, { replace: true });
-  //   successRequest &&
-  //     navigate("/reset-password", {
-  //       replace: true,
-  //       state: { from: location.pathname },
-  //     });
-
-  // }, [navigate, successRequest, isAuth]);
 
   function handleSubmit(event) {
     event.preventDefault();

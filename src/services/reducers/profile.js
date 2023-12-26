@@ -36,7 +36,10 @@ export const profileReducer = (state = initialState, action) => {
     }
 
     case LOGOUT: {
-      return { ...initialState };
+      return {
+        ...initialState,
+        isAuthChecked: true,
+      };
     }
 
     case SET_USER: {
