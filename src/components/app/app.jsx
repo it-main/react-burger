@@ -14,7 +14,7 @@ import Register from "../../pages/register";
 import ForgotPassword from "../../pages/forgot-password";
 import ResetPassword from "../../pages/reset-password";
 import Profile from "../../pages/profile";
-import Orders from "../../pages/orders";
+import Orders from "../orders/orders";
 import NotFound from "../../pages/not-found";
 import styles from "./app.module.css";
 import ProtectedRoute from "../protected-route/protected-route";
@@ -85,45 +85,33 @@ function App() {
         <Route path={routes.home} element={<HomePage />} />
         <Route
           path={routes.register}
-          element={
-            <ProtectedRoute>
-              <Register />
-            </ProtectedRoute>
-          }
+          element={<ProtectedRoute component={<Register />}></ProtectedRoute>}
         />
         <Route
           path={routes.forgot}
           element={
-            <ProtectedRoute>
-              <ForgotPassword />
-            </ProtectedRoute>
+            <ProtectedRoute component={<ForgotPassword />}></ProtectedRoute>
           }
         />
         <Route path={routes.reset} element={<ResetPassword />} />
         <Route
           path={routes.login}
-          element={
-            <ProtectedRoute>
-              <Login />
-            </ProtectedRoute>
-          }
+          element={<ProtectedRoute component={<Login />}></ProtectedRoute>}
         />
+
         <Route
           path={routes.profile}
           element={
-            <ProtectedRoute routeAuthorizedOnly>
-              <Profile />
-            </ProtectedRoute>
+            <ProtectedRoute routeAuthorizedOnly component={<Profile />} />
           }
-        />
-        <Route
-          path={routes.feed}
-          element={
-            <ProtectedRoute routeAuthorizedOnly>
-              <Orders />
-            </ProtectedRoute>
-          }
-        />
+        >
+          <Route
+            path={routes.orders}
+            element={
+              <ProtectedRoute routeAuthorizedOnly component={<Orders />} />
+            }
+          />
+        </Route>
         <Route path={routes.notfound} element={<NotFound />} />
       </Routes>
     </div>

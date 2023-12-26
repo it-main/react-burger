@@ -1,7 +1,7 @@
 import { clsx } from "clsx";
 import style from "./profile.module.css";
 import { linkIsActive, routes } from "../utils/constants";
-import { NavLink } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch } from "react-redux";
 import { signOut } from "../services/actions/profile";
@@ -29,7 +29,7 @@ function Profile() {
             Профиль
           </NavLink>
           <NavLink
-            to={routes.feed}
+            to={routes.orders}
             className={({ isActive }) =>
               clsx(
                 "text text_type_main-medium",
@@ -57,6 +57,9 @@ function Profile() {
         <p className="text text_type_main-default text_color_inactive">
           В этом разделе вы можете изменить свои персональные данные
         </p>
+      </div>
+      <div>
+        <Outlet />
       </div>
     </div>
   );

@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
 import { routes } from "../../utils/constants";
 
-function ProtectedRoute({ routeAuthorizedOnly = false, children }) {
+function ProtectedRoute({ routeAuthorizedOnly = false, component }) {
   const { isAuth, isAuthChecked } = useSelector((state) => state.profile);
   const location = useLocation();
 
@@ -18,6 +18,6 @@ function ProtectedRoute({ routeAuthorizedOnly = false, children }) {
     const to = location.state?.from || routes.home;
     return <Navigate to={to} replace state={{ from: location.pathname }} />;
   }
-  return children;
+  return component;
 }
 export default ProtectedRoute;

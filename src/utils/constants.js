@@ -18,7 +18,7 @@ export const routes = {
   forgot: "/forgot-password",
   reset: "/reset-password",
   profile: "/profile",
-  feed: "/feed",
+  orders: "orders",
   notfound: "*",
 };
 
