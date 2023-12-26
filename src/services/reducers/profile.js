@@ -14,7 +14,7 @@ const initialState = {
   isAuth: false,
   isAuthChecked: false,
   sendRequest: false,
-  successRequest: undefined,
+  successRequest: false,
 };
 
 export const profileReducer = (state = initialState, action) => {
@@ -23,7 +23,7 @@ export const profileReducer = (state = initialState, action) => {
       return {
         ...state,
         sendRequest: true,
-        successRequest: undefined,
+        successRequest: false,
       };
     }
 
@@ -36,7 +36,7 @@ export const profileReducer = (state = initialState, action) => {
     }
 
     case LOGOUT: {
-      return { ...initialState, isAuthChecked: true };
+      return { ...initialState };
     }
 
     case SET_USER: {

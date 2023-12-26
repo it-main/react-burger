@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import { useEffect, useReducer } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getIngredients } from "../../services/actions/ingredients";
@@ -29,6 +29,13 @@ function App() {
     { price: 0 },
     undefined,
   );
+  const pathname = useLocation().pathname;
+
+  useEffect(() => {
+    //TODO
+    // console.log("useEffect checkUserAuth");
+    dispatch(checkUserAuth());
+  }, [pathname]);
 
   function reducerBurgerSum(state, action) {
     if (action.type === "price") {
@@ -47,9 +54,8 @@ function App() {
   }
 
   useEffect(() => {
-    dispatch(checkUserAuth());
     dispatch(getIngredients());
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
     dispatchSumIngredients({ type: "price" });

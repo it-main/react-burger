@@ -56,7 +56,7 @@ function setUserAction(user) {
 function setCookies(json) {
   // TODO
   // setCookie(accessToken, json.accessToken.split("Bearer ")[1]);
-  setCookies(accessToken, json.accessToken);
+  setCookie(accessToken, json.accessToken);
   setCookie(refreshToken, json.refreshToken);
 }
 
@@ -88,20 +88,20 @@ export function sendRequestRegister(name, email, password) {
 
 export function getUser() {
   return (dispatch) => {
-    return Promise.resolve({});
-    // dispatch(sendRequestAction);
-    // return (
-    //   getUserRequest()
-    //     // .then(checkResponse)
-    //     .then((json) => {
-    //       if (json.success) {
-    //         dispatch(setUserAction(json.user));
-    //         console.error("Ошибка при запросе информации о пользователе");
-    //       } else {
-    //         dispatch(requestFailedAction);
-    //       }
-    //     })
-    // );
+    dispatch(sendRequestAction);
+    return getUserRequest()
+      .then((json) => {
+        if (json.success) {
+          dispatch(setUserAction(json.user));
+        } else {
+          dispatch(requestFailedAction);
+          console.error("Ошибка при запросе информации о пользователе");
+        }
+      })
+      .catch((err) => {
+        dispatch(requestFailedAction);
+        console.log(err);
+      });
   };
 }
 

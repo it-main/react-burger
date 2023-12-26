@@ -140,28 +140,14 @@ function BurgerConstructor() {
             Оформить заказ
           </Button>
           <Button
+            /*TODO*/
             htmlType="button"
             type="primary"
             size="large"
-            // onClick={async () => {
-            //   async function send(email, pass) {
-            //     return await loginRequest(email, pass)
-            //       .then(checkResponse)
-            //       .catch((err) => err);
-            //   }
-            //
-            //   console.log("Отправляем запрос");
-            //   const rez = await send("", "");
-            //   console.log("Promise: ", rez);
-            //   rez.then((r) => {
-            //     console.log("Результат4: ", r);
-            //   });
-            //   console.log("end");
-            // }}
             onClick={() => {
               getUserRequest()
                 .then((json) => console.log("JSON ", json))
-                .catch((err) => console.log("ERRR", err));
+                .catch((err) => console.log("ER click: ", err));
             }}
           >
             ТЕСТ

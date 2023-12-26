@@ -11,10 +11,6 @@ export function sendRequest(endpoint, requestInit) {
   return fetch(`${endpoints.api}/${endpoint}`, requestInit);
 }
 
-function getAuthorizedToken() {
-  return "Bearer " + getCookie(accessToken);
-}
-
 export function loginRequest(email, password) {
   const requestInit = {
     method: "POST",
@@ -89,23 +85,24 @@ export function refreshTokenRequest() {
     },
     body: JSON.stringify({ token: getCookie(refreshToken) }),
   };
-  console.log(requestInit);
   return sendRequest(endpoints.token, requestInit);
 }
 
-export function sendRequestWithRefresh(url, requestInit) {
-  return sendRequest(url, requestInit)
-    .then(checkResponse)
-    .catch((err) => {
-      if (err !== "jwt expired") return Promise.reject(err);
-      refreshTokenRequest()
-        .then(checkResponse)
-        .then((refreshData) => {
-          if (!refreshData.success) return Promise.reject(refreshData);
-          setCookie(accessToken, refreshData.accessToken);
-          setCookie(refreshToken, refreshData.refreshToken);
-          requestInit.headers.authorization = refreshData.accessToken;
-          return sendRequest(url, requestInit).then(checkResponse);
-        });
-    });
+export async function sendRequestWithRefresh(url, requestInit) {
+  try {
+    const response = await sendRequest(url, requestInit);
+    return await checkResponse(response);
+  } catch (err) {
+    if (err !== "jwt expired") {
+      return Promise.reject(err);
+    }
+    const refreshData = await refreshTokenRequest().then(checkResponse);
+    if (!refreshData.success) {
+      return Promise.reject(refreshData);
+    }
+    setCookie(accessToken, refreshData.accessToken);
+    setCookie(refreshToken, refreshData.refreshToken);
+    requestInit.headers.authorization = refreshData.accessToken;
+    return sendRequest(url, requestInit).then(checkResponse);
+  }
 }
