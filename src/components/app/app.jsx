@@ -19,6 +19,7 @@ import NotFound from "../../pages/not-found";
 import styles from "./app.module.css";
 import ProtectedRoute from "../protected-route/protected-route";
 import { checkUserAuth } from "../../services/actions/profile";
+import ProfileForm from "../profile-form/profile-form";
 
 function App() {
   const dispatch = useDispatch();
@@ -82,18 +83,22 @@ function App() {
       <AppHeader />
       <DownloadStatus />
       <Routes>
-        <Route path={routes.home} element={<HomePage />} />
+        <Route path={routes.home} element={<HomePage />}></Route>
+
         <Route
           path={routes.register}
           element={<ProtectedRoute component={<Register />}></ProtectedRoute>}
         />
+
         <Route
           path={routes.forgot}
           element={
             <ProtectedRoute component={<ForgotPassword />}></ProtectedRoute>
           }
         />
+
         <Route path={routes.reset} element={<ResetPassword />} />
+
         <Route
           path={routes.login}
           element={<ProtectedRoute component={<Login />}></ProtectedRoute>}
@@ -105,13 +110,10 @@ function App() {
             <ProtectedRoute routeAuthorizedOnly component={<Profile />} />
           }
         >
-          <Route
-            path={routes.orders}
-            element={
-              <ProtectedRoute routeAuthorizedOnly component={<Orders />} />
-            }
-          />
+          <Route index element={<ProfileForm />} />
+          <Route path={routes.orders} element={<Orders />} />
         </Route>
+
         <Route path={routes.notfound} element={<NotFound />} />
       </Routes>
     </div>

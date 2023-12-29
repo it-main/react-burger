@@ -18,6 +18,7 @@ function Profile() {
         <nav className={style.navigate}>
           <NavLink
             to={routes.profile}
+            end
             className={({ isActive }) =>
               clsx(
                 "text text_type_main-medium",

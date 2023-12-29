@@ -6,7 +6,7 @@ function ProtectedRoute({ routeAuthorizedOnly = false, component }) {
   const { isAuth, isAuthChecked } = useSelector((state) => state.profile);
   const location = useLocation();
 
-  if (!isAuthChecked) return <p>Загрузка...</p>;
+  if (!isAuthChecked) return <h2>Загрузка...</h2>;
 
   //Пользователь не авторизован, но роут только для авторизованного (profile)
   if (!isAuth && routeAuthorizedOnly) {

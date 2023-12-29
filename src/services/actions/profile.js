@@ -4,14 +4,14 @@ import {
   loginRequest,
   registerRequest,
   signOutRequest,
+  updateUserRequest,
 } from "../../utils/api";
 import { accessToken, refreshToken } from "../../utils/constants";
 import { deleteCookie, getCookie, setCookie } from "../../utils/cookie";
 
-export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
-export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
 export const SEND_REQUEST = "SEND_REQUEST";
 export const REQUEST_FAILED = "REQUEST_FAILED";
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const SET_USER = "SET_USER";
 export const SET_AUTH_CHECKED = "SET_AUTH_CHECKED";
 export const LOGOUT = "LOGOUT";
@@ -32,24 +32,24 @@ const setAuthCheckedAction = {
   type: SET_AUTH_CHECKED,
 };
 
-const registerSuccessAction = (data) => {
-  return {
-    type: REGISTER_SUCCESS,
-    payload: data.user,
-  };
-};
+// const registerSuccessAction = (data) => {
+//   return {
+//     type: SET_USER,
+//     payload: data,
+//   };
+// };
+//
+// const loginSuccessAction = (data) => {
+//   return {
+//     type: SET_USER,
+//     payload: data,
+//   };
+// };
 
-const loginSuccessAction = (data) => {
-  return {
-    type: LOGIN_SUCCESS,
-    payload: data.user,
-  };
-};
-
-function setUserAction(user) {
+function setUserAction(data) {
   return {
     type: SET_USER,
-    payload: user,
+    payload: data,
   };
 }
 
@@ -73,10 +73,31 @@ export function sendRequestRegister(name, email, password) {
       .then((json) => {
         if (json.success) {
           setCookies(json);
-          dispatch(registerSuccessAction(json));
+          dispatch(setUserAction(json.user));
         } else {
           dispatch(requestFailedAction);
-          console.error("Ошибка при регистрации");
+          console.error("Произошла ошибка при регистрации");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        dispatch(requestFailedAction);
+      });
+  };
+}
+
+export function sendRequestUpdateUser(data) {
+  return (dispatch) => {
+    dispatch(sendRequestAction);
+    updateUserRequest(data)
+      .then((json) => {
+        if (json.success) {
+          dispatch(setUserAction(json.user));
+        } else {
+          dispatch(requestFailedAction);
+          console.error(
+            "Произошла ошибка при обновлении информации о пользователе",
+          );
         }
       })
       .catch((error) => {
@@ -139,7 +160,7 @@ export function signIn(email, password) {
       .then(checkResponse)
       .then((json) => {
         if (json.success) {
-          dispatch(loginSuccessAction(json));
+          dispatch(setUserAction(json.user));
           setCookies(json);
         } else {
           dispatch(requestFailedAction);

@@ -15,7 +15,7 @@ export function loginRequest(email, password) {
   const requestInit = {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/json;charset=utf-8",
     },
     body: JSON.stringify({ email, password }),
   };
@@ -26,7 +26,7 @@ export function registerRequest(name, email, password) {
   const requestInit = {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/json;charset=utf-8",
     },
     body: JSON.stringify({ email, password, name }),
   };
@@ -37,7 +37,7 @@ export function forgotPasswordRequest(email) {
   const requestInit = {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/json;charset=utf-8",
     },
     body: JSON.stringify({ email }),
   };
@@ -48,7 +48,7 @@ export function resetPasswordRequest(password, token) {
   const requestInit = {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/json;charset=utf-8",
     },
     body: JSON.stringify({ password, token }),
   };
@@ -59,7 +59,7 @@ export function signOutRequest() {
   const requestInit = {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/json;charset=utf-8",
     },
     body: JSON.stringify({ token: getCookie(refreshToken) }),
   };
@@ -70,9 +70,21 @@ export function getUserRequest() {
   const requestInit = {
     method: "GET",
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/json;charset=utf-8",
       authorization: getCookie(accessToken),
     },
+  };
+  return sendRequestWithRefresh(endpoints.user, requestInit);
+}
+
+export function updateUserRequest({ email, password, name }) {
+  const requestInit = {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json;charset=utf-8",
+      authorization: getCookie(accessToken),
+    },
+    body: JSON.stringify({ email, password, name }),
   };
   return sendRequestWithRefresh(endpoints.user, requestInit);
 }

@@ -1,6 +1,5 @@
 import {
   LOGIN_SUCCESS,
-  REGISTER_SUCCESS,
   SEND_REQUEST,
   SET_USER,
   LOGOUT,
@@ -42,17 +41,6 @@ export const profileReducer = (state = initialState, action) => {
       };
     }
 
-    case SET_USER: {
-      return {
-        ...state,
-        sendRequest: false,
-        successRequest: true,
-        isAuth: true,
-        name: action.payload.name,
-        email: action.payload.email,
-      };
-    }
-
     case SET_AUTH_CHECKED: {
       return {
         ...state,
@@ -62,7 +50,7 @@ export const profileReducer = (state = initialState, action) => {
       };
     }
 
-    case REGISTER_SUCCESS: {
+    case SET_USER: {
       const data = action.payload;
       return {
         ...state,
@@ -74,17 +62,17 @@ export const profileReducer = (state = initialState, action) => {
       };
     }
 
-    case LOGIN_SUCCESS: {
-      const data = action.payload;
-      return {
-        ...state,
-        sendRequest: false,
-        successRequest: true,
-        isAuth: true,
-        name: data.name,
-        email: data.email,
-      };
-    }
+    // case LOGIN_SUCCESS: {
+    //   const data = action.payload;
+    //   return {
+    //     ...state,
+    //     sendRequest: false,
+    //     successRequest: true,
+    //     isAuth: true,
+    //     name: data.name,
+    //     email: data.email,
+    //   };
+    // }
 
     default:
       return state;

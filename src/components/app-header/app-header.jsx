@@ -25,7 +25,7 @@ function AppHeader() {
             <span>Конструктор</span>
           </NavLink>
           <NavLink
-            to={routes.feed}
+            to="/profile/orders"
             className={({ isActive }) =>
               clsx("pl-5", styles.link, linkIsActive(isActive))
             }
