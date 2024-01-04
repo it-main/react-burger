@@ -19,6 +19,8 @@ export const routes = {
   reset: "/reset-password",
   profile: "/profile",
   orders: "orders",
+  feed: "/feed",
+  ingredient: "/ingredients/:ingredientId",
   notfound: "*",
 };
 

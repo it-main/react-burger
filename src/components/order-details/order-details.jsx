@@ -10,7 +10,9 @@ function OrderDetails() {
   return (
     <div className={clsx(styles.orderDetails, "pt-4 pr-25 pb-30 pl-25")}>
       {!statusOrderNumber ? (
-        <h1 className="text text_type_main-medium mb-15"> Загрузка...</h1>
+        <h1 className="text text_type_main-medium mb-15">
+          Пожалуйста подождите...
+        </h1>
       ) : (
         <>
           <h2

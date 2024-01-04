@@ -32,20 +32,6 @@ const setAuthCheckedAction = {
   type: SET_AUTH_CHECKED,
 };
 
-// const registerSuccessAction = (data) => {
-//   return {
-//     type: SET_USER,
-//     payload: data,
-//   };
-// };
-//
-// const loginSuccessAction = (data) => {
-//   return {
-//     type: SET_USER,
-//     payload: data,
-//   };
-// };
-
 function setUserAction(data) {
   return {
     type: SET_USER,

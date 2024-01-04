@@ -1,5 +1,4 @@
 import {
-  LOGIN_SUCCESS,
   SEND_REQUEST,
   SET_USER,
   LOGOUT,
@@ -61,19 +60,6 @@ export const profileReducer = (state = initialState, action) => {
         email: data.email,
       };
     }
-
-    // case LOGIN_SUCCESS: {
-    //   const data = action.payload;
-    //   return {
-    //     ...state,
-    //     sendRequest: false,
-    //     successRequest: true,
-    //     isAuth: true,
-    //     name: data.name,
-    //     email: data.email,
-    //   };
-    // }
-
     default:
       return state;
   }

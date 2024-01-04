@@ -3,14 +3,7 @@ import styles from "./burger-ingredients.module.css";
 import { useEffect, useRef, useState } from "react";
 import BurgerIngredient from "../burger-ingredient/burger-ingredient";
 import { clsx } from "clsx";
-import Modal from "../modal/modal";
-import IngredientDetails from "../ingredient-details/ingredient-details";
-import { useModal } from "../../hooks/useModal";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  ADD_INGREDIENT_DETAILS,
-  DELETE_INGREDIENT_DETAILS,
-} from "../../services/actions/ingredient-details";
+import { useSelector } from "react-redux";
 import { useInView } from "react-intersection-observer";
 import PropTypes from "prop-types";
 import { ingredientPropType } from "../../utils/prop-types";
@@ -48,7 +41,7 @@ function Tabs({ ingredientsTypes, stateCurrentTab }) {
 function IngredientsList(props) {
   const { ingredients } = props;
   const selectedIngredients = useSelector(
-    getStateBurgerConstructor
+    getStateBurgerConstructor,
   ).selectedIngredients;
   return (
     <ul className={clsx(styles.ingredientsList, "pl-4 pr-1")}>
@@ -61,7 +54,7 @@ function IngredientsList(props) {
           <BurgerIngredient
             ingredientData={ingredientData}
             count={count}
-            openModalIngredient={props.openModalIngredient}
+            // openModalIngredient={props.openModalIngredient}
             key={ingredientData._id}
           />
         );
@@ -110,13 +103,13 @@ function IngredientsTypesList(props) {
       ref={refIngredientsTypesList}
       className={clsx(
         styles.ingredientsTypesList,
-        "custom-scroll ingredients-types-list"
+        "custom-scroll ingredients-types-list",
       )}
     >
       {ingredientsTypes.map((ingredientType, index) => {
         const { type } = ingredientType;
         const ingredients = availableIngredients.filter(
-          (elem) => `link-${elem.type}` === type
+          (elem) => `link-${elem.type}` === type,
         );
         return (
           <IngredientsTypeItem
@@ -139,18 +132,20 @@ function BurgerIngredients() {
     { type: "link-main", typeRus: "Начинки" },
   ];
 
-  const dispatch = useDispatch();
-  const { isModalOpen, openModal, closeModal } = useModal();
+  // const dispatch = useDispatch();
+  //TODO
+  // const { isModalOpen, openModal, closeModal } = useModal();
   const stateCurrentTab = useState("link-bun");
 
-  const openModalIngredient = (ingredientDetails) => {
-    dispatch({ type: ADD_INGREDIENT_DETAILS, payload: ingredientDetails });
-    openModal();
-  };
-  const closeModalIngredient = () => {
-    dispatch({ type: DELETE_INGREDIENT_DETAILS });
-    closeModal();
-  };
+  //TODO
+  // const openModalIngredient = (ingredientDetails) => {
+  //   dispatch({ type: ADD_INGREDIENT_DETAILS, payload: ingredientDetails });
+  //   openModal();
+  // };
+  // const closeModalIngredient = () => {
+  //   dispatch({ type: DELETE_INGREDIENT_DETAILS });
+  //   closeModal();
+  // };
 
   return (
     <>
@@ -162,22 +157,23 @@ function BurgerIngredients() {
         />
         <IngredientsTypesList
           ingredientsTypes={ingredientsTypes}
-          openModalIngredient={openModalIngredient}
+          // openModalIngredient={openModalIngredient}
           stateCurrentTab={stateCurrentTab}
         />
       </section>
-      {isModalOpen && (
-        <Modal header={"Детали ингредиента"} closeModal={closeModalIngredient}>
-          <IngredientDetails />
-        </Modal>
-      )}
+      {/*TODO*/}
+      {/*{isModalOpen && (*/}
+      {/*  <Modal header={"Детали ингредиента"} closeModal={closeModalIngredient}>*/}
+      {/*    <IngredientDetails />*/}
+      {/*  </Modal>*/}
+      {/*)}*/}
     </>
   );
 }
 
 IngredientsTypesList.propTypes = {
   ingredientsTypes: PropTypes.arrayOf(
-    PropTypes.shape({ type: PropTypes.string, typeRus: PropTypes.string })
+    PropTypes.shape({ type: PropTypes.string, typeRus: PropTypes.string }),
   ).isRequired,
 };
 
@@ -187,7 +183,7 @@ IngredientsList.propTypes = {
 
 Tabs.propTypes = {
   ingredientsTypes: PropTypes.arrayOf(
-    PropTypes.shape({ type: PropTypes.string, typeRus: PropTypes.string })
+    PropTypes.shape({ type: PropTypes.string, typeRus: PropTypes.string }),
   ).isRequired,
   stateCurrentTab: PropTypes.array.isRequired,
 };

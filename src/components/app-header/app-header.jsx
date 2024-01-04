@@ -1,6 +1,6 @@
 import { Logo } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./app-header.module.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { clsx } from "clsx";
 import {
   BurgerIcon,
@@ -10,6 +10,8 @@ import {
 import { linkIsActive, routes } from "../../utils/constants";
 
 function AppHeader() {
+  const { pathname } = useLocation();
+
   return (
     <header>
       <nav className={clsx("pt-4 pb-4", styles.navigate)}>
@@ -21,16 +23,20 @@ function AppHeader() {
               clsx(styles.link, linkIsActive(isActive))
             }
           >
-            <BurgerIcon type="primary" />
+            <BurgerIcon
+              type={pathname === routes.home ? "primary" : "secondary"}
+            />
             <span>Конструктор</span>
           </NavLink>
           <NavLink
-            to="/profile/orders"
+            to={routes.feed}
             className={({ isActive }) =>
               clsx("pl-5", styles.link, linkIsActive(isActive))
             }
           >
-            <ListIcon type="secondary" />
+            <ListIcon
+              type={pathname === routes.feed ? "primary" : "secondary"}
+            />
             <span>Лента заказов</span>
           </NavLink>
         </div>
@@ -43,7 +49,9 @@ function AppHeader() {
             clsx(styles.link, linkIsActive(isActive))
           }
         >
-          <ProfileIcon type="secondary" />
+          <ProfileIcon
+            type={pathname.includes(routes.profile) ? "primary" : "secondary"}
+          />
           <span>Личный кабинет</span>
         </NavLink>
       </nav>

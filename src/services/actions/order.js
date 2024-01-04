@@ -1,12 +1,14 @@
 import { checkResponse, sendRequest } from "../../utils/api";
 import { CLEAR_SELECTED_INGREDIENTS } from "./burger-constructor";
+import { getCookie } from "../../utils/cookie";
+import { accessToken } from "../../utils/constants";
 
 export const GET_ORDER_NUMBER_SUCCESS = "GET_ORDER_NUMBER_SUCCESS";
 export const GET_ORDER_NUMBER_REQUEST = "GET_ORDER_NUMBER_REQUEST";
 export const GET_ORDER_NUMBER_FAILED = "GET_ORDER_NUMBER_FAILED";
 export const CLOSE_PLACE_ORDER = "CLOSE_PLACE_ORDER";
 
-export const getOrderNumber = (selectedIngredients) => {
+export const placeAnOrder = (selectedIngredients) => {
   return function (dispatch) {
     dispatch({
       type: GET_ORDER_NUMBER_REQUEST,
@@ -16,6 +18,7 @@ export const getOrderNumber = (selectedIngredients) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        authorization: getCookie(accessToken),
       },
       body: JSON.stringify({
         ingredients: [

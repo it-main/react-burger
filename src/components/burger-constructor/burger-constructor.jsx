@@ -11,17 +11,19 @@ import Modal from "../modal/modal";
 import { useModal } from "../../hooks/useModal";
 import { useDispatch, useSelector } from "react-redux";
 import { ADD_SELECTED_INGREDIENT } from "../../services/actions/burger-constructor";
-import { getOrderNumber } from "../../services/actions/order";
+import { CLOSE_PLACE_ORDER } from "../../services/actions/order";
+import { placeAnOrder } from "../../services/actions/order";
 import { useDrop } from "react-dnd";
 import BurgerConstructorIngredient from "../burger-constructor-ingredient/burger-constructor-ingredient";
-import { CLOSE_PLACE_ORDER } from "../../services/actions/order";
-import { getStateBurgerConstructor } from "../../utils/constants";
-import { checkResponse, getUserRequest, loginRequest } from "../../utils/api";
+import { getStateBurgerConstructor, routes } from "../../utils/constants";
+import { useNavigate } from "react-router-dom";
 
 function BurgerConstructor() {
   const { selectedIngredients } = useSelector(getStateBurgerConstructor);
+  const { isAuth } = useSelector((state) => state.profile);
   const { isModalOpen, openModal, closeModal } = useModal();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const sumSelectedIngredients = useMemo(() => {
     return (
       selectedIngredients.bun.reduce((sum, item) => sum + item.price * 2, 0) +
@@ -50,15 +52,13 @@ function BurgerConstructor() {
     },
   });
 
-  const handleGetOrderNumber = () => {
-    if (
-      (!selectedIngredients.bun.length &&
-        !selectedIngredients.fillings.length) ||
-      !selectedIngredients.bun.length
-    )
-      return undefined;
-    dispatch(getOrderNumber(selectedIngredients));
-    openModal();
+  const handlePlaceAnOrder = () => {
+    if (isAuth) {
+      dispatch(placeAnOrder(selectedIngredients));
+      openModal();
+    } else {
+      navigate(routes.login);
+    }
   };
 
   const handleClosePlaceOrder = () => {
@@ -126,33 +126,22 @@ function BurgerConstructor() {
           </ul>
         </div>
 
-        <div className={clsx(styles.info)}>
-          <span className={clsx("text text_type_digits-medium", styles.sum)}>
-            <p className={"text"}>{sumSelectedIngredients}</p>
-            <CurrencyIcon type="primary" />
-          </span>
-          <Button
-            htmlType="button"
-            type="primary"
-            size="large"
-            onClick={handleGetOrderNumber}
-          >
-            Оформить заказ
-          </Button>
-          <Button
-            /*TODO*/
-            htmlType="button"
-            type="primary"
-            size="large"
-            onClick={() => {
-              getUserRequest()
-                .then((json) => console.log("JSON ", json))
-                .catch((err) => console.log("ER click: ", err));
-            }}
-          >
-            ТЕСТ
-          </Button>
-        </div>
+        {Boolean(selectedIngredients.bun.length) && (
+          <div className={clsx(styles.info)}>
+            <span className={clsx("text text_type_digits-medium", styles.sum)}>
+              <p className={"text"}>{sumSelectedIngredients}</p>
+              <CurrencyIcon type="primary" />
+            </span>
+            <Button
+              htmlType="button"
+              type="primary"
+              size="large"
+              onClick={handlePlaceAnOrder}
+            >
+              Оформить заказ
+            </Button>
+          </div>
+        )}
       </section>
       {isModalOpen && (
         <Modal closeModal={handleClosePlaceOrder}>

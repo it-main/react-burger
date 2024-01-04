@@ -1,3 +1,7 @@
+.ingredientLink {
+  text-decoration: none;
+}
+
 .ingredient {
   position: relative;
   display: flex;

@@ -1,4 +1,4 @@
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useReducer } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getIngredients } from "../../services/actions/ingredients";
@@ -20,9 +20,16 @@ import styles from "./app.module.css";
 import ProtectedRoute from "../protected-route/protected-route";
 import { checkUserAuth } from "../../services/actions/profile";
 import ProfileForm from "../profile-form/profile-form";
+import IngredientDetails from "../ingredient-details/ingredient-details";
+import Modal from "../modal/modal";
+import Ingredient from "../../pages/ingredient";
+import Feed from "../../pages/feed";
 
 function App() {
   const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const { statusAvailableIngredients } = useSelector(getStateIngredients);
   const { selectedIngredients } = useSelector(getStateBurgerConstructor);
   const [, dispatchSumIngredients] = useReducer(
@@ -30,13 +37,15 @@ function App() {
     { price: 0 },
     undefined,
   );
-  const pathname = useLocation().pathname;
-
   useEffect(() => {
     //TODO
     // console.log("useEffect checkUserAuth");
     dispatch(checkUserAuth());
-  }, [pathname]);
+  }, [location.pathname]);
+
+  const handleModalClose = () => {
+    navigate(routes.home, { replace: true });
+  };
 
   function reducerBurgerSum(state, action) {
     if (action.type === "price") {
@@ -82,26 +91,43 @@ function App() {
     <div className={`${styles.page}`}>
       <AppHeader />
       <DownloadStatus />
+
       <Routes>
-        <Route path={routes.home} element={<HomePage />}></Route>
+        <Route path={routes.home} element={<HomePage />} />
+
+        <Route path={routes.feed} element={<Feed />} />
+
+        <Route
+          path={routes.ingredient}
+          element={
+            location?.state?.background ? (
+              <Modal
+                header={"Детали ингредиента"}
+                closeModal={handleModalClose}
+              >
+                <IngredientDetails />
+              </Modal>
+            ) : (
+              <Ingredient />
+            )
+          }
+        />
 
         <Route
           path={routes.register}
-          element={<ProtectedRoute component={<Register />}></ProtectedRoute>}
+          element={<ProtectedRoute component={<Register />} />}
         />
 
         <Route
           path={routes.forgot}
-          element={
-            <ProtectedRoute component={<ForgotPassword />}></ProtectedRoute>
-          }
+          element={<ProtectedRoute component={<ForgotPassword />} />}
         />
 
         <Route path={routes.reset} element={<ResetPassword />} />
 
         <Route
           path={routes.login}
-          element={<ProtectedRoute component={<Login />}></ProtectedRoute>}
+          element={<ProtectedRoute component={<Login />} />}
         />
 
         <Route
