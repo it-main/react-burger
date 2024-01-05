@@ -40,8 +40,6 @@ function setUserAction(data) {
 }
 
 function setCookies(json) {
-  // TODO
-  // setCookie(accessToken, json.accessToken.split("Bearer ")[1]);
   setCookie(accessToken, json.accessToken);
   setCookie(refreshToken, json.refreshToken);
 }
@@ -107,7 +105,7 @@ export function getUser() {
       })
       .catch((err) => {
         dispatch(requestFailedAction);
-        console.log(err);
+        return Promise.reject(err);
       });
   };
 }
@@ -116,7 +114,8 @@ export function checkUserAuth() {
   return (dispatch) => {
     if (getCookie(accessToken)) {
       dispatch(getUser())
-        .catch(() => {
+        .catch((err) => {
+          console.log("Ошибка при получении нового accessToken:", err);
           deleteCookies();
           dispatch(logoutAction);
         })

@@ -7,10 +7,10 @@ import {
   getStateIngredients,
   routes,
 } from "../../utils/constants";
+import Register from "../../pages/register";
 import AppHeader from "../app-header/app-header";
 import HomePage from "../../pages/home";
 import Login from "../../pages/login";
-import Register from "../../pages/register";
 import ForgotPassword from "../../pages/forgot-password";
 import ResetPassword from "../../pages/reset-password";
 import Profile from "../../pages/profile";
@@ -18,12 +18,12 @@ import Orders from "../orders/orders";
 import NotFound from "../../pages/not-found";
 import styles from "./app.module.css";
 import ProtectedRoute from "../protected-route/protected-route";
+import Feed from "../../pages/feed";
 import { checkUserAuth } from "../../services/actions/profile";
 import ProfileForm from "../profile-form/profile-form";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
 import Ingredient from "../../pages/ingredient";
-import Feed from "../../pages/feed";
 
 function App() {
   const dispatch = useDispatch();
@@ -38,8 +38,6 @@ function App() {
     undefined,
   );
   useEffect(() => {
-    //TODO
-    // console.log("useEffect checkUserAuth");
     dispatch(checkUserAuth());
   }, [location.pathname]);
 

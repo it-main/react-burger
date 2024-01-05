@@ -132,20 +132,7 @@ function BurgerIngredients() {
     { type: "link-main", typeRus: "Начинки" },
   ];
 
-  // const dispatch = useDispatch();
-  //TODO
-  // const { isModalOpen, openModal, closeModal } = useModal();
   const stateCurrentTab = useState("link-bun");
-
-  //TODO
-  // const openModalIngredient = (ingredientDetails) => {
-  //   dispatch({ type: ADD_INGREDIENT_DETAILS, payload: ingredientDetails });
-  //   openModal();
-  // };
-  // const closeModalIngredient = () => {
-  //   dispatch({ type: DELETE_INGREDIENT_DETAILS });
-  //   closeModal();
-  // };
 
   return (
     <>
@@ -161,12 +148,6 @@ function BurgerIngredients() {
           stateCurrentTab={stateCurrentTab}
         />
       </section>
-      {/*TODO*/}
-      {/*{isModalOpen && (*/}
-      {/*  <Modal header={"Детали ингредиента"} closeModal={closeModalIngredient}>*/}
-      {/*    <IngredientDetails />*/}
-      {/*  </Modal>*/}
-      {/*)}*/}
     </>
   );
 }

@@ -1,9 +1,9 @@
 import styles from "./ingredient-details.module.css";
-import { clsx } from "clsx";
 import PropTypes from "prop-types";
+import { clsx } from "clsx";
 import { useSelector } from "react-redux";
-import { getStateIngredients, routes } from "../../utils/constants";
-import { Navigate, useParams } from "react-router-dom";
+import { getStateIngredients } from "../../utils/constants";
+import { useParams } from "react-router-dom";
 
 function NutritionalValue({ title, value }) {
   return (
@@ -26,9 +26,6 @@ function IngredientDetails() {
   const ingredient = availableIngredients.filter(
     (item) => item._id === ingredientId,
   );
-  //TODO
-  // console.log(ingredient.length);
-  // if (!ingredient.length) return <Navigate to={routes.notfound} replace />;
   const { name, image, calories, proteins, fat, carbohydrates } =
     ingredient.length ? ingredient[0] : {};
   return (
@@ -51,7 +48,7 @@ function IngredientDetails() {
 
 NutritionalValue.propTypes = {
   title: PropTypes.string.isRequired,
-  value: PropTypes.number.isRequired,
+  value: PropTypes.number,
 };
 
 export default IngredientDetails;

@@ -1,11 +1,6 @@
 export const getStateIngredients = (state) => state.ingredients;
 export const getStateBurgerConstructor = (state) => state.burgerConstructor;
-export const getStateIngredientDetails = (state) => state.ingredientDetails;
 export const getStateOrder = (state) => state.order;
-
-export function linkIsActive(isActive) {
-  return isActive ? "text_color_primary" : "text_color_inactive";
-}
 
 export const accessToken = "accessToken";
 export const refreshToken = "refreshToken";

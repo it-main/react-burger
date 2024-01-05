@@ -1,13 +1,14 @@
-import { Logo } from "@ya.praktikum/react-developer-burger-ui-components";
-import styles from "./app-header.module.css";
-import { NavLink, useLocation } from "react-router-dom";
-import { clsx } from "clsx";
 import {
   BurgerIcon,
   ListIcon,
+  Logo,
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { linkIsActive, routes } from "../../utils/constants";
+import styles from "./app-header.module.css";
+import { NavLink, useLocation } from "react-router-dom";
+import { clsx } from "clsx";
+import { routes } from "../../utils/constants";
+import { linkIsActive } from "../../utils/utils";
 
 function AppHeader() {
   const { pathname } = useLocation();

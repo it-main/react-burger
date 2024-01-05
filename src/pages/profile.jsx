@@ -1,10 +1,11 @@
 import { clsx } from "clsx";
 import style from "./profile.module.css";
-import { linkIsActive, routes } from "../utils/constants";
+import { routes } from "../utils/constants";
 import { NavLink, Outlet } from "react-router-dom";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch } from "react-redux";
 import { signOut } from "../services/actions/profile";
+import { linkIsActive } from "../utils/utils";
 
 function Profile() {
   const dispatch = useDispatch();
