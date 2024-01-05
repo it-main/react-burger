@@ -6,6 +6,8 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useRef, useState } from "react";
 import { sendRequestUpdateUser } from "../../services/actions/profile";
+import { useForm } from "../../hooks/useForm";
+
 function ProfileForm() {
   const dispatch = useDispatch();
   const nameRef = useRef(null);
@@ -13,7 +15,11 @@ function ProfileForm() {
   const passwordRef = useRef(null);
 
   const { name, email } = useSelector((state) => state.profile);
-  const [formData, setFormData] = useState({ name, email, password: "" });
+  const { values, handleChange, setValues } = useForm({
+    name,
+    email,
+    password: "",
+  });
   const [editForm, setEditForm] = useState(false);
   const [inputNameDisabled, setInputNameDisabled] = useState(true);
   const [inputEmailDisabled, setInputEmailDisabled] = useState(true);
@@ -28,7 +34,7 @@ function ProfileForm() {
   }
 
   function formInit() {
-    setFormData({ name, email, password: "" });
+    setValues({ name, email, password: "" });
     setEditForm(false);
     setInputNameDisabled(true);
     setInputEmailDisabled(true);
@@ -37,7 +43,7 @@ function ProfileForm() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    dispatch(sendRequestUpdateUser(formData));
+    dispatch(sendRequestUpdateUser(values));
   }
 
   function handleCancel() {
@@ -46,28 +52,50 @@ function ProfileForm() {
 
   function handleOnChangeInput(event) {
     setEditForm(true);
-    setFormData({ ...formData, [event.target.name]: event.target.value });
+    handleChange(event);
   }
 
+  function handleNameIconClick() {
+    setInputNameDisabled(!inputNameDisabled);
+    inputNameDisabled ? setInputFocus(nameRef) : setValues({ ...values, name }); //пользователь передумал
+    editForm &&
+      !inputNameDisabled &&
+      inputPasswordDisabled &&
+      inputEmailDisabled &&
+      setEditForm(false);
+  }
+
+  function handleEmailIconClick() {
+    setInputEmailDisabled(!inputEmailDisabled);
+    inputEmailDisabled
+      ? setInputFocus(emailRef)
+      : setValues({ ...values, email }); //пользователь передумал
+    editForm &&
+      inputNameDisabled &&
+      inputPasswordDisabled &&
+      !inputEmailDisabled &&
+      setEditForm(false);
+  }
+  function handlePasswordIconClick() {
+    setInputPasswordDisabled(!inputPasswordDisabled);
+    inputPasswordDisabled
+      ? setInputFocus(passwordRef)
+      : setValues({ ...values, password: "" }); //пользователь передумал
+    editForm &&
+      inputNameDisabled &&
+      !inputPasswordDisabled &&
+      inputEmailDisabled &&
+      setEditForm(false);
+  }
   return (
     <form onSubmit={handleSubmit} className={style.form}>
       <Input
         type={"text"}
         placeholder={"Имя"}
         onChange={handleOnChangeInput}
-        onIconClick={() => {
-          setInputNameDisabled(!inputNameDisabled);
-          inputNameDisabled
-            ? setInputFocus(nameRef)
-            : setFormData({ ...formData, name }); //пользователь передумал
-          editForm &&
-            !inputNameDisabled &&
-            inputPasswordDisabled &&
-            inputEmailDisabled &&
-            setEditForm(false);
-        }}
+        onIconClick={handleNameIconClick}
         icon={inputNameDisabled ? "EditIcon" : "CloseIcon"}
-        value={formData.name}
+        value={values.name}
         name={"name"}
         size={"default"}
         ref={nameRef}
@@ -77,19 +105,9 @@ function ProfileForm() {
       <Input
         type={"email"}
         onChange={handleOnChangeInput}
-        onIconClick={() => {
-          setInputEmailDisabled(!inputEmailDisabled);
-          inputEmailDisabled
-            ? setInputFocus(emailRef)
-            : setFormData({ ...formData, email }); //пользователь передумал
-          editForm &&
-            inputNameDisabled &&
-            inputPasswordDisabled &&
-            !inputEmailDisabled &&
-            setEditForm(false);
-        }}
+        onIconClick={handleEmailIconClick}
         ref={emailRef}
-        value={formData.email}
+        value={values.email}
         name={"email"}
         placeholder="Логин"
         icon={inputEmailDisabled ? "EditIcon" : "CloseIcon"}
@@ -99,18 +117,8 @@ function ProfileForm() {
       <Input
         type={"password"}
         onChange={handleOnChangeInput}
-        onIconClick={() => {
-          setInputPasswordDisabled(!inputPasswordDisabled);
-          inputPasswordDisabled
-            ? setInputFocus(passwordRef)
-            : setFormData({ ...formData, password: "" }); //пользователь передумал
-          editForm &&
-            inputNameDisabled &&
-            !inputPasswordDisabled &&
-            inputEmailDisabled &&
-            setEditForm(false);
-        }}
-        value={formData.password}
+        onIconClick={handlePasswordIconClick}
+        value={values.password}
         name={"password"}
         ref={passwordRef}
         icon={inputPasswordDisabled ? "EditIcon" : "CloseIcon"}

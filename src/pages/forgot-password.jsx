@@ -2,21 +2,20 @@ import {
   Button,
   EmailInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState } from "react";
 import { checkResponse, forgotPasswordRequest } from "../utils/api";
 import FormAdditionalAction from "../components/form-additional-action/form-additional-action";
 import style from "./form.module.css";
 import { forgotPassword, routes } from "../utils/constants";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useForm } from "../hooks/useForm";
 
 function ForgotPassword() {
-  const [email, setEmail] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
-
+  const { values, handleChange } = useForm({ email: "" });
   function handleSubmit(event) {
     event.preventDefault();
-    forgotPasswordRequest(email)
+    forgotPasswordRequest(values.email)
       .then(checkResponse)
       .then((json) => {
         if (json.success) {
@@ -40,11 +39,7 @@ function ForgotPassword() {
         <h1 className="text text_type_main-medium" title={"ddd"}>
           Восстановление пароля
         </h1>
-        <EmailInput
-          onChange={(event) => setEmail(event.target.value)}
-          value={email}
-          id="email"
-        />
+        <EmailInput onChange={handleChange} value={values.email} name="email" />
         <Button
           htmlType="submit"
           type="primary"

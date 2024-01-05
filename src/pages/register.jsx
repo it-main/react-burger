@@ -8,22 +8,22 @@ import { clsx } from "clsx";
 import style from "./form.module.css";
 import { routes } from "../utils/constants";
 import FormAdditionalAction from "../components/form-additional-action/form-additional-action";
-import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { sendRequestRegister } from "../services/actions/profile";
+import { useForm } from "../hooks/useForm";
 
 function Register() {
-  const [form, setFormValue] = useState({ name: "", email: "", password: "" });
-  const { name, email, password } = form;
+  const { values, handleChange } = useForm({
+    name: "",
+    email: "",
+    password: "",
+  });
+  const { name, email, password } = values;
   const dispatch = useDispatch();
 
   function handleSubmit(event) {
     event.preventDefault();
     dispatch(sendRequestRegister(name, email, password));
-  }
-
-  function onChange(event) {
-    setFormValue({ ...form, [event.target.id]: event.target.value });
   }
 
   return (
@@ -34,16 +34,16 @@ function Register() {
           type="text"
           value={name}
           placeholder="Имя"
-          onChange={onChange}
-          id="name"
+          onChange={handleChange}
+          name="name"
         ></Input>
-        <EmailInput onChange={onChange} value={email} id="email" />
+        <EmailInput onChange={handleChange} value={email} name="email" />
         <PasswordInput
           placeholder="Пароль"
           icon="ShowIcon"
           value={password}
-          onChange={onChange}
-          id="password"
+          onChange={handleChange}
+          name="password"
         />
         <Button
           htmlType="submit"

@@ -90,7 +90,7 @@ function App() {
       <AppHeader />
       <DownloadStatus />
 
-      <Routes>
+      <Routes location={background || location}>
         <Route path={routes.home} element={<HomePage />} />
 
         <Route path={routes.feed} element={<Feed />} />

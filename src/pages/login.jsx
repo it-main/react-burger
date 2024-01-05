@@ -8,12 +8,12 @@ import style from "./form.module.css";
 import { routes } from "../utils/constants";
 import FormAdditionalAction from "../components/form-additional-action/form-additional-action";
 import { useDispatch } from "react-redux";
-import { useState } from "react";
 import { signIn } from "../services/actions/profile";
+import { useForm } from "../hooks/useForm";
 
 function Login() {
-  const [form, setFormValue] = useState({ email: "", password: "" });
-  const { password, email } = form;
+  const { values, handleChange } = useForm({ email: "", password: "" });
+  const { password, email } = values;
   const dispatch = useDispatch();
 
   function handleSubmit(event) {
@@ -21,21 +21,17 @@ function Login() {
     dispatch(signIn(email, password));
   }
 
-  function onChange(event) {
-    setFormValue({ ...form, [event.target.id]: event.target.value });
-  }
-
   return (
     <div className={clsx(style.content)}>
       <form className={style.form} onSubmit={handleSubmit}>
         <h1 className="text text_type_main-medium">Вход</h1>
-        <EmailInput onChange={onChange} value={email} id="email" />
+        <EmailInput onChange={handleChange} value={email} name="email" />
         <PasswordInput
           placeholder="Пароль"
           icon="ShowIcon"
-          onChange={onChange}
+          onChange={handleChange}
           value={password}
-          id="password"
+          name="password"
         />
         <Button
           htmlType="submit"

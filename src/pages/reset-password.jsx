@@ -9,15 +9,15 @@ import { forgotPassword, routes } from "../utils/constants";
 import FormAdditionalAction from "../components/form-additional-action/form-additional-action";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { checkResponse, resetPasswordRequest } from "../utils/api";
-import { useState } from "react";
+import { useForm } from "../hooks/useForm";
 
 function ResetPassword() {
-  const [form, setFormValue] = useState({
+  const { values, handleChange } = useForm({
     password: "",
     token: "",
   });
+  const { password, token } = values;
   const navigate = useNavigate();
-  const { password, token } = form;
   const location = useLocation();
 
   function handleSubmit(event) {
@@ -51,20 +51,16 @@ function ResetPassword() {
         <PasswordInput
           placeholder="Введите новый пароль"
           icon="ShowIcon"
-          onChange={(event) =>
-            setFormValue({ ...form, password: event.target.value })
-          }
+          onChange={handleChange}
           value={password}
-          id="password"
+          name="password"
         />
         <Input
           type="text"
           placeholder="Введите код из письма"
-          onChange={(event) =>
-            setFormValue({ ...form, token: event.target.value })
-          }
+          onChange={handleChange}
           value={token}
-          id="token"
+          name="token"
         ></Input>
         <Button
           htmlType="submit"
