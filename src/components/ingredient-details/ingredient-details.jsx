@@ -20,7 +20,6 @@ function NutritionalValue({ title, value }) {
 
 function IngredientDetails() {
   const { ingredientId } = useParams();
-
   const availableIngredients =
     useSelector(getStateIngredients).availableIngredients;
   const ingredient = availableIngredients.filter(

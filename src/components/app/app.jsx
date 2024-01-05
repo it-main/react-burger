@@ -29,7 +29,7 @@ function App() {
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
-
+  const background = location.state && location.state.background;
   const { statusAvailableIngredients } = useSelector(getStateIngredients);
   const { selectedIngredients } = useSelector(getStateBurgerConstructor);
   const [, dispatchSumIngredients] = useReducer(
@@ -95,21 +95,7 @@ function App() {
 
         <Route path={routes.feed} element={<Feed />} />
 
-        <Route
-          path={routes.ingredient}
-          element={
-            location?.state?.background ? (
-              <Modal
-                header={"Детали ингредиента"}
-                closeModal={handleModalClose}
-              >
-                <IngredientDetails />
-              </Modal>
-            ) : (
-              <Ingredient />
-            )
-          }
-        />
+        <Route path={routes.ingredient} element={<Ingredient />} />
 
         <Route
           path={routes.register}
@@ -140,6 +126,22 @@ function App() {
 
         <Route path={routes.notfound} element={<NotFound />} />
       </Routes>
+
+      {background && (
+        <Routes>
+          <Route
+            path={routes.ingredient}
+            element={
+              <Modal
+                header={"Детали ингредиента"}
+                closeModal={handleModalClose}
+              >
+                <IngredientDetails />
+              </Modal>
+            }
+          />
+        </Routes>
+      )}
     </div>
   );
 }
