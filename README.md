@@ -9,5 +9,7 @@ SPA для космической бургерной
 * JavaScript
 * JavaScript-библиотека React
 * JavaScript-библиотека react-dnd
+* JavaScript-библиотека react-router
 * Webpack
 
+[Ссылка](https://it-main.github.io/react-burger/)

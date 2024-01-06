@@ -1,30 +1,59 @@
-import { Logo } from "@ya.praktikum/react-developer-burger-ui-components";
-import styles from "./app-header.module.css";
-import NavLink from "../nav-link/nav-link";
-import { clsx } from "clsx";
 import {
   BurgerIcon,
   ListIcon,
+  Logo,
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import styles from "./app-header.module.css";
+import { NavLink, useLocation } from "react-router-dom";
+import { clsx } from "clsx";
+import { routes } from "../../utils/constants";
+import { linkIsActive } from "../../utils/utils";
 
 function AppHeader() {
+  const { pathname } = useLocation();
+
   return (
-    <header className={"mb-10"}>
+    <header>
       <nav className={clsx("pt-4 pb-4", styles.navigate)}>
         <div>
-          <NavLink caption="Конструктор" classList="mr-2 pr-5">
-            <BurgerIcon type='primary' />
+          {/*pt-4 pb-4*/}
+          <NavLink
+            to={routes.home}
+            className={({ isActive }) =>
+              clsx(styles.link, linkIsActive(isActive))
+            }
+          >
+            <BurgerIcon
+              type={pathname === routes.home ? "primary" : "secondary"}
+            />
+            <span>Конструктор</span>
           </NavLink>
-          <NavLink caption="Лента заказов" classList="text_color_inactive pl-5">
-            <ListIcon type="secondary" />
+          <NavLink
+            to={routes.feed}
+            className={({ isActive }) =>
+              clsx("pl-5", styles.link, linkIsActive(isActive))
+            }
+          >
+            <ListIcon
+              type={pathname === routes.feed ? "primary" : "secondary"}
+            />
+            <span>Лента заказов</span>
           </NavLink>
         </div>
-        <a href="#" className={styles.logo}>
+        <NavLink to={routes.home} className={styles.logo}>
           <Logo />
-        </a>
-        <NavLink caption="Личный кабинет" classList="text_color_inactive">
-          <ProfileIcon type="secondary" />
+        </NavLink>
+        <NavLink
+          to={routes.profile}
+          className={({ isActive }) =>
+            clsx(styles.link, linkIsActive(isActive))
+          }
+        >
+          <ProfileIcon
+            type={pathname.includes(routes.profile) ? "primary" : "secondary"}
+          />
+          <span>Личный кабинет</span>
         </NavLink>
       </nav>
     </header>

@@ -1,0 +1,8 @@
+.content {
+  margin: 0 auto;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  display: flex;
+  gap: 40px;
+  height: calc(100vh - 138px - 40px);
+}

@@ -1,50 +1,56 @@
-import {checkResponse, sendRequest} from "../../utils/api";
-import {CLEAR_SELECTED_INGREDIENTS} from "./burger-constructor";
+import { checkResponse, sendRequest } from "../../utils/api";
+import { CLEAR_SELECTED_INGREDIENTS } from "./burger-constructor";
+import { getCookie } from "../../utils/cookie";
+import { accessToken } from "../../utils/constants";
 
-export const GET_ORDER_NUMBER_SUCCESS = 'GET_ORDER_NUMBER_SUCCESS';
-export const GET_ORDER_NUMBER_REQUEST = 'GET_ORDER_NUMBER_REQUEST';
-export const GET_ORDER_NUMBER_FAILED = 'GET_ORDER_NUMBER_FAILED';
-export const CLOSE_PLACE_ORDER = 'CLOSE_PLACE_ORDER';
+export const GET_ORDER_NUMBER_SUCCESS = "GET_ORDER_NUMBER_SUCCESS";
+export const GET_ORDER_NUMBER_REQUEST = "GET_ORDER_NUMBER_REQUEST";
+export const GET_ORDER_NUMBER_FAILED = "GET_ORDER_NUMBER_FAILED";
+export const CLOSE_PLACE_ORDER = "CLOSE_PLACE_ORDER";
 
-export const getOrderNumber = (selectedIngredients) => {
-  return function(dispatch) {
-
+export const placeAnOrder = (selectedIngredients) => {
+  return function (dispatch) {
     dispatch({
-      type: GET_ORDER_NUMBER_REQUEST
-    })
+      type: GET_ORDER_NUMBER_REQUEST,
+    });
 
     const requestInit = {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
+        authorization: getCookie(accessToken),
       },
-      body: JSON.stringify({ingredients: [...selectedIngredients.bun, ...selectedIngredients.fillings].map(elem => elem._id)}),
-    }
+      body: JSON.stringify({
+        ingredients: [
+          ...selectedIngredients.bun,
+          ...selectedIngredients.fillings,
+        ].map((elem) => elem._id),
+      }),
+    };
 
-    sendRequest('orders', requestInit)
+    sendRequest("orders", requestInit)
       .then(checkResponse)
-      .then(json => {
+      .then((json) => {
         if (json.success) {
           dispatch({
             type: GET_ORDER_NUMBER_SUCCESS,
-            payload: json.order.number
-          })
-          //openModal();
+            payload: json.order.number,
+          });
           dispatch({
-            type: CLEAR_SELECTED_INGREDIENTS
-          })
+            type: CLEAR_SELECTED_INGREDIENTS,
+          });
         } else {
           console.log("Произошла ошибка, попробуйте еще раз");
           dispatch({
-            type: GET_ORDER_NUMBER_FAILED
-          })
+            type: GET_ORDER_NUMBER_FAILED,
+          });
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(`Ошибка при загрузке данных с сервера ${error}`);
         dispatch({
-          type: GET_ORDER_NUMBER_FAILED
-        })
+          type: GET_ORDER_NUMBER_FAILED,
+        });
       });
-  }
+  };
 };
