@@ -29,3 +29,9 @@ export const endpoints = {
   token: "auth/token",
   user: "auth/user",
 };
+
+export const WSStatus = {
+  CONNECTING: "CONNECTING",
+  ONLINE: "ONLINE",
+  OFFLINE: "OFFLINE",
+};

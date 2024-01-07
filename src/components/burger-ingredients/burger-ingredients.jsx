@@ -144,7 +144,6 @@ function BurgerIngredients() {
         />
         <IngredientsTypesList
           ingredientsTypes={ingredientsTypes}
-          // openModalIngredient={openModalIngredient}
           stateCurrentTab={stateCurrentTab}
         />
       </section>
