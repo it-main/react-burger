@@ -11,6 +11,7 @@ import {
   getStateBurgerConstructor,
   getStateIngredients,
 } from "../../utils/constants";
+import DownloadStatus from "../download-status/download-status";
 
 function Tabs({ ingredientsTypes, stateCurrentTab }) {
   const [current, setCurrentTab] = stateCurrentTab;
@@ -54,7 +55,6 @@ function IngredientsList(props) {
           <BurgerIngredient
             ingredientData={ingredientData}
             count={count}
-            // openModalIngredient={props.openModalIngredient}
             key={ingredientData._id}
           />
         );
@@ -131,6 +131,8 @@ function BurgerIngredients() {
     { type: "link-sauce", typeRus: "Соусы" },
     { type: "link-main", typeRus: "Начинки" },
   ];
+  const statusAvailableIngredients =
+    useSelector(getStateIngredients).statusAvailableIngredients;
 
   const stateCurrentTab = useState("link-bun");
 
@@ -138,14 +140,20 @@ function BurgerIngredients() {
     <>
       <section className={styles.burgerIngredients}>
         <h1 className={`mb-5 text text_type_main-large`}>Соберите бургер</h1>
-        <Tabs
-          ingredientsTypes={ingredientsTypes}
-          stateCurrentTab={stateCurrentTab}
-        />
-        <IngredientsTypesList
-          ingredientsTypes={ingredientsTypes}
-          stateCurrentTab={stateCurrentTab}
-        />
+        {statusAvailableIngredients ? (
+          <>
+            <Tabs
+              ingredientsTypes={ingredientsTypes}
+              stateCurrentTab={stateCurrentTab}
+            />
+            <IngredientsTypesList
+              ingredientsTypes={ingredientsTypes}
+              stateCurrentTab={stateCurrentTab}
+            />
+          </>
+        ) : (
+          <DownloadStatus />
+        )}
       </section>
     </>
   );

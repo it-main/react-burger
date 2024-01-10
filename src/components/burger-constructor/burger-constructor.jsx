@@ -11,8 +11,7 @@ import Modal from "../modal/modal";
 import { useModal } from "../../hooks/useModal";
 import { useDispatch, useSelector } from "react-redux";
 import { ADD_SELECTED_INGREDIENT } from "../../services/actions/burger-constructor";
-import { CLOSE_PLACE_ORDER } from "../../services/actions/order";
-import { placeAnOrder } from "../../services/actions/order";
+import { CLOSE_PLACE_ORDER, placeAnOrder } from "../../services/actions/order";
 import { useDrop } from "react-dnd";
 import BurgerConstructorIngredient from "../burger-constructor-ingredient/burger-constructor-ingredient";
 import { getStateBurgerConstructor, routes } from "../../utils/constants";
@@ -26,7 +25,7 @@ function BurgerConstructor() {
   const navigate = useNavigate();
   const sumSelectedIngredients = useMemo(() => {
     return (
-      selectedIngredients.bun.reduce((sum, item) => sum + item.price * 2, 0) +
+      selectedIngredients.bun.reduce((sum, item) => sum + item.price, 0) +
       selectedIngredients.fillings.reduce((sum, item) => sum + item.price, 0)
     );
   }, [selectedIngredients]);
@@ -103,7 +102,7 @@ function BurgerConstructor() {
                   key={element.id}
                 >
                   <ConstructorElement
-                    type
+                    type={type.toLowerCase()}
                     isLocked={true}
                     text={name + ` ${type === "Top" ? "(верх)" : "(низ)"}`}
                     price={price}

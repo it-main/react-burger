@@ -7,7 +7,7 @@ import { createPortal } from "react-dom";
 import PropTypes from "prop-types";
 
 function Modal(props) {
-  const { closeModal, header, children } = props;
+  const { closeModal, children } = props;
 
   useEffect(() => {
     const handleKeydown = ({ key }) => {
@@ -22,15 +22,13 @@ function Modal(props) {
   return createPortal(
     <ModalOverlay closeModal={closeModal}>
       <div
-        className={styles.modal}
+        className={clsx(styles.modal, "p-10")}
         onClick={(event) => event.stopPropagation()}
       >
-        <header className={clsx(styles.header, "pt-10 pl-10 pr-10")}>
-          <h1 className={"text text_type_main-large"}>{header}</h1>
-          <div className={styles.closeIcon}>
-            <CloseIcon type="primary" onClick={() => closeModal()} />
-          </div>
-        </header>
+        <div className={clsx(styles.closeIcon, "mt-15 mr-10")}>
+          <CloseIcon type="primary" onClick={() => closeModal()} />
+        </div>
+        {/*</header>*/}
         {children}
       </div>
     </ModalOverlay>,

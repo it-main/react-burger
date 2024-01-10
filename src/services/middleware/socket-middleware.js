@@ -7,17 +7,16 @@ import {
   ORDERS_WS_MESSAGE,
   ORDERS_WS_OPEN,
 } from "../actions/orders";
+import { endpoints } from "../../utils/constants";
 
 export const socketMiddleware = (store) => {
-  // return (store) => {
   let socket = null;
   return (next) => (action) => {
     const { dispatch } = store;
     const { type } = action;
 
     if (type === ORDERS_CONNECT) {
-      // console.log(`ORDERS_CONNECT`);
-      socket = new WebSocket(action.payload);
+      socket = new WebSocket(`${endpoints.apiOrders}${action.payload}`);
       dispatch({ type: ORDERS_WS_CONNECTING });
     }
 
@@ -29,21 +28,16 @@ export const socketMiddleware = (store) => {
         dispatch({ type: ORDERS_WS_MESSAGE, payload: parsedData });
       };
       socket.onclose = () => dispatch({ type: ORDERS_WS_CLOSE });
-      socket.onerror = (err) => {
+      socket.onerror = () => {
         dispatch({ type: ORDERS_WS_ERROR, payload: "Error" });
       };
 
-      // if (type === wsSendMessage) {
-      //   socket.send(JSON.stringify(action.payload));
-      // }
-
       if (type === ORDERS_DISCONNECT) {
-        // console.log(`ORDERS_DISCONNECT`);
         socket.close();
         socket = null;
+        dispatch({ type: ORDERS_DISCONNECT });
       }
     }
     next(action);
   };
-  // };
 };

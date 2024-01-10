@@ -2,11 +2,7 @@ import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useReducer } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getIngredients } from "../../services/actions/ingredients";
-import {
-  getStateBurgerConstructor,
-  getStateIngredients,
-  routes,
-} from "../../utils/constants";
+import { getStateBurgerConstructor, routes } from "../../utils/constants";
 import Register from "../../pages/register";
 import AppHeader from "../app-header/app-header";
 import HomePage from "../../pages/home";
@@ -14,7 +10,7 @@ import Login from "../../pages/login";
 import ForgotPassword from "../../pages/forgot-password";
 import ResetPassword from "../../pages/reset-password";
 import Profile from "../../pages/profile";
-import Orders from "../orders/orders";
+import ProfileOrders from "../profile-orders/profile-orders";
 import NotFound from "../../pages/not-found";
 import styles from "./app.module.css";
 import ProtectedRoute from "../protected-route/protected-route";
@@ -24,13 +20,13 @@ import ProfileForm from "../profile-form/profile-form";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
 import Ingredient from "../../pages/ingredient";
+import Order from "../order/order";
 
 function App() {
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
   const background = location.state && location.state.background;
-  const { statusAvailableIngredients } = useSelector(getStateIngredients);
   const { selectedIngredients } = useSelector(getStateBurgerConstructor);
   const [, dispatchSumIngredients] = useReducer(
     reducerBurgerSum,
@@ -42,7 +38,7 @@ function App() {
   }, [location.pathname]);
 
   const handleModalClose = () => {
-    navigate(routes.home, { replace: true });
+    navigate(-1, { replace: true });
   };
 
   function reducerBurgerSum(state, action) {
@@ -69,31 +65,26 @@ function App() {
     dispatchSumIngredients({ type: "price" });
   }, [selectedIngredients]);
 
-  function DownloadStatus() {
-    switch (statusAvailableIngredients) {
-      case undefined:
-        return <p className={"text_type_main-medium"}>Загрузка данных...</p>;
-      case false:
-        return (
-          <p>
-            Произошла ошибка при загрузке данных с сервера, попробуйте обновить
-            страницу
-          </p>
-        );
-      default:
-        return undefined;
-    }
-  }
-
   return (
     <div className={`${styles.page}`}>
       <AppHeader />
-      <DownloadStatus />
 
       <Routes location={background || location}>
         <Route path={routes.home} element={<HomePage />} />
 
         <Route path={routes.feed} element={<Feed />} />
+
+        <Route path={routes.order} element={<Order isPage={true} />} />
+
+        <Route
+          path={routes.profileOrder}
+          element={
+            <ProtectedRoute
+              routeAuthorizedOnly
+              component={<Order isPage={true} />}
+            />
+          }
+        />
 
         <Route path={routes.ingredient} element={<Ingredient />} />
 
@@ -121,7 +112,7 @@ function App() {
           }
         >
           <Route index element={<ProfileForm />} />
-          <Route path={routes.orders} element={<Orders />} />
+          <Route path={routes.orders} element={<ProfileOrders />} />
         </Route>
 
         <Route path={routes.notfound} element={<NotFound />} />
@@ -132,11 +123,24 @@ function App() {
           <Route
             path={routes.ingredient}
             element={
-              <Modal
-                header={"Детали ингредиента"}
-                closeModal={handleModalClose}
-              >
+              <Modal closeModal={() => handleModalClose()}>
                 <IngredientDetails />
+              </Modal>
+            }
+          />
+          <Route
+            path={routes.order}
+            element={
+              <Modal closeModal={() => handleModalClose()}>
+                <Order />
+              </Modal>
+            }
+          />
+          <Route
+            path={routes.profileOrder}
+            element={
+              <Modal closeModal={() => handleModalClose(routes.orders)}>
+                <Order />
               </Modal>
             }
           />

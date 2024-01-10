@@ -4,6 +4,7 @@ export const ORDERS_WS_CONNECTING = "ORDERS_WS_CONNECTING";
 export const ORDERS_WS_OPEN = "ORDERS_WS_OPEN";
 export const ORDERS_WS_CLOSE = "ORDERS_WS_CLOSE";
 export const ORDERS_WS_MESSAGE = "ORDERS_WS_MESSAGE";
+export const ORDERS_WS_MESSAGE_AUTH = "ORDERS_WS_MESSAGE_AUTH";
 export const ORDERS_WS_ERROR = "ORDERS_WS_ERROR";
 
 export const connect = (url) => ({

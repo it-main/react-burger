@@ -118,3 +118,16 @@ export async function sendRequestWithRefresh(url, requestInit) {
     return sendRequest(url, requestInit).then(checkResponse);
   }
 }
+
+export async function sendRequestGetOrder(orderNum) {
+  const requestInit = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json;charset=utf-8",
+    },
+  };
+  return await sendRequestWithRefresh(
+    `${endpoints.order}/${orderNum}`,
+    requestInit,
+  );
+}

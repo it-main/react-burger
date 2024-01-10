@@ -1,9 +1,9 @@
 .content {
-  padding-top: 120px;
   display: flex;
 }
 
 .navigate {
+  padding-top: 80px;
   display: inline-flex;
   flex-direction: column;
   margin-bottom: 80px;
@@ -21,7 +21,8 @@
 }
 
 .menu {
-  max-width: 320px;
+  width: 320px;
+  min-width: 320px;
   margin-right: 60px;
 }
 

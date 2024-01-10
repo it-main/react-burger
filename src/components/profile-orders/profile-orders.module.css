@@ -1,0 +1,4 @@
+.orders {
+  overflow: auto;
+  max-height: calc(100vh - 100px - 60px);
+}
