@@ -14,16 +14,8 @@ import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 import { rootReducer } from "./services/reducers";
 import { BrowserRouter } from "react-router-dom";
-import { socketMiddleware } from "./services/middleware/socket-middleware";
-import {
-  ORDERS_CONNECT,
-  ORDERS_DISCONNECT,
-  ORDERS_WS_CLOSE,
-  ORDERS_WS_CONNECTING,
-  ORDERS_WS_ERROR,
-  ORDERS_WS_MESSAGE,
-  ORDERS_WS_OPEN,
-} from "./services/actions/orders";
+import { ordersMiddleware } from "./services/actions/orders";
+import { ordersProfileMiddleware } from "./services/actions/orders-profile";
 
 declare global {
   interface Window {
@@ -36,17 +28,9 @@ const composeEnhancers =
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     : compose;
 
-const ordersMiddleware = socketMiddleware({
-  wsConnect: ORDERS_CONNECT,
-  wsDisconnect: ORDERS_DISCONNECT,
-  wsConnecting: ORDERS_WS_CONNECTING,
-  onOpen: ORDERS_WS_OPEN,
-  onClose: ORDERS_WS_CLOSE,
-  onError: ORDERS_WS_ERROR,
-  onMessage: ORDERS_WS_MESSAGE,
-});
-
-const enhancer = composeEnhancers(applyMiddleware(thunk, ordersMiddleware));
+const enhancer = composeEnhancers(
+  applyMiddleware(thunk, ordersMiddleware, ordersProfileMiddleware),
+);
 
 const store = createStore(rootReducer, enhancer);
 

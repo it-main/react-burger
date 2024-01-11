@@ -1,3 +1,5 @@
+import { socketMiddleware } from "../middleware/socket-middleware";
+
 export const ORDERS_CONNECT = "ORDERS_CONNECT";
 export const ORDERS_DISCONNECT = "ORDERS_DISCONNECT";
 
@@ -14,4 +16,14 @@ export const connect = (url) => ({
 
 export const disconnect = () => ({
   type: ORDERS_DISCONNECT,
+});
+
+export const ordersMiddleware = socketMiddleware({
+  wsConnect: ORDERS_CONNECT,
+  wsDisconnect: ORDERS_DISCONNECT,
+  wsConnecting: ORDERS_WS_CONNECTING,
+  onOpen: ORDERS_WS_OPEN,
+  onClose: ORDERS_WS_CLOSE,
+  onError: ORDERS_WS_ERROR,
+  onMessage: ORDERS_WS_MESSAGE,
 });
