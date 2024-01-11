@@ -1,43 +1,43 @@
-import {
-  ORDERS_CONNECT,
-  ORDERS_DISCONNECT,
-  ORDERS_WS_CLOSE,
-  ORDERS_WS_CONNECTING,
-  ORDERS_WS_ERROR,
-  ORDERS_WS_MESSAGE,
-  ORDERS_WS_OPEN,
-} from "../actions/orders";
-import { endpoints } from "../../utils/constants";
+export const socketMiddleware = (wsActions) => {
+  return (store) => {
+    let socket = null;
+    return (next) => (action) => {
+      const { dispatch } = store;
+      const { type } = action;
+      const {
+        wsConnect,
+        wsConnecting,
+        wsDisconnect,
+        wsSendMessage,
+        onOpen,
+        onClose,
+        onError,
+        onMessage,
+      } = wsActions;
 
-export const socketMiddleware = (store) => {
-  let socket = null;
-  return (next) => (action) => {
-    const { dispatch } = store;
-    const { type } = action;
+      if (type === wsConnect) {
+        socket = new WebSocket(action.payload);
+        dispatch({ type: wsConnecting });
+        socket.onopen = () => dispatch({ type: onOpen });
+        socket.onclose = () => dispatch({ type: onClose });
+        socket.onerror = () => dispatch({ type: onError, payload: "Error" });
+        socket.onmessage = (event) => {
+          const { data } = event;
+          const parsedData = JSON.parse(data);
+          dispatch({ type: onMessage, payload: parsedData });
+        };
+      }
 
-    if (type === ORDERS_CONNECT) {
-      socket = new WebSocket(`${endpoints.apiOrders}${action.payload}`);
-      dispatch({ type: ORDERS_WS_CONNECTING });
-    }
+      if (type === wsSendMessage && socket) {
+        socket.send(JSON.stringify(action.payload));
+      }
 
-    if (socket) {
-      socket.onopen = () => dispatch({ type: ORDERS_WS_OPEN });
-      socket.onmessage = (event) => {
-        const { data } = event;
-        const parsedData = JSON.parse(data);
-        dispatch({ type: ORDERS_WS_MESSAGE, payload: parsedData });
-      };
-      socket.onclose = () => dispatch({ type: ORDERS_WS_CLOSE });
-      socket.onerror = () => {
-        dispatch({ type: ORDERS_WS_ERROR, payload: "Error" });
-      };
-
-      if (type === ORDERS_DISCONNECT) {
+      if (type === wsDisconnect && socket) {
         socket.close();
         socket = null;
-        dispatch({ type: ORDERS_DISCONNECT });
       }
-    }
-    next(action);
+
+      next(action);
+    };
   };
 };

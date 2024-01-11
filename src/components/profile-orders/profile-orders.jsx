@@ -6,13 +6,13 @@ import { useEffect } from "react";
 import { connect, disconnect } from "../../services/actions/orders";
 import DownloadStatus from "../download-status/download-status";
 import { getToken } from "../../utils/order";
-import { accessToken } from "../../utils/constants";
+import { accessToken, endpoints } from "../../utils/constants";
 
 function ProfileOrders() {
   const dispatch = useDispatch();
   const { orders } = useSelector((store) => store.orders);
   useEffect(() => {
-    dispatch(connect(`?token=${getToken(accessToken)}`));
+    dispatch(connect(`${endpoints.apiOrders}?token=${getToken(accessToken)}`));
     return () => {
       dispatch(disconnect());
     };

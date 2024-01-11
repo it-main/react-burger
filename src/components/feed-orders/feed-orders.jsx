@@ -12,7 +12,7 @@ function FeedOrders() {
   const { orders } = useSelector((store) => store.orders);
 
   useEffect(() => {
-    dispatch(connect(endpoints.ordersAll));
+    dispatch(connect(`${endpoints.apiOrders}/all`));
     return () => {
       dispatch(disconnect());
     };
