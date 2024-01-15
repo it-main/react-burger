@@ -14,7 +14,7 @@ function Profile() {
   };
 
   return (
-    <div className={clsx(style.content)}>
+    <div className={clsx(style.content, "pt-10")}>
       <div className={style.menu}>
         <nav className={style.navigate}>
           <NavLink

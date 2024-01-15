@@ -3,28 +3,27 @@ import { clsx } from "clsx";
 import done from "../../images/done.svg";
 import { useSelector } from "react-redux";
 import { getStateOrder } from "../../utils/constants";
+import DownloadStatus from "../download-status/download-status";
 
 function OrderDetails() {
   const { orderNumber, statusOrderNumber } = useSelector(getStateOrder);
 
   return (
-    <div className={clsx(styles.orderDetails, "pt-4 pr-25 pb-30 pl-25")}>
+    <div className={clsx(styles.orderDetails, "pt-20 pr-15 pb-20 pl-15")}>
       {!statusOrderNumber ? (
-        <h1 className="text text_type_main-medium mb-15">
-          Пожалуйста подождите...
-        </h1>
+        <DownloadStatus />
       ) : (
         <>
-          <h2
+          <p
             className={clsx(
               "text text_type_digits-large mb-8",
               styles.orderNumber,
             )}
           >
             {orderNumber}
-          </h2>
+          </p>
           <span className="text text_type_main-medium mb-15">
-            Идентификатор заказа
+            идентификатор заказа
           </span>
           <img
             className={clsx(styles.done, "mb-15")}

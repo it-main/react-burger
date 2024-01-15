@@ -11,7 +11,6 @@ import { deleteCookie, getCookie, setCookie } from "../../utils/cookie";
 
 export const SEND_REQUEST = "SEND_REQUEST";
 export const REQUEST_FAILED = "REQUEST_FAILED";
-export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const SET_USER = "SET_USER";
 export const SET_AUTH_CHECKED = "SET_AUTH_CHECKED";
 export const LOGOUT = "LOGOUT";

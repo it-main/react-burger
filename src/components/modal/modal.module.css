@@ -1,17 +1,22 @@
 .modal {
-  background: #1C1C21;
+  background: #1c1c21;
   border: 1px solid rgb(76 76 255 / 0.2);
   border-radius: 40px;
   box-sizing: border-box;
+  position: relative;
+  max-width: 720px;
 }
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  min-height: 64px;
-}
+/*.header {*/
+/*  display: flex;*/
+/*  justify-content: space-between;*/
+/*  align-items: center;*/
+/*  min-height: 64px;*/
+/*}*/
 
 .closeIcon {
   cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 0;
 }

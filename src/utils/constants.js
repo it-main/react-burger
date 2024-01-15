@@ -16,11 +16,14 @@ export const routes = {
   orders: "orders",
   feed: "/feed",
   ingredient: "/ingredients/:ingredientId",
+  order: "/feed/:orderNum",
+  profileOrder: "/profile/orders/:orderNum",
   notfound: "*",
 };
 
 export const endpoints = {
   api: "https://norma.nomoreparties.space/api",
+  order: "orders",
   login: "auth/login",
   register: "auth/register",
   resetPassword: "password-reset",
@@ -28,4 +31,12 @@ export const endpoints = {
   logout: "auth/logout",
   token: "auth/token",
   user: "auth/user",
+  apiOrders: "wss://norma.nomoreparties.space/orders",
+  ordersAll: "/all",
+};
+
+export const WSStatus = {
+  CONNECTING: "CONNECTING",
+  ONLINE: "ONLINE",
+  OFFLINE: "OFFLINE",
 };

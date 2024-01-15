@@ -22,3 +22,9 @@
 .image {
   width: 480px;
 }
+
+.header {
+  display: flex;
+  align-items: center;
+  min-height: 64px;
+}
