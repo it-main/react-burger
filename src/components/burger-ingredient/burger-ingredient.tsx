@@ -4,19 +4,26 @@ import {
   Counter,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from "prop-types";
-import { ingredientPropType } from "../../utils/prop-types";
 import { useDrag } from "react-dnd";
 import { Link, useLocation } from "react-router-dom";
 
-function BurgerIngredient(props) {
+type Props = {
+  ingredientData: {
+    _id: string;
+    name: string;
+    image: string;
+    price: number;
+  };
+  count: number;
+};
+
+function BurgerIngredient(props: Props) {
   const { ingredientData, count } = props;
   const location = useLocation();
   const [, dragRef] = useDrag({
     type: "ingredient",
     item: ingredientData,
   });
-
   return (
     <Link
       to={`/ingredients/${ingredientData._id}`}
@@ -51,10 +58,5 @@ function BurgerIngredient(props) {
     </Link>
   );
 }
-
-BurgerIngredient.propTypes = {
-  ingredientData: ingredientPropType.isRequired,
-  count: PropTypes.number.isRequired,
-};
 
 export default BurgerIngredient;

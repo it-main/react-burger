@@ -5,8 +5,6 @@ import BurgerIngredient from "../burger-ingredient/burger-ingredient";
 import { clsx } from "clsx";
 import { useSelector } from "react-redux";
 import { useInView } from "react-intersection-observer";
-import PropTypes from "prop-types";
-import { ingredientPropType } from "../../utils/prop-types";
 import {
   getStateBurgerConstructor,
   getStateIngredients,
@@ -127,9 +125,9 @@ function IngredientsTypesList(props) {
 
 function BurgerIngredients() {
   const ingredientsTypes = [
-    { type: "link-bun", typeRus: "Булки" },
-    { type: "link-sauce", typeRus: "Соусы" },
-    { type: "link-main", typeRus: "Начинки" },
+    { type: "link-bun", title: "Булки" },
+    { type: "link-sauce", title: "Соусы" },
+    { type: "link-main", title: "Начинки" },
   ];
   const statusAvailableIngredients =
     useSelector(getStateIngredients).statusAvailableIngredients;
@@ -158,22 +156,5 @@ function BurgerIngredients() {
     </>
   );
 }
-
-IngredientsTypesList.propTypes = {
-  ingredientsTypes: PropTypes.arrayOf(
-    PropTypes.shape({ type: PropTypes.string, typeRus: PropTypes.string }),
-  ).isRequired,
-};
-
-IngredientsList.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientPropType).isRequired,
-};
-
-Tabs.propTypes = {
-  ingredientsTypes: PropTypes.arrayOf(
-    PropTypes.shape({ type: PropTypes.string, typeRus: PropTypes.string }),
-  ).isRequired,
-  stateCurrentTab: PropTypes.array.isRequired,
-};
 
 export default BurgerIngredients;

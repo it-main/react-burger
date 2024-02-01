@@ -17,7 +17,6 @@ function AppHeader() {
     <header>
       <nav className={clsx("pt-4 pb-4", styles.navigate)}>
         <div>
-          {/*pt-4 pb-4*/}
           <NavLink
             to={routes.home}
             className={({ isActive }) =>
