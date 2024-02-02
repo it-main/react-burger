@@ -16,10 +16,14 @@ import { useDrop } from "react-dnd";
 import BurgerConstructorIngredient from "../burger-constructor-ingredient/burger-constructor-ingredient";
 import { getStateBurgerConstructor, routes } from "../../utils/constants";
 import { useNavigate } from "react-router-dom";
+import { TIngredient } from "../../services/types/data";
 
 function BurgerConstructor() {
-  const { selectedIngredients } = useSelector(getStateBurgerConstructor);
-  const { isAuth } = useSelector((state) => state.profile);
+  //TODO
+  const { selectedIngredients } = useSelector(getStateBurgerConstructor) as {
+    selectedIngredients: { bun: TIngredient[]; fillings: TIngredient[] };
+  };
+  const { isAuth } = useSelector((state: any) => state.profile);
   const { isModalOpen, openModal, closeModal } = useModal();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -65,8 +69,8 @@ function BurgerConstructor() {
     closeModal();
   };
 
-  const elementBun = selectedIngredients.bun;
-  const elementsFillings = selectedIngredients.fillings;
+  const elementBun: TIngredient[] = selectedIngredients.bun;
+  const elementsFillings: TIngredient[] = selectedIngredients.fillings;
 
   function InvitationChoose() {
     let invitationChoose;

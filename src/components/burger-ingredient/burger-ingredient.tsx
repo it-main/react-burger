@@ -6,14 +6,10 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDrag } from "react-dnd";
 import { Link, useLocation } from "react-router-dom";
+import { TIngredient } from "../../services/types/data";
 
 type Props = {
-  ingredientData: {
-    _id: string;
-    name: string;
-    image: string;
-    price: number;
-  };
+  ingredientData: TIngredient;
   count: number;
 };
 
