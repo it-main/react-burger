@@ -3,15 +3,40 @@ import { CLEAR_SELECTED_INGREDIENTS } from "./burger-constructor";
 import { getCookie } from "../../utils/cookie";
 import { accessToken } from "../../utils/constants";
 
-export const GET_ORDER_NUMBER_SUCCESS = "GET_ORDER_NUMBER_SUCCESS";
-export const GET_ORDER_NUMBER_REQUEST = "GET_ORDER_NUMBER_REQUEST";
-export const GET_ORDER_NUMBER_FAILED = "GET_ORDER_NUMBER_FAILED";
-export const CLOSE_PLACE_ORDER = "CLOSE_PLACE_ORDER";
+export const PLACE_ORDER_REQUEST: "PLACE_ORDER_REQUEST" = "PLACE_ORDER_REQUEST";
+export const PLACE_ORDER_SUCCESS: "PLACE_ORDER_SUCCESS" = "PLACE_ORDER_SUCCESS";
+export const PLACE_ORDER_FAILED: "PLACE_ORDER_FAILED" = "PLACE_ORDER_FAILED";
+export const PLACE_ORDER_CLEAR_STATE: "PLACE_ORDER_CLEAR_STATE" =
+  "PLACE_ORDER_CLEAR_STATE";
 
-export const placeAnOrder = (selectedIngredients) => {
-  return function (dispatch) {
+type TPlaceOrderRequest = {
+  readonly type: typeof PLACE_ORDER_REQUEST;
+};
+
+type TPlaceOrderSuccess = {
+  readonly type: typeof PLACE_ORDER_SUCCESS;
+  readonly payload: number;
+};
+
+type TPlaceOrderFailed = {
+  readonly type: typeof PLACE_ORDER_FAILED;
+};
+
+type TPlaceOrderClearState = {
+  readonly type: typeof PLACE_ORDER_CLEAR_STATE;
+};
+
+export type TPlaceOrderActions =
+  | TPlaceOrderRequest
+  | TPlaceOrderSuccess
+  | TPlaceOrderFailed
+  | TPlaceOrderClearState;
+
+export const placeAnOrder = (selectedIngredients: TSelectedIngredients) => {
+  //TODO
+  return function (dispatch: any) {
     dispatch({
-      type: GET_ORDER_NUMBER_REQUEST,
+      type: PLACE_ORDER_REQUEST,
     });
 
     const requestInit = {
@@ -33,7 +58,7 @@ export const placeAnOrder = (selectedIngredients) => {
       .then((json) => {
         if (json.success) {
           dispatch({
-            type: GET_ORDER_NUMBER_SUCCESS,
+            type: PLACE_ORDER_SUCCESS,
             payload: json.order.number,
           });
           dispatch({
@@ -42,14 +67,14 @@ export const placeAnOrder = (selectedIngredients) => {
         } else {
           console.log("Произошла ошибка, попробуйте еще раз");
           dispatch({
-            type: GET_ORDER_NUMBER_FAILED,
+            type: PLACE_ORDER_FAILED,
           });
         }
       })
       .catch((error) => {
         console.log(`Ошибка при загрузке данных с сервера ${error}`);
         dispatch({
-          type: GET_ORDER_NUMBER_FAILED,
+          type: PLACE_ORDER_FAILED,
         });
       });
   };

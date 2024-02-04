@@ -1,7 +1,7 @@
 import { combineReducers } from "redux";
 import { ingredientsReducer } from "./ingredients";
 import { orderReducer } from "./order";
-import { burgerConstructorReducer } from "./burger-constructor";
+import { burgerConstructorReducer } from "./burger-constructor-reducer";
 import { profileReducer } from "./profile";
 import { ordersReducer } from "./orders";
 import { ordersProfileReducer } from "./orders-profile";

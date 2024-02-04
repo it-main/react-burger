@@ -6,9 +6,23 @@ import {
   ORDERS_WS_ERROR_PROFILE,
   ORDERS_WS_MESSAGE_PROFILE,
   ORDERS_WS_OPEN_PROFILE,
+  TOrdersProfileActions,
 } from "../actions/orders-profile";
 
-const initialState = {
+type OrdersProfileReducer = {
+  status:
+    | typeof WSStatus.OFFLINE
+    | typeof WSStatus.ONLINE
+    | typeof WSStatus.CONNECTING;
+  connectingError: string;
+  orders: TOrder[];
+  success: boolean;
+  total: number;
+  totalToday: number;
+  message: string;
+};
+
+const initialState: OrdersProfileReducer = {
   status: WSStatus.OFFLINE,
   connectingError: "",
   orders: [],
@@ -18,7 +32,10 @@ const initialState = {
   message: "",
 };
 
-export const ordersProfileReducer = (state = initialState, action) => {
+export const ordersProfileReducer = (
+  state = initialState,
+  action: TOrdersProfileActions,
+) => {
   switch (action.type) {
     case ORDERS_WS_CONNECTING_PROFILE:
       return {

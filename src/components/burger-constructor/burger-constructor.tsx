@@ -11,18 +11,21 @@ import Modal from "../modal/modal";
 import { useModal } from "../../hooks/useModal";
 import { useDispatch, useSelector } from "react-redux";
 import { ADD_SELECTED_INGREDIENT } from "../../services/actions/burger-constructor";
-import { CLOSE_PLACE_ORDER, placeAnOrder } from "../../services/actions/order";
+import {
+  PLACE_ORDER_CLEAR_STATE,
+  placeAnOrder,
+} from "../../services/actions/order";
 import { useDrop } from "react-dnd";
 import BurgerConstructorIngredient from "../burger-constructor-ingredient/burger-constructor-ingredient";
 import { getStateBurgerConstructor, routes } from "../../utils/constants";
 import { useNavigate } from "react-router-dom";
-import { TIngredient } from "../../services/types/data";
 
 function BurgerConstructor() {
   //TODO
   const { selectedIngredients } = useSelector(getStateBurgerConstructor) as {
     selectedIngredients: { bun: TIngredient[]; fillings: TIngredient[] };
   };
+  //TODO
   const { isAuth } = useSelector((state: any) => state.profile);
   const { isModalOpen, openModal, closeModal } = useModal();
   const dispatch = useDispatch();
@@ -34,7 +37,7 @@ function BurgerConstructor() {
     );
   }, [selectedIngredients]);
 
-  const getActionAddIngredient = (item) => {
+  const getActionAddIngredient = (item: TIngredient) => {
     const payload =
       item.type === "bun"
         ? [
@@ -50,7 +53,7 @@ function BurgerConstructor() {
 
   const [, targetRef] = useDrop({
     accept: "ingredient",
-    drop: (item) => {
+    drop: (item: TIngredient) => {
       dispatch(getActionAddIngredient(item));
     },
   });
@@ -65,7 +68,7 @@ function BurgerConstructor() {
   };
 
   const handleClosePlaceOrder = () => {
-    dispatch({ type: CLOSE_PLACE_ORDER });
+    dispatch({ type: PLACE_ORDER_CLEAR_STATE });
     closeModal();
   };
 

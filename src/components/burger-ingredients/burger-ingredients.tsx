@@ -17,7 +17,6 @@ import {
   getStateIngredients,
 } from "../../utils/constants";
 import DownloadStatus from "../download-status/download-status";
-import { TIngredient } from "../../services/types/data";
 
 type TitleTab = { type: string; title: string };
 
@@ -127,6 +126,7 @@ function IngredientsTypesList(props: TabsProps) {
       {ingredientsTypes.map((ingredientType, index) => {
         const { type } = ingredientType;
         const ingredients = availableIngredients.filter(
+          //TODO
           (elem: any) => `link-${elem.type}` === type,
         );
         return (
