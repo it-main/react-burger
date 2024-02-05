@@ -6,12 +6,12 @@ import {
   TPlaceOrderActions,
 } from "../actions/order";
 
-type OrderReducer = {
+type TOrderReducer = {
   orderNumber: string;
   statusOrderNumber: boolean | undefined;
 };
 
-const initialState: OrderReducer = {
+const initialState: TOrderReducer = {
   orderNumber: "",
   statusOrderNumber: undefined,
 };

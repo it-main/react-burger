@@ -21,3 +21,9 @@ type TOrder = {
   updatedAt: string;
   number: number;
 };
+
+type TUser = {
+  name: string;
+  email: string;
+  password: string;
+};

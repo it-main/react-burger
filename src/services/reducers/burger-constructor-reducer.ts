@@ -6,11 +6,11 @@ import {
   TBurgerConstructorActions,
 } from "../actions/burger-constructor";
 
-type BurgerConstructorReducer = {
+type TBurgerConstructorReducer = {
   selectedIngredients: TSelectedIngredients;
 };
 
-const initialState: BurgerConstructorReducer = {
+const initialState: TBurgerConstructorReducer = {
   selectedIngredients: {
     bun: [],
     fillings: [],

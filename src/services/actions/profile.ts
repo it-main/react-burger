@@ -8,6 +8,7 @@ import {
 } from "../../utils/api";
 import { accessToken, refreshToken } from "../../utils/constants";
 import { deleteCookie, getCookie, setCookie } from "../../utils/cookie";
+import { AppDispatch } from "../types";
 
 export const SEND_REQUEST = "SEND_REQUEST";
 export const REQUEST_FAILED = "REQUEST_FAILED";
@@ -15,30 +16,58 @@ export const SET_USER = "SET_USER";
 export const SET_AUTH_CHECKED = "SET_AUTH_CHECKED";
 export const LOGOUT = "LOGOUT";
 
-const sendRequestAction = {
+type TSendRequestAction = {
+  readonly type: typeof SEND_REQUEST;
+};
+
+type TRequestFiledAction = {
+  readonly type: typeof REQUEST_FAILED;
+};
+
+type TLogoutAction = {
+  readonly type: typeof LOGOUT;
+};
+
+type TSetAuthCheckedAction = {
+  readonly type: typeof SET_AUTH_CHECKED;
+};
+
+type TSetUserAction = {
+  readonly type: typeof SET_USER;
+  readonly payload: TUser;
+};
+
+const sendRequestAction: TSendRequestAction = {
   type: SEND_REQUEST,
 };
 
-const requestFailedAction = {
+const requestFailedAction: TRequestFiledAction = {
   type: REQUEST_FAILED,
 };
 
-const logoutAction = {
+const logoutAction: TLogoutAction = {
   type: LOGOUT,
 };
 
-const setAuthCheckedAction = {
+const setAuthCheckedAction: TSetAuthCheckedAction = {
   type: SET_AUTH_CHECKED,
 };
 
-function setUserAction(data) {
+function setUserAction(data: TUser): TSetUserAction {
   return {
     type: SET_USER,
     payload: data,
   };
 }
 
-function setCookies(json) {
+export type TProfileActions =
+  | TSendRequestAction
+  | TRequestFiledAction
+  | TLogoutAction
+  | TSetAuthCheckedAction
+  | TSetUserAction;
+
+function setCookies(json: { accessToken: string; refreshToken: string }) {
   setCookie(accessToken, json.accessToken);
   setCookie(refreshToken, json.refreshToken);
 }
@@ -48,8 +77,8 @@ function deleteCookies() {
   deleteCookie(refreshToken);
 }
 
-export function sendRequestRegister(name, email, password) {
-  return function (dispatch) {
+export function sendRequestRegister({ name, email, password }: TUser) {
+  return function (dispatch: AppDispatch) {
     dispatch(sendRequestAction);
     registerRequest(name, email, password)
       .then(checkResponse)
@@ -69,8 +98,8 @@ export function sendRequestRegister(name, email, password) {
   };
 }
 
-export function sendRequestUpdateUser(data) {
-  return (dispatch) => {
+export function sendRequestUpdateUser(data: TUser) {
+  return (dispatch: AppDispatch) => {
     dispatch(sendRequestAction);
     updateUserRequest(data)
       .then((json) => {
@@ -91,7 +120,7 @@ export function sendRequestUpdateUser(data) {
 }
 
 export function getUser() {
-  return (dispatch) => {
+  return (dispatch: AppDispatch) => {
     dispatch(sendRequestAction);
     return getUserRequest()
       .then((json) => {
@@ -110,7 +139,7 @@ export function getUser() {
 }
 
 export function checkUserAuth() {
-  return (dispatch) => {
+  return (dispatch: AppDispatch) => {
     if (getCookie(accessToken)) {
       dispatch(getUser())
         .catch((err) => {
@@ -128,7 +157,7 @@ export function checkUserAuth() {
 }
 
 export function signOut() {
-  return function (dispatch) {
+  return function (dispatch: AppDispatch) {
     dispatch(sendRequestAction);
     signOutRequest().finally(() => {
       deleteCookies();
@@ -137,8 +166,8 @@ export function signOut() {
   };
 }
 
-export function signIn(email, password) {
-  return function (dispatch) {
+export function signIn(email: string, password: string) {
+  return function (dispatch: AppDispatch) {
     dispatch(sendRequestAction);
     loginRequest(email, password)
       .then(checkResponse)

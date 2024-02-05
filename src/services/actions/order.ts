@@ -3,11 +3,10 @@ import { CLEAR_SELECTED_INGREDIENTS } from "./burger-constructor";
 import { getCookie } from "../../utils/cookie";
 import { accessToken } from "../../utils/constants";
 
-export const PLACE_ORDER_REQUEST: "PLACE_ORDER_REQUEST" = "PLACE_ORDER_REQUEST";
-export const PLACE_ORDER_SUCCESS: "PLACE_ORDER_SUCCESS" = "PLACE_ORDER_SUCCESS";
-export const PLACE_ORDER_FAILED: "PLACE_ORDER_FAILED" = "PLACE_ORDER_FAILED";
-export const PLACE_ORDER_CLEAR_STATE: "PLACE_ORDER_CLEAR_STATE" =
-  "PLACE_ORDER_CLEAR_STATE";
+export const PLACE_ORDER_REQUEST = "PLACE_ORDER_REQUEST";
+export const PLACE_ORDER_SUCCESS = "PLACE_ORDER_SUCCESS";
+export const PLACE_ORDER_FAILED = "PLACE_ORDER_FAILED";
+export const PLACE_ORDER_CLEAR_STATE = "PLACE_ORDER_CLEAR_STATE";
 
 type TPlaceOrderRequest = {
   readonly type: typeof PLACE_ORDER_REQUEST;

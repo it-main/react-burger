@@ -1,12 +1,22 @@
 import {
-  SEND_REQUEST,
-  SET_USER,
   LOGOUT,
-  SET_AUTH_CHECKED,
   REQUEST_FAILED,
+  SEND_REQUEST,
+  SET_AUTH_CHECKED,
+  SET_USER,
+  TProfileActions,
 } from "../actions/profile";
 
-const initialState = {
+type TProfileReducer = {
+  name: string;
+  email: string;
+  isAuth: boolean;
+  isAuthChecked: boolean;
+  sendRequest: boolean;
+  successRequest: boolean;
+};
+
+const initialState: TProfileReducer = {
   name: "",
   email: "",
   isAuth: false,
@@ -15,7 +25,10 @@ const initialState = {
   successRequest: false,
 };
 
-export const profileReducer = (state = initialState, action) => {
+export const profileReducer = (
+  state = initialState,
+  action: TProfileActions,
+) => {
   switch (action.type) {
     case SEND_REQUEST: {
       return {
