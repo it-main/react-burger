@@ -119,31 +119,41 @@ export function sendRequestUpdateUser(data: TUser) {
   };
 }
 
-export function getUser() {
-  return (dispatch: AppDispatch) => {
-    dispatch(sendRequestAction);
-    return getUserRequest()
-      .then((json) => {
-        if (json.success) {
-          dispatch(setUserAction(json.user));
-        } else {
-          dispatch(requestFailedAction);
-          console.error("Ошибка при запросе информации о пользователе");
-        }
-      })
-      .catch((err) => {
-        dispatch(requestFailedAction);
-        return Promise.reject(err);
-      });
-  };
-}
+// export function getUser() {
+//   return (dispatch: AppDispatch) => {
+//     dispatch(sendRequestAction);
+//     return getUserRequest()
+//       .then((json) => {
+//         if (json.success) {
+//           dispatch(setUserAction(json.user));
+//         } else {
+//           dispatch(requestFailedAction);
+//           console.error("Ошибка при запросе информации о пользователе");
+//         }
+//       })
+//       .catch((err) => {
+//         dispatch(requestFailedAction);
+//         return Promise.reject(err);
+//       });
+//   };
+// }
 
 export function checkUserAuth() {
   return (dispatch: AppDispatch) => {
     if (getCookie(accessToken)) {
-      dispatch(getUser())
+      // dispatch(getUser())
+      getUserRequest()
+        .then((json) => {
+          if (json.success) {
+            dispatch(setUserAction(json.user));
+          } else {
+            dispatch(requestFailedAction);
+            console.error("Ошибка при запросе информации о пользователе");
+          }
+        })
         .catch((err) => {
           console.log("Ошибка при получении нового accessToken:", err);
+          dispatch(requestFailedAction);
           deleteCookies();
           dispatch(logoutAction);
         })

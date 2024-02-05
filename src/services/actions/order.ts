@@ -2,6 +2,7 @@ import { checkResponse, sendRequest } from "../../utils/api";
 import { CLEAR_SELECTED_INGREDIENTS } from "./burger-constructor";
 import { getCookie } from "../../utils/cookie";
 import { accessToken } from "../../utils/constants";
+import { AppDispatch } from "../types";
 
 export const PLACE_ORDER_REQUEST = "PLACE_ORDER_REQUEST";
 export const PLACE_ORDER_SUCCESS = "PLACE_ORDER_SUCCESS";
@@ -33,7 +34,7 @@ export type TPlaceOrderActions =
 
 export const placeAnOrder = (selectedIngredients: TSelectedIngredients) => {
   //TODO
-  return function (dispatch: any) {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: PLACE_ORDER_REQUEST,
     });
