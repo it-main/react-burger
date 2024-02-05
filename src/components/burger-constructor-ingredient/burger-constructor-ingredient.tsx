@@ -44,7 +44,7 @@ function BurgerConstructorIngredient({
         handlerId: monitor.getHandlerId(),
       };
     },
-    hover(item, monitor) {
+    hover(item: any, monitor) {
       if (!ingredientRef.current) {
         return undefined;
       }
@@ -56,13 +56,16 @@ function BurgerConstructorIngredient({
       const hoverBoundingRect = ingredientRef.current?.getBoundingClientRect();
       const hoverMiddleY =
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+
       const clientOffset = monitor.getClientOffset();
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
-      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-        return undefined;
-      }
-      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-        return undefined;
+      if (clientOffset) {
+        const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+        if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+          return undefined;
+        }
+        if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+          return undefined;
+        }
       }
       dispatch({
         type: SORT_SELECTED_INGREDIENTS,
