@@ -3,7 +3,7 @@ export const DELETE_SELECTED_INGREDIENT = "DELETE_SELECTED_INGREDIENT";
 export const SORT_SELECTED_INGREDIENTS = "SORT_SELECTED_INGREDIENTS";
 export const CLEAR_SELECTED_INGREDIENTS = "CLEAR_SELECTED_INGREDIENTS";
 
-type TAddIngredient = {
+export type TAddIngredient = {
   readonly type: typeof ADD_SELECTED_INGREDIENT;
   readonly payload: { ingredient: TIngredient; id: string }[];
 };
@@ -18,7 +18,7 @@ type TSortIngredients = {
   readonly payload: { dragIndex: number; hoverIndex: number };
 };
 
-type TClearIngredients = {
+export type TClearIngredients = {
   readonly type: typeof CLEAR_SELECTED_INGREDIENTS;
 };
 

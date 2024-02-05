@@ -4,13 +4,17 @@ import styles from "./modal.module.css";
 import { clsx } from "clsx";
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
-import PropTypes from "prop-types";
 
-function Modal(props) {
+type ModalProps = {
+  closeModal: () => void;
+  children: JSX.Element;
+};
+
+function Modal(props: ModalProps) {
   const { closeModal, children } = props;
 
   useEffect(() => {
-    const handleKeydown = ({ key }) => {
+    const handleKeydown = ({ key }: { key: string }) => {
       key === "Escape" && closeModal();
     };
     document.addEventListener("keydown", handleKeydown);
@@ -35,10 +39,5 @@ function Modal(props) {
     document.querySelector("#portal"),
   );
 }
-
-Modal.propTypes = {
-  header: PropTypes.string,
-  closeModal: PropTypes.func.isRequired,
-};
 
 export default Modal;

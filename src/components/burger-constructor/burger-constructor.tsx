@@ -9,7 +9,10 @@ import { clsx } from "clsx";
 import OrderDetails from "../order-details/order-details";
 import Modal from "../modal/modal";
 import { useModal } from "../../hooks/useModal";
-import { ADD_SELECTED_INGREDIENT } from "../../services/actions/burger-constructor";
+import {
+  ADD_SELECTED_INGREDIENT,
+  TAddIngredient,
+} from "../../services/actions/burger-constructor";
 import {
   PLACE_ORDER_CLEAR_STATE,
   placeAnOrder,
@@ -37,8 +40,8 @@ function BurgerConstructor() {
     );
   }, [selectedIngredients]);
 
-  const getActionAddIngredient = (item: TIngredient) => {
-    const payload =
+  const getActionAddIngredient = (item: TIngredient): TAddIngredient => {
+    const payload: { ingredient: TIngredient; id: string }[] =
       item.type === "bun"
         ? [
             { ingredient: item, id: crypto.randomUUID() },
@@ -81,18 +84,17 @@ function BurgerConstructor() {
       invitationChoose = "Соберите свой бургер!";
     else if (!elementsFillings.length) invitationChoose = "Выбирайте начинку!";
     else if (!elementBun.length) invitationChoose = "Выбирайте булку!";
-    return (
-      invitationChoose && (
-        <p
-          className={clsx(
-            "text text_type_main-large mt-4",
-            styles.invitationChoose,
-          )}
-        >
-          {invitationChoose}
-        </p>
-      )
-    );
+    else invitationChoose = null;
+    return invitationChoose ? (
+      <p
+        className={clsx(
+          "text text_type_main-large mt-4",
+          styles.invitationChoose,
+        )}
+      >
+        {invitationChoose}
+      </p>
+    ) : null;
   }
 
   return (
@@ -109,7 +111,7 @@ function BurgerConstructor() {
                   key={element.id}
                 >
                   <ConstructorElement
-                    type={type.toLowerCase()}
+                    type={type === "Top" ? "top" : "bottom"}
                     isLocked={true}
                     text={name + ` ${type === "Top" ? "(верх)" : "(низ)"}`}
                     price={price}

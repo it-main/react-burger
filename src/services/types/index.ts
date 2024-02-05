@@ -6,13 +6,14 @@ import { TGetIngredientActions } from "../actions/ingredients";
 import { TProfileActions } from "../actions/profile";
 import { Action, ActionCreator } from "redux";
 import { ThunkAction } from "redux-thunk";
-import { Dispatch } from "react";
+import { TBurgerConstructorActions } from "../actions/burger-constructor";
 
 type TApplicationActions =
-  | TOrdersActions
-  | TPlaceOrderActions
-  | TOrdersProfileActions
+  | TBurgerConstructorActions
   | TGetIngredientActions
+  | TPlaceOrderActions
+  | TOrdersActions
+  | TOrdersProfileActions
   | TProfileActions;
 
 export type RootState = ReturnType<typeof store.getState>;
@@ -21,5 +22,5 @@ export type AppThunk<TReturn = void> = ActionCreator<
   ThunkAction<TReturn, Action, RootState, TApplicationActions>
 >;
 
-// export type AppDispatch1 = typeof store.dispatch;
-export type AppDispatch = Dispatch<TApplicationActions>;
+export type AppDispatch = typeof store.dispatch;
+// export type AppDispatch = Dispatch<TApplicationActions>;

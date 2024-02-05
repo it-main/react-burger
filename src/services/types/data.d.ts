@@ -4,6 +4,11 @@ type TIngredient = {
   image: string;
   price: number;
   type: string;
+  id?: string;
+  proteins: number;
+  fat: number;
+  carbohydrates: number;
+  calories: number;
 };
 
 type TSelectedIngredients = {
