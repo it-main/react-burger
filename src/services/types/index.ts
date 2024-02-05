@@ -6,8 +6,7 @@ import { TGetIngredientActions } from "../actions/ingredients";
 import { TProfileActions } from "../actions/profile";
 import { Action, ActionCreator } from "redux";
 import { ThunkAction } from "redux-thunk";
-
-export type RootState = ReturnType<typeof store.getState>;
+import { Dispatch } from "react";
 
 type TApplicationActions =
   | TOrdersActions
@@ -16,9 +15,11 @@ type TApplicationActions =
   | TGetIngredientActions
   | TProfileActions;
 
+export type RootState = ReturnType<typeof store.getState>;
+
 export type AppThunk<TReturn = void> = ActionCreator<
   ThunkAction<TReturn, Action, RootState, TApplicationActions>
 >;
 
-export type AppDispatch = typeof store.dispatch;
-//export type AppDispatch = Dispatch<TApplicationActions>;
+// export type AppDispatch1 = typeof store.dispatch;
+export type AppDispatch = Dispatch<TApplicationActions>;

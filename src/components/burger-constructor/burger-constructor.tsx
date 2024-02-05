@@ -9,7 +9,6 @@ import { clsx } from "clsx";
 import OrderDetails from "../order-details/order-details";
 import Modal from "../modal/modal";
 import { useModal } from "../../hooks/useModal";
-import { useDispatch, useSelector } from "react-redux";
 import { ADD_SELECTED_INGREDIENT } from "../../services/actions/burger-constructor";
 import {
   PLACE_ORDER_CLEAR_STATE,
@@ -19,6 +18,7 @@ import { useDrop } from "react-dnd";
 import BurgerConstructorIngredient from "../burger-constructor-ingredient/burger-constructor-ingredient";
 import { getStateBurgerConstructor, routes } from "../../utils/constants";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "../../services/types/hooks";
 
 function BurgerConstructor() {
   //TODO

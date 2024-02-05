@@ -2,7 +2,7 @@ import { checkResponse, sendRequest } from "../../utils/api";
 import { CLEAR_SELECTED_INGREDIENTS } from "./burger-constructor";
 import { getCookie } from "../../utils/cookie";
 import { accessToken } from "../../utils/constants";
-import { AppDispatch } from "../types";
+import { AppDispatch, AppThunk } from "../types";
 
 export const PLACE_ORDER_REQUEST = "PLACE_ORDER_REQUEST";
 export const PLACE_ORDER_SUCCESS = "PLACE_ORDER_SUCCESS";
@@ -32,7 +32,9 @@ export type TPlaceOrderActions =
   | TPlaceOrderFailed
   | TPlaceOrderClearState;
 
-export const placeAnOrder = (selectedIngredients: TSelectedIngredients) => {
+export const placeAnOrder: AppThunk = (
+  selectedIngredients: TSelectedIngredients,
+) => {
   //TODO
   return function (dispatch: AppDispatch) {
     dispatch({
