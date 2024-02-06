@@ -8,11 +8,9 @@ import {
   DELETE_SELECTED_INGREDIENT,
   SORT_SELECTED_INGREDIENTS,
 } from "../../services/actions/burger-constructor";
-import React, { useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
-import { ingredientPropType } from "../../utils/prop-types";
-import PropTypes from "prop-types";
+import { useDispatch } from "../../services/types/hooks";
 
 type PropsBurgerConstructorIngredient = {
   element: TIngredient;
@@ -25,7 +23,7 @@ function BurgerConstructorIngredient({
 }: PropsBurgerConstructorIngredient) {
   const { name, price, image } = element;
   const dispatch = useDispatch();
-  const ingredientRef = useRef(null);
+  const ingredientRef = useRef<HTMLLIElement>(null);
 
   const [{ isDragging }, drag] = useDrag({
     type: "sortIngredient",
@@ -101,10 +99,5 @@ function BurgerConstructorIngredient({
     </li>
   );
 }
-
-BurgerConstructorIngredient.propTypes = {
-  element: ingredientPropType.isRequired,
-  index: PropTypes.number.isRequired,
-};
 
 export default BurgerConstructorIngredient;

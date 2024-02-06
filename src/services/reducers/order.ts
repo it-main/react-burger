@@ -7,13 +7,13 @@ import {
 } from "../actions/order";
 
 type TOrderReducer = {
-  orderNumber: string;
-  statusOrderNumber: boolean | undefined;
+  orderNumber: number | undefined;
+  statusOrderNumber: boolean;
 };
 
 const initialState: TOrderReducer = {
-  orderNumber: "",
-  statusOrderNumber: undefined,
+  orderNumber: undefined,
+  statusOrderNumber: false,
 };
 
 export const orderReducer = (
@@ -24,8 +24,7 @@ export const orderReducer = (
     case PLACE_ORDER_REQUEST: {
       return {
         ...state,
-        // orderNumber: action.payload,
-        statusOrderNumber: undefined,
+        statusOrderNumber: false,
       };
     }
     case PLACE_ORDER_SUCCESS: {
@@ -39,14 +38,14 @@ export const orderReducer = (
       return {
         ...state,
         statusOrderNumber: false,
-        orderNumber: "",
+        orderNumber: undefined,
       };
     }
     case PLACE_ORDER_CLEAR_STATE: {
       return {
         ...state,
-        orderNumber: "",
-        statusOrderNumber: undefined,
+        orderNumber: undefined,
+        statusOrderNumber: false,
       };
     }
     default:

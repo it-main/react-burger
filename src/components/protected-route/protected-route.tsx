@@ -1,10 +1,20 @@
 import { useSelector } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
 import { routes } from "../../utils/constants";
-import PropTypes from "prop-types";
+import { ReactElement } from "react";
+import { RootState } from "../../services/types";
 
-function ProtectedRoute({ routeAuthorizedOnly = false, component }) {
-  const { isAuth, isAuthChecked } = useSelector((state) => state.profile);
+type ProtectedRouteProps = {
+  routeAuthorizedOnly?: boolean;
+  component: ReactElement;
+};
+function ProtectedRoute({
+  routeAuthorizedOnly = false,
+  component,
+}: ProtectedRouteProps) {
+  const { isAuth, isAuthChecked } = useSelector(
+    (state: RootState) => state.profile,
+  );
   const location = useLocation();
 
   if (!isAuthChecked) return <h2>Загрузка...</h2>;
@@ -21,10 +31,5 @@ function ProtectedRoute({ routeAuthorizedOnly = false, component }) {
   }
   return component;
 }
-
-ProtectedRoute.propTypes = {
-  routeAuthorizedOnly: PropTypes.bool,
-  component: PropTypes.element,
-};
 
 export default ProtectedRoute;

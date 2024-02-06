@@ -3,9 +3,9 @@ import style from "./profile.module.css";
 import { routes } from "../utils/constants";
 import { NavLink, Outlet } from "react-router-dom";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch } from "react-redux";
 import { signOut } from "../services/actions/profile";
 import { linkIsActive } from "../utils/utils";
+import { useDispatch } from "../services/types/hooks";
 
 function Profile() {
   const dispatch = useDispatch();

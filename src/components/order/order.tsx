@@ -1,9 +1,8 @@
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
 import {
   burgerPrice,
+  getOrderStatus,
   orderIngredientsNormalised,
-  orderStatus,
 } from "../../utils/order";
 import { clsx } from "clsx";
 import style from "./order.module.css";
@@ -14,15 +13,14 @@ import {
 import { useEffect, useState } from "react";
 import DownloadStatus from "../download-status/download-status";
 import { sendRequestGetOrder } from "../../utils/api";
+import { useSelector } from "../../services/types/hooks";
+import { RootState } from "../../services/types";
 
 function Order({ isPage = false }) {
   const { orderNum } = useParams();
-
-  const { orders } = useSelector((state) => state.orders);
-
-  let [order, setOrder] = useState(
-    orders.find((item) => item.number.toString() === orderNum),
-  );
+  const { orders } = useSelector((state: RootState) => state.orders);
+  const findOrder = orders.find((item) => item.number.toString() === orderNum);
+  let [order, setOrder] = useState(findOrder);
 
   const availableIngredients = useSelector(
     (state) => state.ingredients.availableIngredients,
@@ -36,12 +34,11 @@ function Order({ isPage = false }) {
   if (!order || !availableIngredients.length) {
     return <DownloadStatus />;
   }
-
   const ingredients = orderIngredientsNormalised(order.ingredients).map(
-    (ingredient) => {
-      return availableIngredients.find((item) => item._id === ingredient);
+    (ingredientId) => {
+      return availableIngredients.find((item) => item._id === ingredientId);
     },
-  );
+  ) as TIngredient[];
 
   const uniqueIngredients = Array.from(new Set(ingredients));
 
@@ -65,7 +62,7 @@ function Order({ isPage = false }) {
           order.status === "done" ? style.orderDone : "",
         )}
       >
-        {orderStatus[order.status]}
+        {getOrderStatus(order.status)}
       </p>
       <h3 className={`text text_type_main-medium mb-6`}>Состав:</h3>
       <ul className={clsx(style.ingredientList, "custom-scroll")}>

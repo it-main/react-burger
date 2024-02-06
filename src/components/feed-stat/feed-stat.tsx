@@ -1,9 +1,12 @@
 import style from "./feed-stat.module.css";
 import { clsx } from "clsx";
-import { useSelector } from "react-redux";
+import { RootState } from "../../services/types";
+import { useSelector } from "../../services/types/hooks";
 
 function FeedStat() {
-  const { total, totalToday, orders } = useSelector((store) => store.orders);
+  const { total, totalToday, orders } = useSelector(
+    (store: RootState) => store.orders,
+  );
 
   function ListOrders({ statusDone = true }) {
     let count = 0;

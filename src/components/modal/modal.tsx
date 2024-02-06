@@ -36,7 +36,7 @@ function Modal(props: ModalProps) {
         {children}
       </div>
     </ModalOverlay>,
-    document.querySelector("#portal"),
+    document.querySelector("#portal") as HTMLElement,
   );
 }
 

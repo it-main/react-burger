@@ -1,6 +1,9 @@
-export const getStateIngredients = (state) => state.ingredients;
-export const getStateBurgerConstructor = (state) => state.burgerConstructor;
-export const getStateOrder = (state) => state.order;
+import { RootState } from "../services/types";
+
+export const getStateIngredients = (state: RootState) => state.ingredients;
+export const getStateBurgerConstructor = (state: RootState) =>
+  state.burgerConstructor;
+export const getStateOrder = (state: RootState) => state.order;
 
 export const accessToken = "accessToken";
 export const refreshToken = "refreshToken";

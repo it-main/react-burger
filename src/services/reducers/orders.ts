@@ -9,7 +9,7 @@ import {
   TOrdersActions,
 } from "../actions/orders";
 
-type OrdersReducer = {
+type TOrdersReducer = {
   status:
     | typeof WSStatus.OFFLINE
     | typeof WSStatus.ONLINE
@@ -22,7 +22,7 @@ type OrdersReducer = {
   message: string;
 };
 
-const initialState: OrdersReducer = {
+const initialState: TOrdersReducer = {
   status: WSStatus.OFFLINE,
   connectingError: "",
   orders: [],

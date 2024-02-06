@@ -10,22 +10,22 @@ import {
 } from "react";
 import BurgerIngredient from "../burger-ingredient/burger-ingredient";
 import { clsx } from "clsx";
-import { useSelector } from "react-redux";
 import { useInView } from "react-intersection-observer";
 import {
   getStateBurgerConstructor,
   getStateIngredients,
 } from "../../utils/constants";
 import DownloadStatus from "../download-status/download-status";
+import { useSelector } from "../../services/types/hooks";
 
 type TitleTab = { type: string; title: string };
 
-type TabsProps = {
+type PropsTabs = {
   ingredientsTypes: TitleTab[];
   stateCurrentTab: [string, Dispatch<SetStateAction<string>>];
 };
 
-function Tabs(props: TabsProps) {
+function Tabs(props: PropsTabs) {
   const { ingredientsTypes, stateCurrentTab } = props;
   const [current, setCurrentTab] = stateCurrentTab;
   const onClickHandler = (currentTab: string) => {
@@ -53,8 +53,9 @@ function Tabs(props: TabsProps) {
 }
 
 function IngredientsList({ ingredients }: { ingredients: TIngredient[] }) {
-  const selectedIngredients: { fillings: TIngredient[]; bun: TIngredient[] } =
-    useSelector(getStateBurgerConstructor).selectedIngredients;
+  const selectedIngredients = useSelector(
+    getStateBurgerConstructor,
+  ).selectedIngredients;
   return (
     <ul className={clsx(styles.ingredientsList, "pl-4 pr-1")}>
       {ingredients.map((ingredientData) => {
@@ -80,7 +81,7 @@ type IngredientsTypeItemProps = {
   ingredients: TIngredient[];
 };
 
-function IngredientsTypeItem(props: TabsProps & IngredientsTypeItemProps) {
+function IngredientsTypeItem(props: PropsTabs & IngredientsTypeItemProps) {
   const { ingredientType, stateCurrentTab, refIngredientsTypesList } = props;
   const [, setCurrentTab] = stateCurrentTab;
   const { type, title } = ingredientType;
@@ -110,7 +111,7 @@ function IngredientsTypeItem(props: TabsProps & IngredientsTypeItemProps) {
   );
 }
 
-function IngredientsTypesList(props: TabsProps) {
+function IngredientsTypesList(props: PropsTabs) {
   const { ingredientsTypes } = props,
     refIngredientsTypesList = useRef<HTMLUListElement>(null),
     availableIngredients =
@@ -126,8 +127,7 @@ function IngredientsTypesList(props: TabsProps) {
       {ingredientsTypes.map((ingredientType, index) => {
         const { type } = ingredientType;
         const ingredients = availableIngredients.filter(
-          //TODO
-          (elem: any) => `link-${elem.type}` === type,
+          (elem) => `link-${elem.type}` === type,
         );
         return (
           <IngredientsTypeItem

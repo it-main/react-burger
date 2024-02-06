@@ -81,7 +81,7 @@ export function sendRequestRegister({ name, email, password }: TUser) {
   return function (dispatch: AppDispatch) {
     dispatch(sendRequestAction);
     registerRequest(name, email, password)
-      .then(checkResponse)
+      .then(checkResponse<{success: boolean; user: }>)
       .then((json) => {
         if (json.success) {
           setCookies(json);

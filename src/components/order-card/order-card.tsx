@@ -5,15 +5,17 @@ import {
   FormattedDate,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { clsx } from "clsx";
-import { useSelector } from "react-redux";
-
 import {
   burgerPrice,
+  getOrderStatus,
   orderIngredientsNormalised,
   orderStatus,
 } from "../../utils/order";
+import { useSelector } from "../../services/types/hooks";
 
-function OrderCard({ order, orderStatusVisible = false }) {
+type OrderCardProps = { order: TOrder; orderStatusVisible?: boolean };
+
+function OrderCard({ order, orderStatusVisible = false }: OrderCardProps) {
   const availableIngredients = useSelector(
     (state) => state.ingredients.availableIngredients,
   );
@@ -21,7 +23,7 @@ function OrderCard({ order, orderStatusVisible = false }) {
   const ingredients = orderIngredientsNormalised(order.ingredients).map(
     (ingredient) =>
       availableIngredients.find((item) => item._id === ingredient),
-  );
+  ) as TIngredient[];
   const ingredientsCount = ingredients.length;
   const ingredientPlusCount = Math.max(0, ingredientsCount - 6);
 
@@ -32,7 +34,12 @@ function OrderCard({ order, orderStatusVisible = false }) {
 
   const price = burgerPrice(ingredients);
 
-  function Ingredient({ index, ingredient }) {
+  type IngredientProps = {
+    index: number;
+    ingredient: TIngredient;
+  };
+
+  function Ingredient({ index, ingredient }: IngredientProps) {
     return (
       <li
         key={index}
@@ -78,10 +85,10 @@ function OrderCard({ order, orderStatusVisible = false }) {
           <p
             className={clsx(
               "text text_type_main-default",
-              order.status === "done" ? style.orderDone : "",
+              order.status === orderStatus.done ? style.orderDone : "",
             )}
           >
-            {orderStatus[order.status]}
+            {getOrderStatus(order.status)}
           </p>
         )}
 

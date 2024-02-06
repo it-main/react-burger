@@ -8,12 +8,13 @@ import style from "./form.module.css";
 import { forgotPassword, routes } from "../utils/constants";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "../hooks/useForm";
+import { FormEvent } from "react";
 
 function ForgotPassword() {
   const navigate = useNavigate();
   const location = useLocation();
   const { values, handleChange } = useForm({ email: "" });
-  function handleSubmit(event) {
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     forgotPasswordRequest(values.email)
       .then(checkResponse)

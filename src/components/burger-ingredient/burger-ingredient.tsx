@@ -6,14 +6,13 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDrag } from "react-dnd";
 import { Link, useLocation } from "react-router-dom";
-import { TIngredient } from "../../services/types/data";
 
-type Props = {
+type PropsBurgerIngredient = {
   ingredientData: TIngredient;
   count: number;
 };
 
-function BurgerIngredient(props: Props) {
+function BurgerIngredient(props: PropsBurgerIngredient) {
   const { ingredientData, count } = props;
   const location = useLocation();
   const [, dragRef] = useDrag({

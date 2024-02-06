@@ -1,4 +1,3 @@
-import { useDispatch, useSelector } from "react-redux";
 import { clsx } from "clsx";
 import style from "./profile-orders.module.css";
 import OrderCard from "../order-card/order-card";
@@ -7,6 +6,7 @@ import { connect, disconnect } from "../../services/actions/orders-profile";
 import DownloadStatus from "../download-status/download-status";
 import { getToken } from "../../utils/order";
 import { accessToken, endpoints } from "../../utils/constants";
+import { useDispatch, useSelector } from "../../services/types/hooks";
 
 function ProfileOrders() {
   const dispatch = useDispatch();

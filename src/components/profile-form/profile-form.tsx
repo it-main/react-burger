@@ -3,16 +3,16 @@ import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { sendRequestUpdateUser } from "../../services/actions/profile";
 import { useForm } from "../../hooks/useForm";
+import { useDispatch, useSelector } from "../../services/types/hooks";
 
 function ProfileForm() {
   const dispatch = useDispatch();
-  const nameRef = useRef(null);
-  const emailRef = useRef(null);
-  const passwordRef = useRef(null);
+  const nameRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
 
   const { name, email } = useSelector((state) => state.profile);
   const { values, handleChange, setValues } = useForm({
@@ -29,8 +29,8 @@ function ProfileForm() {
     formInit();
   }, [name, email]);
 
-  function setInputFocus(ref) {
-    setTimeout(() => ref.current.focus(), 0);
+  function setInputFocus(ref: React.RefObject<HTMLInputElement>) {
+    setTimeout(() => ref.current?.focus(), 0);
   }
 
   function formInit() {
@@ -41,7 +41,7 @@ function ProfileForm() {
     setInputPasswordDisabled(true);
   }
 
-  function handleSubmit(event) {
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     dispatch(sendRequestUpdateUser(values));
   }
@@ -50,7 +50,7 @@ function ProfileForm() {
     formInit();
   }
 
-  function handleOnChangeInput(event) {
+  function handleOnChangeInput(event: React.ChangeEvent<HTMLInputElement>) {
     setEditForm(true);
     handleChange(event);
   }

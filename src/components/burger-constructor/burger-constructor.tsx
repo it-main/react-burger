@@ -22,20 +22,20 @@ import BurgerConstructorIngredient from "../burger-constructor-ingredient/burger
 import { getStateBurgerConstructor, routes } from "../../utils/constants";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "../../services/types/hooks";
+import { RootState } from "../../services/types";
 
 function BurgerConstructor() {
-  //TODO
-  const { selectedIngredients } = useSelector(getStateBurgerConstructor) as {
-    selectedIngredients: { bun: TIngredient[]; fillings: TIngredient[] };
-  };
-  //TODO
-  const { isAuth } = useSelector((state: any) => state.profile);
+  const { selectedIngredients } = useSelector(getStateBurgerConstructor);
+  const { isAuth } = useSelector((state: RootState) => state.profile);
   const { isModalOpen, openModal, closeModal } = useModal();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const sumSelectedIngredients = useMemo(() => {
     return (
-      selectedIngredients.bun.reduce((sum, item) => sum + item.price, 0) +
+      selectedIngredients.bun.reduce(
+        (sum: number, item: TIngredient) => sum + item.price,
+        0,
+      ) +
       selectedIngredients.fillings.reduce((sum, item) => sum + item.price, 0)
     );
   }, [selectedIngredients]);
@@ -75,8 +75,8 @@ function BurgerConstructor() {
     closeModal();
   };
 
-  const elementBun: TIngredient[] = selectedIngredients.bun;
-  const elementsFillings: TIngredient[] = selectedIngredients.fillings;
+  const elementBun = selectedIngredients.bun;
+  const elementsFillings = selectedIngredients.fillings;
 
   function InvitationChoose() {
     let invitationChoose;

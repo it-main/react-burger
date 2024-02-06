@@ -1,9 +1,9 @@
 import styles from "./order-details.module.css";
 import { clsx } from "clsx";
 import done from "../../images/done.svg";
-import { useSelector } from "react-redux";
 import { getStateOrder } from "../../utils/constants";
 import DownloadStatus from "../download-status/download-status";
+import { useSelector } from "../../services/types/hooks";
 
 function OrderDetails() {
   const { orderNumber, statusOrderNumber } = useSelector(getStateOrder);

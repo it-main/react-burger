@@ -1,11 +1,13 @@
 import styles from "./ingredient-details.module.css";
 import PropTypes from "prop-types";
 import { clsx } from "clsx";
-import { useSelector } from "react-redux";
 import { getStateIngredients } from "../../utils/constants";
 import { useParams } from "react-router-dom";
+import { useSelector } from "../../services/types/hooks";
 
-function NutritionalValue({ title, value }) {
+type PropsNutritionalValue = { title: string; value: number };
+
+function NutritionalValue({ title, value }: PropsNutritionalValue) {
   return (
     <div className={styles.nutritionalValue}>
       <span className="text text_type_main-default text_color_inactive">
@@ -22,11 +24,11 @@ function IngredientDetails() {
   const { ingredientId } = useParams();
   const availableIngredients =
     useSelector(getStateIngredients).availableIngredients;
-  const ingredient = availableIngredients.filter(
+  const ingredient = availableIngredients.find(
     (item) => item._id === ingredientId,
   );
   const { name, image, calories, proteins, fat, carbohydrates } =
-    ingredient.length ? ingredient[0] : {};
+    ingredient as TIngredient;
   return (
     <>
       <h1 className={clsx("text text_type_main-large", styles.header)}>

@@ -1,6 +1,6 @@
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useReducer } from "react";
-import { useDispatch, useSelector } from "react-redux";
+
 import { getIngredients } from "../../services/actions/ingredients";
 import { getStateBurgerConstructor, routes } from "../../utils/constants";
 import Register from "../../pages/register";
@@ -21,6 +21,7 @@ import IngredientDetails from "../ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
 import Ingredient from "../../pages/ingredient";
 import Order from "../order/order";
+import { useDispatch, useSelector } from "../../services/types/hooks";
 
 function App() {
   const dispatch = useDispatch();
@@ -38,18 +39,23 @@ function App() {
   }, [location.pathname]);
 
   const handleModalClose = () => {
-    navigate(-1, { replace: true });
+    //TODO
+    // navigate(-1, { replace: true });
+    navigate(-1);
   };
 
-  function reducerBurgerSum(state, action) {
+  function reducerBurgerSum(
+    state: { price: number },
+    action: { type: string },
+  ) {
     if (action.type === "price") {
       const price =
         selectedIngredients.bun.reduce(
-          (sum, element) => sum + element.price * 2,
+          (sum: number, element: TIngredient) => sum + element.price * 2,
           0,
         ) +
         selectedIngredients.fillings.reduce(
-          (sum, element) => sum + element.price,
+          (sum: number, element: TIngredient) => sum + element.price,
           0,
         );
       return { price: price };
@@ -139,7 +145,9 @@ function App() {
           <Route
             path={routes.profileOrder}
             element={
-              <Modal closeModal={() => handleModalClose(routes.orders)}>
+              //TODO
+              // <Modal closeModal={() => handleModalClose(routes.orders)}>
+              <Modal closeModal={() => handleModalClose()}>
                 <Order />
               </Modal>
             }

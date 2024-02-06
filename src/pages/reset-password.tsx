@@ -10,6 +10,7 @@ import FormAdditionalAction from "../components/form-additional-action/form-addi
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { checkResponse, resetPasswordRequest } from "../utils/api";
 import { useForm } from "../hooks/useForm";
+import { FormEvent } from "react";
 
 function ResetPassword() {
   const { values, handleChange } = useForm({
@@ -20,7 +21,7 @@ function ResetPassword() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  function handleSubmit(event) {
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     resetPasswordRequest(password, token)
       .then(checkResponse)
