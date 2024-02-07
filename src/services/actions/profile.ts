@@ -9,6 +9,7 @@ import {
 import { accessToken, refreshToken } from "../../utils/constants";
 import { deleteCookie, getCookie, setCookie } from "../../utils/cookie";
 import { AppDispatch } from "../types";
+import { TResponse, TTokenResponse, TUserResponse } from "../types/api";
 
 export const SEND_REQUEST = "SEND_REQUEST";
 export const REQUEST_FAILED = "REQUEST_FAILED";
@@ -81,7 +82,7 @@ export function sendRequestRegister({ name, email, password }: TUser) {
   return function (dispatch: AppDispatch) {
     dispatch(sendRequestAction);
     registerRequest(name, email, password)
-      .then(checkResponse<{success: boolean; user: }>)
+      .then(checkResponse<TResponse<TUserResponse & TTokenResponse>>)
       .then((json) => {
         if (json.success) {
           setCookies(json);
@@ -180,7 +181,7 @@ export function signIn(email: string, password: string) {
   return function (dispatch: AppDispatch) {
     dispatch(sendRequestAction);
     loginRequest(email, password)
-      .then(checkResponse)
+      .then(checkResponse<TResponse<TUserResponse & TTokenResponse>>)
       .then((json) => {
         if (json.success) {
           dispatch(setUserAction(json.user));

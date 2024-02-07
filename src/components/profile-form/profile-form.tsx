@@ -15,7 +15,8 @@ function ProfileForm() {
   const passwordRef = useRef<HTMLInputElement>(null);
 
   const { name, email } = useSelector((state) => state.profile);
-  const { values, handleChange, setValues } = useForm({
+
+  const { values, handleChange, setValues } = useForm<TUser>({
     name,
     email,
     password: "",

@@ -6,6 +6,7 @@ import {
 import { getCookie } from "../../utils/cookie";
 import { accessToken } from "../../utils/constants";
 import { AppDispatch, AppThunk } from "../types";
+import { TResponse } from "../types/api";
 
 export const PLACE_ORDER_REQUEST = "PLACE_ORDER_REQUEST";
 export const PLACE_ORDER_SUCCESS = "PLACE_ORDER_SUCCESS";
@@ -39,7 +40,6 @@ export type TPlaceOrderActions =
 export const placeAnOrder: AppThunk = (
   selectedIngredients: TSelectedIngredients,
 ) => {
-  //TODO
   return function (dispatch: AppDispatch) {
     dispatch({
       type: PLACE_ORDER_REQUEST,
@@ -60,7 +60,7 @@ export const placeAnOrder: AppThunk = (
     };
 
     sendRequest("orders", requestInit)
-      .then(checkResponse)
+      .then(checkResponse<TResponse<{ order: TOrder }>>)
       .then((json) => {
         if (json.success) {
           dispatch({

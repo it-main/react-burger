@@ -23,4 +23,3 @@ export type AppThunk<TReturn = void> = ActionCreator<
 >;
 
 export type AppDispatch = typeof store.dispatch;
-// export type AppDispatch = Dispatch<TApplicationActions>;

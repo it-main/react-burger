@@ -12,9 +12,10 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useEffect, useState } from "react";
 import DownloadStatus from "../download-status/download-status";
-import { sendRequestGetOrder } from "../../utils/api";
+import { checkResponse, sendRequestGetOrder } from "../../utils/api";
 import { useSelector } from "../../services/types/hooks";
 import { RootState } from "../../services/types";
+import { TResponse } from "../../services/types/api";
 
 function Order({ isPage = false }) {
   const { orderNum } = useParams();
@@ -27,8 +28,10 @@ function Order({ isPage = false }) {
   );
 
   useEffect(() => {
-    if (!order)
-      sendRequestGetOrder(orderNum).then((json) => setOrder(json.orders[0]));
+    if (!order && orderNum)
+      sendRequestGetOrder(orderNum)
+        .then(checkResponse<TResponse<{ orders: TOrder[] }>>)
+        .then((json) => setOrder(json.orders[0]));
   }, []);
 
   if (!order || !availableIngredients.length) {

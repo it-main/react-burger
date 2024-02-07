@@ -11,6 +11,7 @@ import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { checkResponse, resetPasswordRequest } from "../utils/api";
 import { useForm } from "../hooks/useForm";
 import { FormEvent } from "react";
+import { TMessageResponse, TResponse } from "../services/types/api";
 
 function ResetPassword() {
   const { values, handleChange } = useForm({
@@ -24,7 +25,7 @@ function ResetPassword() {
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     resetPasswordRequest(password, token)
-      .then(checkResponse)
+      .then(checkResponse<TResponse<TMessageResponse>>)
       .then((json) => {
         if (json.success) {
           localStorage.removeItem(forgotPassword);

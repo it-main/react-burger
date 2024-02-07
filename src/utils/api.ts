@@ -1,5 +1,10 @@
 import { accessToken, endpoints, refreshToken } from "./constants";
 import { getCookie, setCookie } from "./cookie";
+import {
+  TResponse,
+  TTokenResponse,
+  TUserResponse,
+} from "../services/types/api";
 
 export function checkResponse<T>(response: Response): Promise<T> {
   return response.ok
@@ -9,12 +14,15 @@ export function checkResponse<T>(response: Response): Promise<T> {
 
 export function sendRequest(
   endpoint: string,
-  options: RequestInit,
+  options?: RequestInit,
 ): Promise<Response> {
   return fetch(`${endpoints.api}/${endpoint}`, options);
 }
 
-export function loginRequest(email: string, password: string) {
+export function loginRequest(
+  email: string,
+  password: string,
+): Promise<Response> {
   const requestInit = {
     method: "POST",
     headers: {
@@ -25,7 +33,11 @@ export function loginRequest(email: string, password: string) {
   return sendRequest(endpoints.login, requestInit);
 }
 
-export function registerRequest(name: string, email: string, password: string) {
+export function registerRequest(
+  name: string,
+  email: string,
+  password: string,
+): Promise<Response> {
   const requestInit = {
     method: "POST",
     headers: {
@@ -36,7 +48,7 @@ export function registerRequest(name: string, email: string, password: string) {
   return sendRequest(endpoints.register, requestInit);
 }
 
-export function forgotPasswordRequest(email: string) {
+export function forgotPasswordRequest(email: string): Promise<Response> {
   const requestInit = {
     method: "POST",
     headers: {
@@ -47,7 +59,10 @@ export function forgotPasswordRequest(email: string) {
   return sendRequest(endpoints.resetPassword, requestInit);
 }
 
-export function resetPasswordRequest(password: string, token: string) {
+export function resetPasswordRequest(
+  password: string,
+  token: string,
+): Promise<Response> {
   const requestInit = {
     method: "POST",
     headers: {
@@ -58,7 +73,7 @@ export function resetPasswordRequest(password: string, token: string) {
   return sendRequest(endpoints.reset, requestInit);
 }
 
-export function signOutRequest() {
+export function signOutRequest(): Promise<Response> {
   const requestInit = {
     method: "POST",
     headers: {
@@ -69,7 +84,7 @@ export function signOutRequest() {
   return sendRequest(endpoints.logout, requestInit);
 }
 
-export function getUserRequest() {
+export function getUserRequest(): Promise<TResponse<TUserResponse>> {
   const requestInit = {
     method: "GET",
     headers: {
@@ -80,8 +95,12 @@ export function getUserRequest() {
   return sendRequestWithRefresh(endpoints.user, requestInit);
 }
 
-export function updateUserRequest({ email, password, name }: TUser) {
-  const requestInit: RequestInit & { headers: { authorization: string } } = {
+export function updateUserRequest({
+  email,
+  password,
+  name,
+}: TUser): Promise<TResponse<TUserResponse>> {
+  const requestInit: RequestInit = {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
@@ -92,7 +111,7 @@ export function updateUserRequest({ email, password, name }: TUser) {
   return sendRequestWithRefresh(endpoints.user, requestInit);
 }
 
-export function refreshTokenRequest() {
+export function refreshTokenRequest(): Promise<Response> {
   const requestInit = {
     method: "POST",
     headers: {
@@ -105,33 +124,31 @@ export function refreshTokenRequest() {
 
 export async function sendRequestWithRefresh(
   url: string,
-  requestInit: RequestInit & { headers: { authorization: string } },
-) {
+  requestInit: RequestInit,
+): Promise<TResponse<TUserResponse>> {
   try {
     const response = await sendRequest(url, requestInit);
-    return await checkResponse(response);
+    return await checkResponse<TResponse<TUserResponse>>(response);
   } catch (err) {
     if (err !== "jwt expired") {
       return Promise.reject(err);
     }
     const refreshData = await refreshTokenRequest().then(
-      checkResponse<{
-        success: boolean;
-        accessToken: string;
-        refreshToken: string;
-      }>,
+      checkResponse<TResponse<TTokenResponse>>,
     );
     if (!refreshData.success) {
       return Promise.reject(refreshData);
     }
     setCookie(accessToken, refreshData.accessToken);
     setCookie(refreshToken, refreshData.refreshToken);
-    requestInit.headers.authorization = refreshData.accessToken;
-    return sendRequest(url, requestInit).then(checkResponse);
+    requestInit.headers = { authorization: refreshData.accessToken };
+    return sendRequest(url, requestInit).then(
+      checkResponse<TResponse<TUserResponse>>,
+    );
   }
 }
 
-export async function sendRequestGetOrder(orderNum: string) {
+export async function sendRequestGetOrder(orderNum: string): Promise<Response> {
   const requestInit = {
     method: "GET",
     headers: {
@@ -139,8 +156,5 @@ export async function sendRequestGetOrder(orderNum: string) {
       authorization: "",
     },
   };
-  return await sendRequestWithRefresh(
-    `${endpoints.order}/${orderNum}`,
-    requestInit,
-  );
+  return sendRequest(`${endpoints.order}/${orderNum}`, requestInit);
 }

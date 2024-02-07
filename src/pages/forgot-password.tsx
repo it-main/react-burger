@@ -9,15 +9,16 @@ import { forgotPassword, routes } from "../utils/constants";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "../hooks/useForm";
 import { FormEvent } from "react";
+import { TMessageResponse, TResponse } from "../services/types/api";
 
 function ForgotPassword() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { values, handleChange } = useForm({ email: "" });
+  const { values, handleChange } = useForm<{ email: string }>({ email: "" });
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     forgotPasswordRequest(values.email)
-      .then(checkResponse)
+      .then(checkResponse<TResponse<TMessageResponse>>)
       .then((json) => {
         if (json.success) {
           localStorage.setItem(forgotPassword, "ok");

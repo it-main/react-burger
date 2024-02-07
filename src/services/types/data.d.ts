@@ -18,13 +18,13 @@ type TSelectedIngredients = {
 
 type TOrder = {
   _id: string;
+  status: string;
+  number: number;
   ingredients: string[];
   owner?: string;
-  status: string;
   name: string;
   createdAt: string;
   updatedAt: string;
-  number: number;
 };
 
 type TUser = {

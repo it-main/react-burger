@@ -63,6 +63,16 @@ export const disconnect = () => ({
   type: ORDERS_DISCONNECT_PROFILE,
 });
 
+export type OrdersProfileActions = {
+  readonly wsConnect: typeof ORDERS_CONNECT_PROFILE;
+  readonly wsDisconnect: typeof ORDERS_DISCONNECT_PROFILE;
+  readonly wsConnecting: typeof ORDERS_WS_CONNECTING_PROFILE;
+  readonly onOpen: typeof ORDERS_WS_OPEN_PROFILE;
+  readonly onClose: typeof ORDERS_WS_CLOSE_PROFILE;
+  readonly onError: typeof ORDERS_WS_ERROR_PROFILE;
+  readonly onMessage: typeof ORDERS_WS_MESSAGE_PROFILE;
+};
+
 export const ordersProfileMiddleware = socketMiddleware({
   wsConnect: ORDERS_CONNECT_PROFILE,
   wsDisconnect: ORDERS_DISCONNECT_PROFILE,

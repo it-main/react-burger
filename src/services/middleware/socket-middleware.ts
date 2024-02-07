@@ -1,14 +1,19 @@
-export const socketMiddleware = (wsActions) => {
-  return (store) => {
-    let socket = null;
-    return (next) => (action) => {
+import { OrdersActions } from "../actions/orders";
+import { OrdersProfileActions } from "../actions/orders-profile";
+import { AnyAction, MiddlewareAPI } from "redux";
+
+export const socketMiddleware = (
+  wsActions: OrdersActions | OrdersProfileActions,
+) => {
+  return (store: MiddlewareAPI) => {
+    let socket: WebSocket | null = null;
+    return (next: (action: AnyAction) => unknown) => (action: AnyAction) => {
       const { dispatch } = store;
       const { type } = action;
       const {
         wsConnect,
         wsConnecting,
         wsDisconnect,
-        wsSendMessage,
         onOpen,
         onClose,
         onError,
@@ -26,10 +31,6 @@ export const socketMiddleware = (wsActions) => {
           const parsedData = JSON.parse(data);
           dispatch({ type: onMessage, payload: parsedData });
         };
-      }
-
-      if (type === wsSendMessage && socket) {
-        socket.send(JSON.stringify(action.payload));
       }
 
       if (type === wsDisconnect && socket) {

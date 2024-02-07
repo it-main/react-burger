@@ -1,5 +1,6 @@
 import { checkResponse, sendRequest } from "../../utils/api";
 import { AppDispatch } from "../types";
+import { TResponse } from "../types/api";
 
 export const GET_INGREDIENTS_REQUEST = "GET_INGREDIENTS_REQUEST";
 export const GET_INGREDIENTS_SUCCESS = "GET_INGREDIENTS_SUCCESS";
@@ -29,7 +30,7 @@ export function getIngredients() {
       type: GET_INGREDIENTS_REQUEST,
     });
     sendRequest("ingredients")
-      .then(checkResponse)
+      .then(checkResponse<TResponse<{ data: TIngredient[] }>>)
       .then((json) => {
         if (json.success) {
           dispatch({

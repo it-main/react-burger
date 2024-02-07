@@ -73,11 +73,6 @@ export const burgerConstructorReducer = (
     case CLEAR_SELECTED_INGREDIENTS: {
       return {
         ...state,
-        //Todo
-        // selectedIngredients: {
-        // bun: [],
-        // fillings: [],
-        // },
         ...initialState,
       };
     }

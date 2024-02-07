@@ -39,8 +39,6 @@ function App() {
   }, [location.pathname]);
 
   const handleModalClose = () => {
-    //TODO
-    // navigate(-1, { replace: true });
     navigate(-1);
   };
 
@@ -145,8 +143,6 @@ function App() {
           <Route
             path={routes.profileOrder}
             element={
-              //TODO
-              // <Modal closeModal={() => handleModalClose(routes.orders)}>
               <Modal closeModal={() => handleModalClose()}>
                 <Order />
               </Modal>
