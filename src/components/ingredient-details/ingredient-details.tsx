@@ -1,5 +1,4 @@
 import styles from "./ingredient-details.module.css";
-import PropTypes from "prop-types";
 import { clsx } from "clsx";
 import { getStateIngredients } from "../../utils/constants";
 import { useParams } from "react-router-dom";
@@ -51,10 +50,5 @@ function IngredientDetails() {
     </>
   );
 }
-
-NutritionalValue.propTypes = {
-  title: PropTypes.string.isRequired,
-  value: PropTypes.number,
-};
 
 export default IngredientDetails;
