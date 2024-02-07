@@ -5,7 +5,7 @@ import {
 } from "./burger-constructor";
 import { getCookie } from "../../utils/cookie";
 import { accessToken } from "../../utils/constants";
-import { AppDispatch, AppThunk } from "../types";
+import { AppDispatch } from "../types";
 import { TResponse } from "../types/api";
 
 export const PLACE_ORDER_REQUEST = "PLACE_ORDER_REQUEST";
@@ -37,9 +37,7 @@ export type TPlaceOrderActions =
   | TPlaceOrderClearState
   | TClearIngredients;
 
-export const placeAnOrder: AppThunk = (
-  selectedIngredients: TSelectedIngredients,
-) => {
+export const placeAnOrder = (selectedIngredients: TSelectedIngredients) => {
   return function (dispatch: AppDispatch) {
     dispatch({
       type: PLACE_ORDER_REQUEST,
